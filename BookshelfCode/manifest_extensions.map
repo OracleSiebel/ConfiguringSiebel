@@ -1,0 +1,10 @@
+[Presentation_Model]
+
+Quotes Catalog List Applet=ConfiguratorPM
+Contact Form Applet  =   ConfiguratorPM
+
+
+[Physical_Renderer]
+LS Pharma HI Calendar Applet=CalendarPR
+Consumer Detail Applet=TreePR
+Quotes Catalog List Applet  =ConsumerPR

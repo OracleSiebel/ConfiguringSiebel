@@ -1,2 +1,2 @@
-# ConfiguringSiebelOpenUI
-Open UI Examples from the Siebel Bookshelf Book of the same name
+# ConfiguringSiebel
+Bookshelf code and examples for configuring Siebel

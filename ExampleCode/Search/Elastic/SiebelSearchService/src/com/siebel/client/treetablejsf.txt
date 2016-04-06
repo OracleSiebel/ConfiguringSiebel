@@ -1,0 +1,83 @@
+<!--af:panelHeader text="Product-Wise Test Results"
+                  inlineStyle="height:180px; width:100%;" id="ph1">
+        <f:facet name="context"/>
+        <f:facet name="menuBar"/>
+        <f:facet name="toolbar"/>
+        <f:facet name="legend"/>
+        <f:facet name="info"/-->
+      
+      <!--rows="#{bindings.KeywordSuiteProductResultsVO1.rangeSize}"  showDisclosure="false"-->
+        <af:treeTable value="#{bindings.KeywordSuiteProductResultsVO1.treeModel}"
+                  var="node"
+                  emptyText="#{bindings.KeywordSuiteProductResultsVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                  id="t3" 
+                  partialTriggers="::cb1 ::cb2 ::kWDPollInstance" 
+                  inlineStyle="width:97%; height:250px; margin:1.0%;"
+                  binding="#{pageFlowScope.KeywordReportsMB.rt3}"
+                  contentDelivery="immediate" columnStretching="last"
+                  rowSelection="single">
+        <f:facet name="nodeStamp">
+          <af:column sortProperty="Refjobinstanceid" sortable="false"
+                     headerText="Id"
+                     id="c22">
+            <!--af:goLink  destination="http://kartalog.us.oracle.com:7101/KeywordLogs/#{node.Refjobinstanceid}"  targetFrame="_blank"-->
+            <af:outputText value="#{node.Refjobinstanceid}" id="ot12"/>
+          <!--/af:goLink-->
+          </af:column>
+        </f:facet>
+        <f:facet name="pathStamp">
+          <af:outputText value="#{node.Refjobinstanceid}" id="ot6"/>
+        </f:facet>
+          
+          <af:column sortProperty="Product" sortable="false"
+                     headerText="Product"
+                     id="c23">
+            <af:outputText value="#{node.Product}" id="ot7"/>
+          </af:column>
+          <af:column sortProperty="Totalcount" sortable="false"
+                     headerText="Total Count"
+                     id="c21"
+                     inlineStyle="#{node.Totalcount==0?'color: Red;':'color: Green;'}"
+                     align="center">
+            <af:outputText value="#{node.Totalcount == '0' ? '-' : node.Totalcount}" 
+                    id="ot8"/>
+            
+          </af:column>
+          <af:column sortProperty="Passcount" sortable="false"
+                     headerText="Pass Count"
+                     id="c18">
+            <af:outputText value="#{node.Passcount}" id="ot10"/>
+          </af:column>
+          <af:column sortProperty="Failcount" sortable="false"
+                     headerText="Fail Count"
+                     id="c24">
+            <af:outputText value="#{node.Failcount}" id="ot9"/>
+          </af:column>
+          <af:column sortProperty="Necount" sortable="false"
+                     headerText="Not-Executed Count"
+                     id="c19">
+            <af:outputText value="#{node.Necount}" id="ot11"/>
+          </af:column>
+          <af:column sortProperty="Passpercentage" sortable="false"
+                     headerText="Pass %"
+                     id="c20">
+            <af:outputText value="#{node.Passpercentage}" id="ot15"/>
+          </af:column>
+          <af:column sortProperty="Status" sortable="false"
+                     headerText="Status"
+                     id="column1">
+            <af:outputText value="#{node.Status}" id="outputText1"/>
+          </af:column>
+          <af:column sortProperty="Scrumteam" sortable="false"
+                     headerText="Scrum Team"
+                     id="c25">
+            <af:outputText value="#{node.Scrumteam}" id="ot13"/>
+          </af:column>
+          <af:column sortProperty="Action" sortable="false"
+                     headerText="Action"
+                     id="c26">
+                <af:commandButton text="Re-Run" id="ot14" actionListener="#{pageFlowScope.KeywordReportsMB.rerun}" 
+                    disabled="#{(node.Status=='COMPLETED' || node.Status=='Failed')?'false':'true'}"
+                                  partialSubmit="true"/>
+          </af:column>
+      </af:treeTable>

@@ -1,0 +1,586 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsdLocal8="http://www.siebel.com/xml/SiebelSearchSearchInAll_Output" xmlns:xsdLocal10="http://www.siebel.com/xml/SiebelSearchGetCategoryList_Input" xmlns:xsdLocal11="http://www.siebel.com/xml/SiebelSearchGetCategoryList_Output" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsdLocal9="http://www.siebel.com/xml/SiebelSearchSearchInAll_Input" xmlns:xsdLocal1="http://www.siebel.com/xml/SiebelSearchCreateSchema_Input" xmlns:xsdLocal3="http://www.siebel.com/xml/SiebelSearchDoIndex_Input" xmlns:xsdLocal5="http://www.siebel.com/xml/SiebelSearchGetAutoSuggestions_Input" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsdLocal6="http://www.siebel.com/xml/SiebelSearchGetAutoSuggestions_Output" xmlns:xsdLocal4="http://www.siebel.com/xml/SiebelSearchDoIndex_Output" xmlns:xsdLocal2="http://www.siebel.com/xml/SiebelSearchCreateSchema_Output" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://siebel.com/CustomUI" xmlns:xsdLocal7="http://www.siebel.com/xml/SiebelSearchSearchInCategory_Input" xmlns:xsdLocal12="http://www.siebel.com/xml/SiebelSearchDeleteIndex_Input" xmlns:xsdLocal13="http://www.siebel.com/xml/SiebelSearchDeleteIndex_Output" targetNamespace="http://siebel.com/CustomUI">
+  <types>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://siebel.com/CustomUI">
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchCreateSchema_Output"/>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchCreateSchema_Input"/>
+      <xsd:element name="SiebelSearchService_CREATESCHEMA_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:CreateSchema_InputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_CREATESCHEMA_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal2:CreateSchema_Status"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchDoIndex_Input"/>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchDoIndex_Output"/>
+      <xsd:element name="SiebelSearchService_DOINDEX_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal3:ListOfDoIndex_Input"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_DOINDEX_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal4:DoIndex_Status"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchDeleteIndex_Output"/>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchDeleteIndex_Input"/>
+      <xsd:element name="SiebelSearchService_DELETEINDEX_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal12:DeleteIndex_InputParam"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_DELETEINDEX_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal13:DeleteIndex_Status"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchGetAutoSuggestions_Output"/>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchGetAutoSuggestions_Input"/>
+      <xsd:element name="SiebelSearchService_GETAUTOSUGGESTIONS_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal5:GetAutoSuggestions_InputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_GETAUTOSUGGESTIONS_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal6:GetAutoSuggestions_OutputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchSearchInAll_Input"/>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchSearchInAll_Output"/>
+      <xsd:import namespace="http://www.siebel.com/xml/SiebelSearchSearchInCategory_Input"/>
+      <xsd:element name="SiebelSearchService_SEARCHINCATEGORY_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal7:SearchInCategory_InputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_SEARCHINCATEGORY_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal8:SearchInAll_OutputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_SEARCHINALL_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal9:SearchInCategory_InputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SiebelSearchService_SEARCHINALL_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal8:SearchInAll_OutputHeader"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchCreateSchema_Input">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="CreateSchema_InputHeader" type="xsdLocal1:CreateSchema_InputHeader"/>
+      <xsd:complexType name="CreateSchema_InputHeaderTopElmt">
+        <xsd:sequence>
+          <xsd:element name="CreateSchema_InputHeader" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal1:CreateSchema_InputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CreateSchema_InputHeader">
+        <xsd:sequence>
+          <xsd:element name="BCName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="CreateSchema_CustomProp" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal1:CreateSchema_CustomProp"/>
+          <xsd:element name="CreateSchema_FieldDef" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal1:CreateSchema_FieldDef"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CreateSchema_CustomProp">
+        <xsd:sequence>
+          <xsd:element name="PropName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="PropValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CreateSchema_FieldDef">
+        <xsd:sequence>
+          <xsd:element name="FieldName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="FieldType" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="AnalyzedFields" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="Weightage" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="VisibilityField" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="KeyField" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="CreateSchema_CustomProp" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal1:CreateSchema_CustomProp"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchCreateSchema_Output">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="CreateSchema_Status" type="xsdLocal2:CreateSchema_Status"/>
+      <xsd:complexType name="CreateSchema_StatusTopElmt">
+        <xsd:sequence>
+          <xsd:element name="CreateSchema_Status" maxOccurs="1" minOccurs="1" type="xsdLocal2:CreateSchema_Status"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CreateSchema_Status">
+        <xsd:sequence>
+          <xsd:element name="ErrorStatus" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchDoIndex_Input">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="ListOfDoIndex_Input" type="xsdLocal3:ListOfDoIndex_Input"/>
+      <xsd:complexType name="ListOfDoIndex_InputTopElmt">
+        <xsd:sequence>
+          <xsd:element name="ListOfDoIndex_Input" maxOccurs="1" minOccurs="1" type="xsdLocal3:ListOfDoIndex_Input"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ListOfDoIndex_Input">
+        <xsd:sequence>
+          <xsd:element name="DoIndex_InputHeader" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal3:DoIndex_InputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DoIndex_InputHeader">
+        <xsd:sequence>
+          <xsd:element name="BCName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="TotalRecords" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="OpType" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="DoIndex_CustomHeaderProps" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal3:DoIndex_CustomHeaderProps"/>
+          <xsd:element name="ListOfDoIndex_DataRecords" maxOccurs="1" minOccurs="0"
+                       type="xsdLocal3:ListOfDoIndex_DataRecords"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DoIndex_CustomHeaderProps">
+        <xsd:sequence>
+          <xsd:element name="PropName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="PropValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ListOfDoIndex_DataRecords">
+        <xsd:sequence>
+          <xsd:element name="DoIndex_DataRecords" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal3:DoIndex_DataRecords"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DoIndex_DataRecords">
+        <xsd:sequence>
+          <xsd:element name="RowID" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="ListOfDoIndex_FieldAndValues" maxOccurs="1" minOccurs="0"
+                       type="xsdLocal3:ListOfDoIndex_FieldAndValues"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ListOfDoIndex_FieldAndValues">
+        <xsd:sequence>
+          <xsd:element name="DoIndex_FieldAndValues" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal3:DoIndex_FieldAndValues"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DoIndex_FieldAndValues">
+        <xsd:sequence>
+          <xsd:element name="FieldName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="FieldValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchDoIndex_Output">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="DoIndex_Status" type="xsdLocal4:DoIndex_Status"/>
+      <xsd:complexType name="DoIndex_StatusTopElmt">
+        <xsd:sequence>
+          <xsd:element name="DoIndex_Status" maxOccurs="1" minOccurs="1" type="xsdLocal4:DoIndex_Status"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DoIndex_Status">
+        <xsd:sequence>
+          <xsd:element name="ErrorStatus" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchDeleteIndex_Input">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="DeleteIndex_InputParam" type="xsdLocal12:DeleteIndex_InputParam"/>
+      <xsd:complexType name="DeleteIndex_InputParamTopElmt">
+        <xsd:sequence>
+          <xsd:element name="DeleteIndex_InputParam" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal12:DeleteIndex_InputParam"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DeleteIndex_InputParam">
+        <xsd:sequence>
+          <xsd:element name="BCName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="DeleteIndex_CustomProps" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal12:DeleteIndex_CustomProps"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DeleteIndex_CustomProps">
+        <xsd:sequence>
+          <xsd:element name="PropName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="PropValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchDeleteIndex_Output">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="DeleteIndex_Status" type="xsdLocal13:DeleteIndex_Status"/>
+      <xsd:complexType name="DeleteIndex_StatusTopElmt">
+        <xsd:sequence>
+          <xsd:element name="DeleteIndex_Status" maxOccurs="1" minOccurs="1" type="xsdLocal13:DeleteIndex_Status"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DeleteIndex_Status">
+        <xsd:sequence>
+          <xsd:element name="ErrorStatus" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchGetAutoSuggestions_Output">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="GetAutoSuggestions_OutputHeader" type="xsdLocal6:GetAutoSuggestions_OutputHeader"/>
+      <xsd:complexType name="GetAutoSuggestions_OutputHeaderTopElmt">
+        <xsd:sequence>
+          <xsd:element name="GetAutoSuggestions_OutputHeader" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal6:GetAutoSuggestions_OutputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetAutoSuggestions_OutputHeader">
+        <xsd:sequence>
+          <xsd:element name="NumOfSuggestions" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="GetAutoSuggestions_Suggestions" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal6:GetAutoSuggestions_Suggestions"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetAutoSuggestions_Suggestions">
+        <xsd:sequence>
+          <xsd:element name="SuggestedText" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchGetAutoSuggestions_Input">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="GetAutoSuggestions_InputHeader" type="xsdLocal5:GetAutoSuggestions_InputHeader"/>
+      <xsd:complexType name="GetAutoSuggestions_InputHeaderTopElmt">
+        <xsd:sequence>
+          <xsd:element name="GetAutoSuggestions_InputHeader" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal5:GetAutoSuggestions_InputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetAutoSuggestions_InputHeader">
+        <xsd:sequence>
+          <xsd:element name="SearchText" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="NumOfSuggestions" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="GetAutoSuggestions_CustomProps" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal5:GetAutoSuggestions_CustomProps"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetAutoSuggestions_CustomProps">
+        <xsd:sequence>
+          <xsd:element name="PropName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="PropValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchSearchInCategory_Input">
+      <xsd:element name="SearchInCategory_InputHeader" type="xsdLocal7:SearchInCategory_InputHeader"/>
+      <xsd:complexType name="SearchInCategory_InputHeaderTopElmt">
+        <xsd:sequence>
+          <xsd:element name="SearchInCategory_InputHeader" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal7:SearchInCategory_InputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInCategory_InputHeader">
+        <xsd:sequence>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SearchText" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="From" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="To" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SortField" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SortOrder" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SearchInCategory_SecureSearchDef" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal7:SearchInCategory_SecureSearchDef"/>
+          <xsd:element name="SearchInCategory_CustomProps" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal7:SearchInCategory_CustomProps"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInCategory_SecureSearchDef">
+        <xsd:sequence>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <!--xsd:element name="VisibilityField" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="VisibilityValue" maxOccurs="1" minOccurs="0" type="xsd:string"/
+-->
+          <xsd:element name="SearchInCategory_VisibilityProps" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal7:SearchInCategory_VisibilityProps"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInCategory_CustomProps">
+        <xsd:sequence>
+          <xsd:element name="PropName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="PropValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInCategory_VisibilityProps">
+        <xsd:sequence>
+          <xsd:element name="VisibilityField" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="VisibilityValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchSearchInAll_Output">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="SearchInAll_OutputHeader" type="xsdLocal8:SearchInAll_OutputHeader"/>
+      <xsd:complexType name="SearchInAll_OutputHeaderTopElmt">
+        <xsd:sequence>
+          <xsd:element name="SearchInAll_OutputHeader" maxOccurs="1" minOccurs="0"
+                       type="xsdLocal8:SearchInAll_OutputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInAll_OutputHeader">
+        <xsd:sequence>
+          <xsd:element name="TotalRecords" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="EOF" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SearchInAll_ResultRecords" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal8:SearchInAll_ResultRecords"/>
+          <xsd:element name="From" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="To" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInAll_ResultRecords">
+        <xsd:sequence>
+          <xsd:element name="RowID" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="DocumentType" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="Title" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="Summary" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="URL" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SearchInAll_FieldAndValue" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal8:SearchInAll_FieldAndValue"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInAll_FieldAndValue">
+        <xsd:sequence>
+          <xsd:element name="FieldName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="FieldValue" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.siebel.com/xml/SiebelSearchSearchInAll_Input">
+      <xsd:annotation>
+        <xsd:documentation/>
+      </xsd:annotation>
+      <xsd:element name="SearchInCategory_InputHeader" type="xsdLocal9:SearchInCategory_InputHeader"/>
+      <xsd:complexType name="SearchInCategory_InputHeaderTopElmt">
+        <xsd:sequence>
+          <xsd:element name="SearchInCategory_InputHeader" maxOccurs="1" minOccurs="1"
+                       type="xsdLocal9:SearchInCategory_InputHeader"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInCategory_InputHeader">
+        <xsd:sequence>
+          <xsd:element name="SearchText" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="From" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="To" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SortField" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SortOrder" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="SearchInAll_SecureSearchDef" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal9:SearchInAll_SecureSearchDef"/>
+          <xsd:element name="SearchInAll_CustomProps" maxOccurs="unbounded" minOccurs="1"
+                       type="xsdLocal9:SearchInAll_CustomProps"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInAll_SecureSearchDef">
+        <xsd:sequence>
+          <xsd:element name="CategoryName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <!--xsd:element name="VisibilityField" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+          <xsd:element name="VisibilityValue" maxOccurs="1" minOccurs="0" type="xsd:string"/
+-->
+          <xsd:element name="SearchInAll_VisibilityProps" maxOccurs="unbounded" minOccurs="0"
+                       type="xsdLocal9:SearchInAll_VisibilityProps"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInAll_CustomProps">
+        <xsd:sequence>
+          <xsd:element name="PropName" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="PropValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchInAll_VisibilityProps">
+        <xsd:sequence>
+          <xsd:element name="VisibilityField" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+          <xsd:element name="VisibilityValue" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="SiebelSearchService_CREATESCHEMA_Input">
+    <part name="SiebelSearchService_CREATESCHEMA_Input" element="tns:SiebelSearchService_CREATESCHEMA_Input"/>
+  </message>
+  <message name="SiebelSearchService_CREATESCHEMA_Output">
+    <part name="SiebelSearchService_CREATESCHEMA_Output" element="tns:SiebelSearchService_CREATESCHEMA_Output"/>
+  </message>
+  <message name="SiebelSearchService_DOINDEX_Input">
+    <part name="SiebelSearchService_DOINDEX_Input" element="tns:SiebelSearchService_DOINDEX_Input"/>
+  </message>
+  <message name="SiebelSearchService_DOINDEX_Output">
+    <part name="SiebelSearchService_DOINDEX_Output" element="tns:SiebelSearchService_DOINDEX_Output"/>
+  </message>
+  <message name="SiebelSearchService_DELETEINDEX_Input">
+    <part name="SiebelSearchService_DELETEINDEX_Input" element="tns:SiebelSearchService_DELETEINDEX_Input"/>
+  </message>
+  <message name="SiebelSearchService_DELETEINDEX_Output">
+    <part name="SiebelSearchService_DELETEINDEX_Output" element="tns:SiebelSearchService_DELETEINDEX_Output"/>
+  </message>
+  <message name="SiebelSearchService_GETAUTOSUGGESTIONS_Input">
+    <part name="SiebelSearchService_GETAUTOSUGGESTIONS_Input"
+          element="tns:SiebelSearchService_GETAUTOSUGGESTIONS_Input"/>
+  </message>
+  <message name="SiebelSearchService_GETAUTOSUGGESTIONS_Output">
+    <part name="SiebelSearchService_GETAUTOSUGGESTIONS_Output"
+          element="tns:SiebelSearchService_GETAUTOSUGGESTIONS_Output"/>
+  </message>
+  <message name="SiebelSearchService_SEARCHINCATEGORY_Input">
+    <part name="SiebelSearchService_SEARCHINCATEGORY_Input" element="tns:SiebelSearchService_SEARCHINCATEGORY_Input"/>
+  </message>
+  <message name="SiebelSearchService_SEARCHINCATEGORY_Output">
+    <part name="SiebelSearchService_SEARCHINCATEGORY_Output" element="tns:SiebelSearchService_SEARCHINCATEGORY_Output"/>
+  </message>
+  <message name="SiebelSearchService_SEARCHINALL_Input">
+    <part name="SiebelSearchService_SEARCHINALL_Input" element="tns:SiebelSearchService_SEARCHINALL_Input"/>
+  </message>
+  <message name="SiebelSearchService_SEARCHINALL_Output">
+    <part name="SiebelSearchService_SEARCHINALL_Output" element="tns:SiebelSearchService_SEARCHINALL_Output"/>
+  </message>
+  <portType name="SiebelSearchService">
+    <operation name="SiebelSearchService_CREATESCHEMA">
+      <input message="tns:SiebelSearchService_CREATESCHEMA_Input"/>
+      <output message="tns:SiebelSearchService_CREATESCHEMA_Output"/>
+    </operation>
+    <operation name="SiebelSearchService_DOINDEX">
+      <input message="tns:SiebelSearchService_DOINDEX_Input"/>
+      <output message="tns:SiebelSearchService_DOINDEX_Output"/>
+    </operation>
+    <operation name="SiebelSearchService_DELETEINDEX">
+      <input message="tns:SiebelSearchService_DELETEINDEX_Input"/>
+      <output message="tns:SiebelSearchService_DELETEINDEX_Output"/>
+    </operation>
+    <operation name="SiebelSearchService_GETAUTOSUGGESTIONS">
+      <input message="tns:SiebelSearchService_GETAUTOSUGGESTIONS_Input"/>
+      <output message="tns:SiebelSearchService_GETAUTOSUGGESTIONS_Output"/>
+    </operation>
+    <operation name="SiebelSearchService_SEARCHINCATEGORY">
+      <input message="tns:SiebelSearchService_SEARCHINCATEGORY_Input"/>
+      <output message="tns:SiebelSearchService_SEARCHINCATEGORY_Output"/>
+    </operation>
+    <operation name="SiebelSearchService_SEARCHINALL">
+      <input message="tns:SiebelSearchService_SEARCHINALL_Input"/>
+      <output message="tns:SiebelSearchService_SEARCHINALL_Output"/>
+    </operation>
+  </portType>
+  <binding name="SiebelSearchService" type="tns:SiebelSearchService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="SiebelSearchService_CREATESCHEMA">
+      <soap:operation soapAction="document/http://siebel.com/CustomUI:SiebelSearchService_CREATESCHEMA"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SiebelSearchService_DOINDEX">
+      <soap:operation soapAction="document/http://siebel.com/CustomUI:SiebelSearchService_DOINDEX"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SiebelSearchService_DELETEINDEX">
+      <soap:operation soapAction="document/http://siebel.com/CustomUI:SiebelSearchService_DELETEINDEX"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SiebelSearchService_GETAUTOSUGGESTIONS">
+      <soap:operation soapAction="document/http://siebel.com/CustomUI:SiebelSearchService_GETAUTOSUGGESTIONS"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SiebelSearchService_SEARCHINCATEGORY">
+      <soap:operation soapAction="document/http://siebel.com/CustomUI:SiebelSearchService_SEARCHINCATEGORY"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="SiebelSearchService_SEARCHINALL">
+      <soap:operation soapAction="document/http://siebel.com/CustomUI:SiebelSearchService_SEARCHINALL"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="SiebelSearchService">
+    <port name="SiebelSearchService" binding="tns:SiebelSearchService">
+      <soap:address location="http://localhost:7101/SiebelSearch/SiebelSearchService"/>
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,339 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<jdevws:WebService xmlns:jdevws="http://xmlns.oracle.com/jdeveloper/10130/webservice">
+   <list n="CHILD_NODES">
+      <url path="../../../../public_html/WEB-INF/wsdl/SiebelSearchService.wsdl"/>
+      <url path="../xml/siebelsearchsearchinall_output/SearchInAllOutputHeaderTopElmt.java"/>
+      <url path="SiebelSearchServiceSEARCHINCATEGORYInput.java"/>
+      <url path="../xml/siebelsearchdeleteindex_input/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/SearchInCategoryInputHeaderTopElmt.java"/>
+      <url path="../xml/siebelsearchcreateschema_output/package-info.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_input/GetAutoSuggestionsInputHeader.java"/>
+      <url path="../xml/siebelsearchdoindex_input/DoIndexInputHeader.java"/>
+      <url path="../xml/siebelsearchdeleteindex_input/package-info.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/SearchInAllVisibilityProps.java"/>
+      <url path="../xml/siebelsearchdoindex_output/package-info.java"/>
+      <url path="../xml/siebelsearchdoindex_output/DoIndexStatus.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_output/GetAutoSuggestionsOutputHeader.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_input/GetAutoSuggestionsCustomProps.java"/>
+      <url path="../xml/siebelsearchsearchinall_output/SearchInAllFieldAndValue.java"/>
+      <url path="../xml/siebelsearchdoindex_input/ListOfDoIndexDataRecords.java"/>
+      <url path="../xml/siebelsearchdoindex_input/DoIndexFieldAndValues.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/SearchInCategoryInputHeader.java"/>
+      <url path="SiebelSearchServiceCREATESCHEMAInput.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_output/GetAutoSuggestionsOutputHeaderTopElmt.java"/>
+      <url path="SiebelSearchServiceGETAUTOSUGGESTIONSInput.java"/>
+      <url path="../xml/siebelsearchdoindex_output/DoIndexStatusTopElmt.java"/>
+      <url path="../xml/siebelsearchcreateschema_output/ObjectFactory.java"/>
+      <url path="package-info.java"/>
+      <url path="../xml/siebelsearchsearchinall_output/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/package-info.java"/>
+      <url path="../xml/siebelsearchsearchinall_output/SearchInAllOutputHeader.java"/>
+      <url path="../xml/siebelsearchdoindex_output/ObjectFactory.java"/>
+      <url path="SiebelSearchServiceGETAUTOSUGGESTIONSOutput.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/SearchInCategorySecureSearchDef.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/SearchInAllCustomProps.java"/>
+      <url path="../xml/siebelsearchcreateschema_input/CreateSchemaInputHeader.java"/>
+      <url path="../xml/siebelsearchsearchinall_output/package-info.java"/>
+      <url path="../xml/siebelsearchdoindex_input/ListOfDoIndexFieldAndValues.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/SearchInCategoryCustomProps.java"/>
+      <url path="../xml/siebelsearchdeleteindex_output/DeleteIndexStatus.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_output/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchsearchinall_output/SearchInAllResultRecords.java"/>
+      <url path="SiebelSearchServiceSEARCHINALLOutput.java"/>
+      <url path="ObjectFactory.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/SearchInAllSecureSearchDef.java"/>
+      <url path="SiebelSearchServiceSEARCHINCATEGORYOutput.java"/>
+      <url path="../xml/siebelsearchcreateschema_input/ObjectFactory.java"/>
+      <url path="SiebelSearchServiceCREATESCHEMAOutput.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_input/package-info.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_output/package-info.java"/>
+      <url path="../xml/siebelsearchcreateschema_output/CreateSchemaStatus.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_input/ObjectFactory.java"/>
+      <url path="SiebelSearchServiceSEARCHINALLInput.java"/>
+      <url path="SiebelSearchServiceDELETEINDEXOutput.java"/>
+      <url path="../xml/siebelsearchdeleteindex_output/DeleteIndexStatusTopElmt.java"/>
+      <url path="../xml/siebelsearchdoindex_input/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchdoindex_input/package-info.java"/>
+      <url path="SiebelSearchServiceDOINDEXOutput.java"/>
+      <url path="../xml/siebelsearchdoindex_input/DoIndexCustomHeaderProps.java"/>
+      <url path="../xml/siebelsearchdoindex_input/ListOfDoIndexInputTopElmt.java"/>
+      <url path="../xml/siebelsearchcreateschema_input/CreateSchemaFieldDef.java"/>
+      <url path="../xml/siebelsearchdeleteindex_output/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/SearchInCategoryVisibilityProps.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_output/GetAutoSuggestionsSuggestions.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchdoindex_input/ListOfDoIndexInput.java"/>
+      <url path="../xml/siebelsearchcreateschema_output/CreateSchemaStatusTopElmt.java"/>
+      <url path="../xml/siebelsearchdoindex_input/DoIndexDataRecords.java"/>
+      <url path="../xml/siebelsearchdeleteindex_input/DeleteIndexInputParam.java"/>
+      <url path="SiebelSearchServiceDOINDEXInput.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/ObjectFactory.java"/>
+      <url path="../xml/siebelsearchgetautosuggestions_input/GetAutoSuggestionsInputHeaderTopElmt.java"/>
+      <url path="../xml/siebelsearchdeleteindex_input/DeleteIndexInputParamTopElmt.java"/>
+      <url path="../xml/siebelsearchdeleteindex_input/DeleteIndexCustomProps.java"/>
+      <url path="../xml/siebelsearchcreateschema_input/package-info.java"/>
+      <url path="SiebelSearchServiceDELETEINDEXInput.java"/>
+      <url path="../xml/siebelsearchdeleteindex_output/package-info.java"/>
+      <url path="../xml/siebelsearchcreateschema_input/CreateSchemaCustomProp.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/SearchInCategoryInputHeader.java"/>
+      <url path="../xml/siebelsearchcreateschema_input/CreateSchemaInputHeaderTopElmt.java"/>
+      <url path="../xml/siebelsearchsearchincategory_input/package-info.java"/>
+      <url path="../xml/siebelsearchsearchinall_input/SearchInCategoryInputHeaderTopElmt.java"/>
+      <url path="SiebelSearchServiceImpl.java"/>
+   </list>
+   <hash n="DATA_MODEL">
+      <value n="ATTACHMENT_ENCODING" v="MIME"/>
+      <list n="BD_">
+         <hash>
+            <value n="BD_DEFAULT_DOCUMENT_WRAPPED" v="false"/>
+            <value n="BOUND_PORT_TYPE" v="{http://siebel.com/CustomUI}SiebelSearchService"/>
+            <value n="DEFAULT_NAME" v="false"/>
+            <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPBinding"/>
+            <value n="NAME" v="{http://siebel.com/CustomUI}SiebelSearchService"/>
+            <list n="OP_BINDINGS">
+               <hash>
+                  <value n="BD_RESPONSE_PART" v="SiebelSearchService_CREATESCHEMA_Output"/>
+                  <value n="BD_SOAP_ACTION" v="document/http://siebel.com/CustomUI:SiebelSearchService_CREATESCHEMA"/>
+                  <value n="BD_WSDL_RETURN_NAME" v="SiebelSearchService_CREATESCHEMA_Output"/>
+                  <value n="BD_WSDL_RETURN_TNS" v="USE_OWNER_TNS"/>
+                  <value n="BOUND_OPERATION" v="com.siebel.customui.SiebelSearchServiceCREATESCHEMAOutput.SiebelSearchService_CREATESCHEMA.com.siebel.customui.SiebelSearchServiceCREATESCHEMAInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPOperationBinding"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="BD_RESPONSE_PART" v="SiebelSearchService_DOINDEX_Output"/>
+                  <value n="BD_SOAP_ACTION" v="document/http://siebel.com/CustomUI:SiebelSearchService_DOINDEX"/>
+                  <value n="BD_WSDL_RETURN_NAME" v="SiebelSearchService_DOINDEX_Output"/>
+                  <value n="BD_WSDL_RETURN_TNS" v="USE_OWNER_TNS"/>
+                  <value n="BOUND_OPERATION" v="com.siebel.customui.SiebelSearchServiceDOINDEXOutput.SiebelSearchService_DOINDEX.com.siebel.customui.SiebelSearchServiceDOINDEXInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPOperationBinding"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="BD_RESPONSE_PART" v="SiebelSearchService_DELETEINDEX_Output"/>
+                  <value n="BD_SOAP_ACTION" v="document/http://siebel.com/CustomUI:SiebelSearchService_DELETEINDEX"/>
+                  <value n="BD_WSDL_RETURN_NAME" v="SiebelSearchService_DELETEINDEX_Output"/>
+                  <value n="BD_WSDL_RETURN_TNS" v="USE_OWNER_TNS"/>
+                  <value n="BOUND_OPERATION" v="com.siebel.customui.SiebelSearchServiceDELETEINDEXOutput.SiebelSearchService_DELETEINDEX.com.siebel.customui.SiebelSearchServiceDELETEINDEXInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPOperationBinding"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="BD_RESPONSE_PART" v="SiebelSearchService_GETAUTOSUGGESTIONS_Output"/>
+                  <value n="BD_SOAP_ACTION" v="document/http://siebel.com/CustomUI:SiebelSearchService_GETAUTOSUGGESTIONS"/>
+                  <value n="BD_WSDL_RETURN_NAME" v="SiebelSearchService_GETAUTOSUGGESTIONS_Output"/>
+                  <value n="BD_WSDL_RETURN_TNS" v="USE_OWNER_TNS"/>
+                  <value n="BOUND_OPERATION" v="com.siebel.customui.SiebelSearchServiceGETAUTOSUGGESTIONSOutput.SiebelSearchService_GETAUTOSUGGESTIONS.com.siebel.customui.SiebelSearchServiceGETAUTOSUGGESTIONSInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPOperationBinding"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="BD_RESPONSE_PART" v="SiebelSearchService_SEARCHINCATEGORY_Output"/>
+                  <value n="BD_SOAP_ACTION" v="document/http://siebel.com/CustomUI:SiebelSearchService_SEARCHINCATEGORY"/>
+                  <value n="BD_WSDL_RETURN_NAME" v="SiebelSearchService_SEARCHINCATEGORY_Output"/>
+                  <value n="BD_WSDL_RETURN_TNS" v="USE_OWNER_TNS"/>
+                  <value n="BOUND_OPERATION" v="com.siebel.customui.SiebelSearchServiceSEARCHINCATEGORYOutput.SiebelSearchService_SEARCHINCATEGORY.com.siebel.customui.SiebelSearchServiceSEARCHINCATEGORYInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPOperationBinding"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="BD_RESPONSE_PART" v="SiebelSearchService_SEARCHINALL_Output"/>
+                  <value n="BD_SOAP_ACTION" v="document/http://siebel.com/CustomUI:SiebelSearchService_SEARCHINALL"/>
+                  <value n="BD_WSDL_RETURN_NAME" v="SiebelSearchService_SEARCHINALL_Output"/>
+                  <value n="BD_WSDL_RETURN_TNS" v="USE_OWNER_TNS"/>
+                  <value n="BOUND_OPERATION" v="com.siebel.customui.SiebelSearchServiceSEARCHINALLOutput.SiebelSearchService_SEARCHINALL.com.siebel.customui.SiebelSearchServiceSEARCHINALLInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPOperationBinding"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+            </list>
+            <hash n="PROPERTY_GROUPS"/>
+         </hash>
+      </list>
+      <list n="BINDING_FILES"/>
+      <value n="GENERATION_OPTION" v="ANNOTATIONS_WSDL"/>
+      <value n="GUID" v="388403b4-0151-1000-8001-0ac4044f366b"/>
+      <value n="LAST_GENERATION_BOTTOM_UP" v="false"/>
+      <list n="LOCAL_FILES"/>
+      <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaWebService"/>
+      <list n="PO_">
+         <hash>
+            <value n="DEFAULT_NAME" v="false"/>
+            <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.SOAPPort"/>
+            <value n="NAME" v="SiebelSearchService"/>
+            <value n="PORT_BINDING_NAME" v="{http://siebel.com/CustomUI}SiebelSearchService"/>
+            <list n="PORT_OPS">
+               <hash>
+                  <value n="EXPOSED_BD_OPERATION" v="com.siebel.customui.SiebelSearchServiceCREATESCHEMAOutput.siebelSearchServiceCREATESCHEMA.com.siebel.customui.SiebelSearchServiceCREATESCHEMAInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.PortOperation"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="EXPOSED_BD_OPERATION" v="com.siebel.customui.SiebelSearchServiceDOINDEXOutput.siebelSearchServiceDOINDEX.com.siebel.customui.SiebelSearchServiceDOINDEXInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.PortOperation"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="EXPOSED_BD_OPERATION" v="com.siebel.customui.SiebelSearchServiceDELETEINDEXOutput.siebelSearchServiceDELETEINDEX.com.siebel.customui.SiebelSearchServiceDELETEINDEXInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.PortOperation"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="EXPOSED_BD_OPERATION" v="com.siebel.customui.SiebelSearchServiceGETAUTOSUGGESTIONSOutput.siebelSearchServiceGETAUTOSUGGESTIONS.com.siebel.customui.SiebelSearchServiceGETAUTOSUGGESTIONSInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.PortOperation"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="EXPOSED_BD_OPERATION" v="com.siebel.customui.SiebelSearchServiceSEARCHINCATEGORYOutput.siebelSearchServiceSEARCHINCATEGORY.com.siebel.customui.SiebelSearchServiceSEARCHINCATEGORYInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.PortOperation"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="EXPOSED_BD_OPERATION" v="com.siebel.customui.SiebelSearchServiceSEARCHINALLOutput.siebelSearchServiceSEARCHINALL.com.siebel.customui.SiebelSearchServiceSEARCHINALLInput"/>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.PortOperation"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+            </list>
+            <hash n="PROPERTY_GROUPS"/>
+            <url n="URL" protocol="http" host="localhost" port="7101" path="/SearchRefactorLatest-SiebelSearchService-context-root/SiebelSearchServiceImplService"/>
+         </hash>
+      </list>
+      <hash n="PROPERTY_GROUPS">
+         <hash n="WSDL_TO_JAVA_PROPERTIES">
+            <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.WSDLToJavaProperties"/>
+         </hash>
+      </hash>
+      <list n="PT_">
+         <hash>
+            <value n="AUTO_SERVICE_INTERFACE"/>
+            <value n="DEFAULT_NAME" v="false"/>
+            <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaPortType"/>
+            <value n="NAME" v="{http://siebel.com/CustomUI}SiebelSearchService"/>
+            <list n="OP_">
+               <hash>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaOperation"/>
+                  <value n="OP_JAVA_NAME" v="siebelSearchServiceCREATESCHEMA"/>
+                  <list n="OP_JAVA_PARAMETERS">
+                     <hash>
+                        <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaParameter"/>
+                        <value n="NAME" v="siebelSearchServiceCREATESCHEMAInput"/>
+                        <value n="PA_MODE" v="0"/>
+                        <value n="PA_WSDL_NAME" v="SiebelSearchService_CREATESCHEMA_Input"/>
+                        <value n="PA_WSDL_PART_NAME" v="SiebelSearchService_CREATESCHEMA_Input"/>
+                        <value n="TARGET_NAMESPACE" v="USE_OWNER_TNS"/>
+                        <value n="TYPE" v="com.siebel.customui.SiebelSearchServiceCREATESCHEMAInput"/>
+                     </hash>
+                  </list>
+                  <value n="OP_JAVA_RETURN_TYPE" v="com.siebel.customui.SiebelSearchServiceCREATESCHEMAOutput"/>
+                  <value n="OP_NAME" v="SiebelSearchService_CREATESCHEMA"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaOperation"/>
+                  <value n="OP_JAVA_NAME" v="siebelSearchServiceDOINDEX"/>
+                  <list n="OP_JAVA_PARAMETERS">
+                     <hash>
+                        <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaParameter"/>
+                        <value n="NAME" v="siebelSearchServiceDOINDEXInput"/>
+                        <value n="PA_MODE" v="0"/>
+                        <value n="PA_WSDL_NAME" v="SiebelSearchService_DOINDEX_Input"/>
+                        <value n="PA_WSDL_PART_NAME" v="SiebelSearchService_DOINDEX_Input"/>
+                        <value n="TARGET_NAMESPACE" v="USE_OWNER_TNS"/>
+                        <value n="TYPE" v="com.siebel.customui.SiebelSearchServiceDOINDEXInput"/>
+                     </hash>
+                  </list>
+                  <value n="OP_JAVA_RETURN_TYPE" v="com.siebel.customui.SiebelSearchServiceDOINDEXOutput"/>
+                  <value n="OP_NAME" v="SiebelSearchService_DOINDEX"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaOperation"/>
+                  <value n="OP_JAVA_NAME" v="siebelSearchServiceDELETEINDEX"/>
+                  <list n="OP_JAVA_PARAMETERS">
+                     <hash>
+                        <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaParameter"/>
+                        <value n="NAME" v="siebelSearchServiceDELETEINDEXInput"/>
+                        <value n="PA_MODE" v="0"/>
+                        <value n="PA_WSDL_NAME" v="SiebelSearchService_DELETEINDEX_Input"/>
+                        <value n="PA_WSDL_PART_NAME" v="SiebelSearchService_DELETEINDEX_Input"/>
+                        <value n="TARGET_NAMESPACE" v="USE_OWNER_TNS"/>
+                        <value n="TYPE" v="com.siebel.customui.SiebelSearchServiceDELETEINDEXInput"/>
+                     </hash>
+                  </list>
+                  <value n="OP_JAVA_RETURN_TYPE" v="com.siebel.customui.SiebelSearchServiceDELETEINDEXOutput"/>
+                  <value n="OP_NAME" v="SiebelSearchService_DELETEINDEX"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaOperation"/>
+                  <value n="OP_JAVA_NAME" v="siebelSearchServiceGETAUTOSUGGESTIONS"/>
+                  <list n="OP_JAVA_PARAMETERS">
+                     <hash>
+                        <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaParameter"/>
+                        <value n="NAME" v="siebelSearchServiceGETAUTOSUGGESTIONSInput"/>
+                        <value n="PA_MODE" v="0"/>
+                        <value n="PA_WSDL_NAME" v="SiebelSearchService_GETAUTOSUGGESTIONS_Input"/>
+                        <value n="PA_WSDL_PART_NAME" v="SiebelSearchService_GETAUTOSUGGESTIONS_Input"/>
+                        <value n="TARGET_NAMESPACE" v="USE_OWNER_TNS"/>
+                        <value n="TYPE" v="com.siebel.customui.SiebelSearchServiceGETAUTOSUGGESTIONSInput"/>
+                     </hash>
+                  </list>
+                  <value n="OP_JAVA_RETURN_TYPE" v="com.siebel.customui.SiebelSearchServiceGETAUTOSUGGESTIONSOutput"/>
+                  <value n="OP_NAME" v="SiebelSearchService_GETAUTOSUGGESTIONS"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaOperation"/>
+                  <value n="OP_JAVA_NAME" v="siebelSearchServiceSEARCHINCATEGORY"/>
+                  <list n="OP_JAVA_PARAMETERS">
+                     <hash>
+                        <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaParameter"/>
+                        <value n="NAME" v="siebelSearchServiceSEARCHINCATEGORYInput"/>
+                        <value n="PA_MODE" v="0"/>
+                        <value n="PA_WSDL_NAME" v="SiebelSearchService_SEARCHINCATEGORY_Input"/>
+                        <value n="PA_WSDL_PART_NAME" v="SiebelSearchService_SEARCHINCATEGORY_Input"/>
+                        <value n="TARGET_NAMESPACE" v="USE_OWNER_TNS"/>
+                        <value n="TYPE" v="com.siebel.customui.SiebelSearchServiceSEARCHINCATEGORYInput"/>
+                     </hash>
+                  </list>
+                  <value n="OP_JAVA_RETURN_TYPE" v="com.siebel.customui.SiebelSearchServiceSEARCHINCATEGORYOutput"/>
+                  <value n="OP_NAME" v="SiebelSearchService_SEARCHINCATEGORY"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+               <hash>
+                  <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaOperation"/>
+                  <value n="OP_JAVA_NAME" v="siebelSearchServiceSEARCHINALL"/>
+                  <list n="OP_JAVA_PARAMETERS">
+                     <hash>
+                        <value n="MODEL_CLASS" v="oracle.jdeveloper.webservices.model.java.JavaParameter"/>
+                        <value n="NAME" v="siebelSearchServiceSEARCHINALLInput"/>
+                        <value n="PA_MODE" v="0"/>
+                        <value n="PA_WSDL_NAME" v="SiebelSearchService_SEARCHINALL_Input"/>
+                        <value n="PA_WSDL_PART_NAME" v="SiebelSearchService_SEARCHINALL_Input"/>
+                        <value n="TARGET_NAMESPACE" v="USE_OWNER_TNS"/>
+                        <value n="TYPE" v="com.siebel.customui.SiebelSearchServiceSEARCHINALLInput"/>
+                     </hash>
+                  </list>
+                  <value n="OP_JAVA_RETURN_TYPE" v="com.siebel.customui.SiebelSearchServiceSEARCHINALLOutput"/>
+                  <value n="OP_NAME" v="SiebelSearchService_SEARCHINALL"/>
+                  <hash n="PROPERTY_GROUPS"/>
+               </hash>
+            </list>
+            <hash n="PROPERTY_GROUPS"/>
+            <value n="PT_CLASS" v="com.siebel.customui.SiebelSearchServiceImpl"/>
+            <value n="PT_TOP_DOWN_GENERATED_SEI_NAME" v="com.siebel.customui.SiebelSearchService"/>
+         </hash>
+      </list>
+      <value n="SERVICE_ASYNC" v="false"/>
+      <url n="TARGET_PROJECT" path="../../../../SiebelSearchService.jpr"/>
+      <value n="TOPDOWN_GENERATION_OPTION" v="JAVA"/>
+      <list n="WS_DEPENDENT_VALUE_TYPES"/>
+      <value n="WS_ORIG_GEN_DIRECTION" v="TOP_DOWN"/>
+      <url n="WS_REFERENCE_WSDL" path="../../../../public_html/WEB-INF/wsdl/SiebelSearchService.wsdl"/>
+      <value n="WS_TARGET_NAMESPACE" v="http://siebel.com/CustomUI"/>
+      <value n="WS_URI" v="SiebelSearchService"/>
+      <url n="WS_WSDL_FILE" path="../../../../public_html/WEB-INF/wsdl/SiebelSearchService.wsdl"/>
+      <value n="WS_WSDL_LOC_ON_SEI" v="false"/>
+      <value n="WS_WSDL_LOC_VALUE" v="/WEB-INF/wsdl/SiebelSearchService.wsdl"/>
+      <list n="WSDL_DEPENDENT_FILES"/>
+   </hash>
+</jdevws:WebService>

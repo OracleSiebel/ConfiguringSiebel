@@ -1,0 +1,21 @@
+<!-- Template Start: CCAppletForm4Col_E_N.swt -->
+
+<swe:form>
+  <div class="AppletBack AppletHIFormBorder">
+    <swe:include file="CCTitle_Named.swt"/>
+    <swe:error type="Popup">
+      <div class="error siebui-error">
+        <swe:this property="FormattedHtml"/>
+      </div>
+    </swe:error>
+    <swe:include file="CCFormButtonsTop.swt"/>
+    <div class="siebui-applet-content siebui-collapsible">
+      <swe:include file="CCFormAppletFluidBody.swt"/>
+    </div>
+  </span>
+  </div>
+</swe:form>
+
+<!-- Template End: CCAppletForm4Col_E_N.swt -->
+
+

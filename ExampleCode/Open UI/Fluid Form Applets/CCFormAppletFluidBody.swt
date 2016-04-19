@@ -1,0 +1,112 @@
+<!-- Template Start: CCFormAppletFluidBody.swt -->
+
+<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+	<swe:control id="1000">
+		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
+	</swe:control>	
+	<swe:for-each startValue="1001" count="20" iteratorName="currentId">
+		<div class="fluid-form-group siebui-span-sm-12">
+			<swe:control id="swe:currentId" hintMapType="FormItem">
+				<label class="siebui-span-sm-4">
+					<swe:this property="DisplayName" hintText="Label"/>
+					<swe:this property="RequiredIndicator" hintText="Required"/>
+				</label>
+				<div class="siebui-span-sm-8">
+					<swe:this property="FormattedHtml" hintText="Field" hintMapLabelId="swe:currentId"/>
+				</div>
+			</swe:control>
+		</div>
+	</swe:for-each>	
+</div>
+<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+	<swe:control id="1100">
+		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
+	</swe:control>	
+	<swe:for-each startValue="1101" count="20" iteratorName="currentId">
+		<div class="fluid-form-group siebui-span-sm-12">
+			<swe:control id="swe:currentId" hintMapType="FormItem">
+				<label class="siebui-span-sm-4">
+					<swe:this property="DisplayName" hintText="Label"/>
+					<swe:this property="RequiredIndicator" hintText="Required"/>
+				</label>
+				<div class="siebui-span-sm-8">
+					<swe:this property="FormattedHtml" hintText="Field" hintMapLabelId="swe:currentId"/>
+				</div>
+			</swe:control>
+		</div>
+	</swe:for-each>	
+</div>
+<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+	<swe:control id="1200">
+		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
+	</swe:control>	
+	<swe:for-each startValue="1201" count="20" iteratorName="currentId">
+		<div class="fluid-form-group siebui-span-sm-12">
+			<swe:control id="swe:currentId" hintMapType="FormItem">
+				<label class="siebui-span-sm-4">
+					<swe:this property="DisplayName" hintText="Label"/>
+					<swe:this property="RequiredIndicator" hintText="Required"/>
+				</label>
+				<div class="siebui-span-sm-8">
+					<swe:this property="FormattedHtml" hintText="Field" hintMapLabelId="swe:currentId"/>
+				</div>
+			</swe:control>
+		</div>
+	</swe:for-each>	
+</div>
+<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+	<swe:control id="1300">
+		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
+	</swe:control>	
+	<swe:for-each startValue="1301" count="20" iteratorName="currentId">
+		<div class="fluid-form-group siebui-span-sm-12">
+			<swe:control id="swe:currentId" hintMapType="FormItem">
+				<label class="siebui-span-sm-4">
+					<swe:this property="DisplayName" hintText="Label"/>
+					<swe:this property="RequiredIndicator" hintText="Required"/>
+				</label>
+				<div class="siebui-span-sm-8">
+					<swe:this property="FormattedHtml" hintText="Field" hintMapLabelId="swe:currentId"/>
+				</div>
+			</swe:control>
+		</div>
+	</swe:for-each>	
+</div>
+<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+	<swe:control id="1400">
+		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
+	</swe:control>	
+	<swe:for-each startValue="1401" count="20" iteratorName="currentId">
+		<div class="fluid-form-group siebui-span-sm-12">
+			<swe:control id="swe:currentId" hintMapType="FormItem">
+				<label class="siebui-span-sm-4">
+					<swe:this property="DisplayName" hintText="Label"/>
+					<swe:this property="RequiredIndicator" hintText="Required"/>
+				</label>
+				<div class="siebui-span-sm-8">
+					<swe:this property="FormattedHtml" hintText="Field" hintMapLabelId="swe:currentId"/>
+				</div>
+			</swe:control>
+		</div>
+	</swe:for-each>	
+</div>
+<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+	<swe:control id="1500">
+		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
+	</swe:control>	
+	<swe:for-each startValue="1501" count="20" iteratorName="currentId">
+		<div class="fluid-form-group siebui-span-sm-12">
+			<swe:control id="swe:currentId" hintMapType="FormItem">
+				<label class="siebui-span-sm-4">
+					<swe:this property="DisplayName" hintText="Label"/>
+					<swe:this property="RequiredIndicator" hintText="Required"/>
+				</label>
+				<div class="siebui-span-sm-8">
+					<swe:this property="FormattedHtml" hintText="Field" hintMapLabelId="swe:currentId"/>
+				</div>
+			</swe:control>
+		</div>
+	</swe:for-each>	
+</div>
+
+<!-- Template End: CCFormAppletFluidBody.swt -->

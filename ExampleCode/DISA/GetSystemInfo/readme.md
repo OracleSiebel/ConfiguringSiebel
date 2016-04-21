@@ -15,7 +15,7 @@ As in Fig 1.1, to develop based on DISA framework, for each component:
 *   At both sides, call **interfaces of framework** within component logic to send messages between both sides
 
 
-![Framework Overview](/diagram.png?raw=true "Framework Overview")
+![Framework Overview](./diagram.png "Framework Overview")
 
 **Fig 1.1 Overview**
 
@@ -30,7 +30,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         The string at both sides should be exact the same so that they can communicate with each other.  
         This string will be used as the argument when calling SiebelApp.WebSocketManager.CreateWSHandler to create the customized WSHandler.
     *   Specify the **Component Version** to support component version check between WSHandler and Operator.
-        Constant key: WS_\_COMPTYPE_\_VERSION. Replace _COMPTYPE_ in middle with Component Type string defined above.  
+        Constant key: WS*\_COMPTYPE\_*VERSION. Replace *COMPTYPE* in middle with Component Type string defined above.  
         Constant value: in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility).  
         In order to pass the version check, the component version of WSHanlder at Siebel OpenUI should have the same or lower MAJOR version than the Operator version at DISA.
 

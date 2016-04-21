@@ -15,7 +15,7 @@ As in Fig 1.1, to develop based on DISA framework, for each component:
 *   At both sides, call **interfaces of framework** within component logic to send messages between both sides
 
 
-![Framework Overview](/diagram.png "Framework Overview")
+![Framework Overview](/diagram.png?raw=true "Framework Overview")
 
 **Fig 1.1 Overview**
 
@@ -30,8 +30,8 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         The string at both sides should be exact the same so that they can communicate with each other.  
         This string will be used as the argument when calling SiebelApp.WebSocketManager.CreateWSHandler to create the customized WSHandler.
     *   Specify the **Component Version** to support component version check between WSHandler and Operator.
-        Constant key: WS\__COMPTYPE_\_VERSION. Replace _COMPTYPE_ in middle with Component Type string defined above.  
-        Constant value: in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#Appendix A. Version Check (Backward Compatibility)).  
+        Constant key: WS_\_COMPTYPE_\_VERSION. Replace _COMPTYPE_ in middle with Component Type string defined above.  
+        Constant value: in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility).  
         In order to pass the version check, the component version of WSHanlder at Siebel OpenUI should have the same or lower MAJOR version than the Operator version at DISA.
 
         ```js
@@ -158,7 +158,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         *   Inherit from CSSWSSingletonOperator if the operator is designed for sequential tasks, and does not have request for parallel execution. The request for the same operator type from different components will be place in one queue and processed in one single thread.
         *   Inherit from CSSWSOperator if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed paralleled.
     *   Implement **getType**, return component type string. This string should be in accordance with the CompType specified when calling CreateWSHandler to create the corresponding WSHandler at Siebel OpenUI side. A custom plugin type must start with string "plugin_" to indicate it is a plugin operator.
-    *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#Appendix A. Version Check (Backward Compatibility))
+    *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility)
     *   Implement **processMessage**, add the task process logic here, if the operator message queue have new message added, this method will be called with the JSON format message as the parameter.
     *   Implement **component logic** needed as "private" methods.
     *   Call **sendMessage** to send JsonObject type message from DISA to Siebel OpenUI.

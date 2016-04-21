@@ -137,11 +137,11 @@ The following WSHandler and related codes could be added anywhere needed, howeve
 
     ```js
     /*
-    * One common called timing would be in the applet pmodel EndLife, for example:
-    * EmailPModel.prototype.EndLife = function () {
-    *     unregisterSampleHandler.call(this);
-    * };
-    */
+     * One common called timing would be in the applet pmodel EndLife, for example:
+     * EmailPModel.prototype.EndLife = function () {
+     *     unregisterSampleHandler.call(this);
+     * };
+     */
     function unregisterSampleHandler() {
         if (sampleHandler) {
             sampleHandler.Unregister();
@@ -168,8 +168,8 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         package com.domain.disa.plugin;
 
         /*
-        * The plugin class depends on disa-api.jar and gson.jar in the lib folder 
-        */
+         * The plugin class depends on disa-api.jar and gson.jar in the lib folder 
+         */
         public class SampleOperator extends com.siebel.wsserver.operator.CSSWSSingletonOperator {
             // Logger.getLogger("disa.server") returns DISA system log instance
             // Logs by logger will go into DISA log file.
@@ -188,12 +188,12 @@ The following WSHandler and related codes could be added anywhere needed, howeve
             }
 
             /*
-            * The main logic to process the message DISA gets from Siebel OpenUI
-            * Any message DISA gets for this component type will be put in a 
-            * queue, and this method will process messages in the queue.
-            *
-            * @param msg the current message in message queue
-            */
+             * The main logic to process the message DISA gets from Siebel OpenUI
+             * Any message DISA gets for this component type will be put in a 
+             * queue, and this method will process messages in the queue.
+             *
+             * @param msg the current message in message queue
+             */
             @Override
             protected void processMessage(com.google.gson.JsonObject msg) {
                 // Sample code calling sendFile and sendMessage

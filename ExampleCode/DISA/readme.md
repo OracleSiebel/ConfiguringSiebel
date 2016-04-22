@@ -152,7 +152,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
 
 **Custom Operator Plugin**
 
-1.  Locate _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\lib_ folder and find **disa-api.jar** and **gson.jar** in this folder, add the two jar file to the class path of the plugin project.
+1.  Locate _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\lib_ folder and find **disa-api.jar** and **gson.jar** in this folder, add the two jar file paths to the class path of the plugin project.
 
 2.  Create a plugin for component inherit from Operator base class
     *   Create **a new Java Package** for the component operator class and other related files if any.

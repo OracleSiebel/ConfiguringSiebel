@@ -152,16 +152,18 @@ The following WSHandler and related codes could be added anywhere needed, howeve
 
 **Custom Operator Plugin**
 
-1.  Create a plugin for component inherit from Operator base class
+1.  Locate _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\lib_ folder and find **disa-api.jar** and **gson.jar** in this folder, add the two jar file to the class path of the plugin project.
+
+2.  Create a plugin for component inherit from Operator base class
     *   Create **a new Java Package** for the component operator class and other related files if any.
     *   Create **a new component Operator class**.
-        *   Inherit from CSSWSSingletonOperator if the operator is designed for sequential tasks, and does not have request for parallel execution. The request for the same operator type from different components will be place in one queue and processed in one single thread.
-        *   Inherit from CSSWSOperator if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed paralleled.
+        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have request for parallel execution. The request for the same operator type from different components will be place in one queue and processed in one single thread.
+        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed paralleled.
     *   Implement **getType**, return component type string. This string should be in accordance with the CompType specified when calling CreateWSHandler to create the corresponding WSHandler at Siebel OpenUI side. A custom plugin type must start with string "plugin_" to indicate it is a plugin operator.
     *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility)
     *   Implement **processMessage**, add the task process logic here, if the operator message queue have new message added, this method will be called with the JSON format message as the parameter.
     *   Implement **component logic** needed as "private" methods.
-    *   Call **sendMessage** to send JsonObject type message from DISA to Siebel OpenUI.
+    *   Call **sendMessage** to send com.google.gson.JsonObject [gson](https://github.com/google/gson) type message from DISA to Siebel OpenUI.
     *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path) as parameter.
 
         ```java
@@ -216,7 +218,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         }
         ```
 
-2.  Set META-INF for the newly created plugin
+3.  Set META-INF for the newly created plugin
     *   Create a folder named "META-INF" in the plugin source folder (the root folder of package folders), if it does not exist.
     *   Create a folder named "services" inside the "META-INF" folder.
     *   Create a new text file named exactly "com.siebel.wsserver.operator.CSSWSOperator", without file extension.
@@ -226,13 +228,13 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         com.domain.disa.plugin.SampleOperator
         ```
 
-3.  Compile the class and pack the META-INF folder in a jar file.
+4.  Compile the class and pack the META-INF folder in a jar file.
 
 # **Chapter 3\. Deployment**
 
 At DISA side:
 
-1.  Put plugin jars in _<DISA_HOME>\DesktopIntSiebelAgent\plugins_ folder.
+1.  Put plugin jars in _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\plugins_ folder.
 2.  Restart DISA to reload all the plug-ins.
 
 At Siebel OpenUI side:

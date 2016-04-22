@@ -144,11 +144,11 @@ The following WSHandler and related codes could be added anywhere needed, howeve
 
         ```js
         /*
-        * One common called timing would be in the applet pmodel EndLife, for example:
-        * EmailPModel.prototype.EndLife = function () {
-        *     unregisterSampleHandler.call(this);
-        * };
-        */
+         * One common called timing would be in the applet pmodel EndLife, for example:
+         * EmailPModel.prototype.EndLife = function () {
+         *     unregisterSampleHandler.call(this);
+         * };
+         */
         function unregisterSampleHandler() {
             if (sampleHandler) {
                 sampleHandler.Unregister();
@@ -164,12 +164,12 @@ The following WSHandler and related codes could be added anywhere needed, howeve
 2.  Create a plugin for component inherit from Operator base class
     *   Create **a new Java Package** for the component operator class and other related files if any.
     *   Create **a new component Operator class**.
-        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have request for parallel execution. The request for the same operator type from different components will be place in one queue and processed in one single thread.
-        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed paralleled.
+        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have requirement for parallel execution. The request for the same operator type from different components will be place in one queue and processed in one single thread.
+        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed in parallel.
     *   Implement **getType**, return component type string. This string should be in accordance with the CompType specified when calling CreateWSHandler to create the corresponding WSHandler at Siebel OpenUI side. A custom plugin type must start with string "plugin_" to indicate it is a plugin operator.
     *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility)
-    *   Implement **processMessage**, add the task process logic here, if the operator message queue have new message added, this method will be called with the JSON format message as the parameter.
-    *   Implement **component logic** needed as "private" methods.
+    *   Implement **processMessage**, add the task process logic here, if the operator message queue has new message added, this method will be called with the JSON format message as the parameter.
+    *   Implement **component logic** needed as private methods.
     *   Call **sendMessage** to send com.google.gson.JsonObject [gson](https://github.com/google/gson) type message from DISA to Siebel OpenUI.
     *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path) as parameter.
     *   Example - Plug-in Operator

@@ -42,7 +42,7 @@ function onWSMessage(msg) {
 
     // Append the information to a textarea
     var text = $(".siebui-email-rtc-text textarea");
-    text.val(text.val()+ content);
+    text.val(text.val() + content);
 }
 
 // Normally this indicates something wrong with communication attempt to operator at DISA

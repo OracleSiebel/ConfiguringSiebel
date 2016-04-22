@@ -33,6 +33,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         Constant key: WS*\_COMPTYPE\_*VERSION. Replace *COMPTYPE* in middle with Component Type string defined above.  
         Constant value: in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility).  
         In order to pass the version check, the component version of WSHanlder at Siebel OpenUI should have the same or lower MAJOR version than the Operator version at DISA.
+    *   Example - Constants Definitions
 
         ```js
         // The two specific constants should be defined in common SiebelApp.Constants in the following way
@@ -48,6 +49,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         **OnMessage(msg, fileName)**: called when getting message from Operator at DISA  
         **OnFail()**: called when failed to send message to DISA  
         **OnClose()**: called when connection to DISA is lost
+    *   Example - WSHandler Definition
 
         ```js
         var sampleHandler = null;
@@ -94,61 +96,64 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         ```
 
 3.  Implement **component logic** functions if necessary
+    *   Example - Component Logic Functions
 
-    ```js
-    // Called by onWSMessage event handler
-    function handleMsg(msg) {
-        console.log("JSON message received: " + JSON.stringify(msg));
-    }
+        ```js
+        // Called by onWSMessage event handler
+        function handleMsg(msg) {
+            console.log("JSON message received: " + JSON.stringify(msg));
+        }
 
-    // Called by onWSMessage event handler
-    function handleFile(msg, fileName) {
-        console.log("File " + fileName + " received from DISA.");
-    }
+        // Called by onWSMessage event handler
+        function handleFile(msg, fileName) {
+            console.log("File " + fileName + " received from DISA.");
+        }
 
-    // Called by onWSClose or onWSSendFail event handler
-    function handleException(err) {
-        // Adds other error handling logic
-        console.log(err);
-    }
-    ```
+        // Called by onWSClose or onWSSendFail event handler
+        function handleException(err) {
+            // Adds other error handling logic
+            console.log(err);
+        }
+        ```
 
-4.  Call **SendMessage(msg, fileName)** method of WSHandler to send message to the corresponding operator at DISA
+4.  Call **SendMessage(msg, fileName)** method of WSHandler to send message to the corresponding operator at DISA 
+    *   Example - SendMessage of WSHandler
 
-    ```js
-    var handler = getSampleHandler();
+        ```js
+        var handler = getSampleHandler();
 
-    // This JSON message is what corresponding operator at DISA side should expect
-    var msgJSON = {
-        firstName: "First",
-        lastName: "Last"
-    };
-    handler.SendMessage(msgJSON);
+        // This JSON message is what corresponding operator at DISA side should expect
+        var msgJSON = {
+            firstName: "First",
+            lastName: "Last"
+        };
+        handler.SendMessage(msgJSON);
 
-    // Another format supported is binary data (Blob is recommended, ArrayBuffer is also supported)
-    // With binary data as the first arg, the second arg is required
-    var fileContent = new Blob([JSON.stringify(msgJSON, null, 2)], {type : 'application/json'});
-    var fileName = "test.json";
-    handler.SendMessage(fileContent, fileName);
-    ```
+        // Another format supported is binary data (Blob is recommended, ArrayBuffer is also supported)
+        // With binary data as the first arg, the second arg is required
+        var fileContent = new Blob([JSON.stringify(msgJSON, null, 2)], {type : 'application/json'});
+        var fileName = "test.json";
+        handler.SendMessage(fileContent, fileName);
+        ```
 
 5.  Call **Unregister()** method of WSHanlder to release the handler itself once no longer used, and it'll also send command to DISA to unregister the corresponding operator.  
     For CSSWSSingletonOperator type, the operator would not actually be released though. For CSSWSOperator type, it would.
+    *   Example - Unregister of WSHandler
 
-    ```js
-    /*
-     * One common called timing would be in the applet pmodel EndLife, for example:
-     * EmailPModel.prototype.EndLife = function () {
-     *     unregisterSampleHandler.call(this);
-     * };
-     */
-    function unregisterSampleHandler() {
-        if (sampleHandler) {
-            sampleHandler.Unregister();
-            sampleHandler = null;
+        ```js
+        /*
+        * One common called timing would be in the applet pmodel EndLife, for example:
+        * EmailPModel.prototype.EndLife = function () {
+        *     unregisterSampleHandler.call(this);
+        * };
+        */
+        function unregisterSampleHandler() {
+            if (sampleHandler) {
+                sampleHandler.Unregister();
+                sampleHandler = null;
+            }
         }
-    }
-    ```
+        ```
 
 **Custom Operator Plugin**
 
@@ -165,6 +170,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
     *   Implement **component logic** needed as "private" methods.
     *   Call **sendMessage** to send com.google.gson.JsonObject [gson](https://github.com/google/gson) type message from DISA to Siebel OpenUI.
     *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path) as parameter.
+    *   Example - Plug-in Operator
 
         ```java
         package com.domain.disa.plugin;
@@ -223,6 +229,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
     *   Create a folder named "services" inside the "META-INF" folder.
     *   Create a new text file named exactly "com.siebel.wsserver.operator.CSSWSOperator", without file extension.
     *   Add new class names including package name to the file, each class name takes one line.
+    *   Example - META-INF for Plug-in
 
         ```java
         com.domain.disa.plugin.SampleOperator

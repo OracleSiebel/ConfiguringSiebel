@@ -1,0 +1,29 @@
+<project name="GetSystemInfo" basedir="." default="main">
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+    <property name="target.name" value="GetSystemInfo"/>
+    <property name="src.dir"     value="src"/>
+    <property name="metainf.dir" value="${src.dir}/META-INF"/>
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+    <property name="lib.dir"     value="<DISA_HOME>/DesktopIntSiebelAgent/lib"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="disa-api.jar"/>
+        <fileset dir="${lib.dir}" includes="gson.jar"/>
+    </path>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+    </target>
+
+    <target name="buildjar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${target.name}.jar" basedir="${classes.dir}">
+            <metainf dir="${metainf.dir}"/>
+        </jar>
+    </target>
+</project>

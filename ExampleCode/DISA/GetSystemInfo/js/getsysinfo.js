@@ -2,30 +2,30 @@
 // So that the Component Type and Version could be picked up by DISA Framework
 // Note: the following block only need to execute once before the first call to send message to DISA.
 var consts = SiebelJS.Dependency("SiebelApp.Constants");
-consts.set("WS_COMPONENT_TYPE_PLUGIN_SAMPLE","plugin_sysinfo");
-consts.set("WS_PLUGIN_SAMPLE_VERSION", "1.0.0");
+consts.set("WS_COMPONENT_TYPE_SYSINFO","plugin_sysinfo");
+consts.set("WS_PLUGIN_SYSINFO_VERSION", "1.0.0");
 
 // Create message handler and implement it's interface.
 // The following WSHandler and related codes could be added anywhere needed,
 // however, generally we recommend to add it to the pmodel of corresponding component.
-var sysinfolHandler = null;
+var sysinfoHandler = null;
 
 function getSysInfoHandler() {
-    if (sysinfolHandler === null) {
-        sysinfolHandler = SiebelApp.WebSocketManager.CreateWSHandler(consts.get("WS_COMPONENT_TYPE_SYSINFO"));
+    if (sysinfoHandler === null) {
+        sysinfoHandler = SiebelApp.WebSocketManager.CreateWSHandler(consts.get("WS_COMPONENT_TYPE_SYSINFO"));
 
-        sysinfolHandler.OnClose = onWSClose;
-        sysinfolHandler.OnFail = onSendFail;
-        sysinfolHandler.OnMessage = onWSMessage;
+        sysinfoHandler.OnClose = onWSClose;
+        sysinfoHandler.OnFail = onSendFail;
+        sysinfoHandler.OnMessage = onWSMessage;
     }
 
-    return sysinfolHandler;
+    return sysinfoHandler;
 }
 
 function unregisterSysInfoHandler() {
-    if (sysinfolHandler) {
-        sysinfolHandler.Unregister();
-        sysinfolHandler = null;
+    if (sysinfoHandler) {
+        sysinfoHandler.Unregister();
+        sysinfoHandler = null;
     }
 }
 

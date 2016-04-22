@@ -41,7 +41,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         // The two specific constants should be defined in common SiebelApp.Constants in the following way
         // So that the Component Type and Version could be picked up by DISA Framework
         var consts = SiebelJS.Dependency("SiebelApp.Constants");
-        consts.set("WS_COMPONENT_TYPE_PLUGIN_SAMPLE","plugin_sample");
+        consts.set("WS_COMPONENT_TYPE_SAMPLE","plugin_sample");
         consts.set("WS_PLUGIN_SAMPLE_VERSION", "1.0.0");
         ```
 
@@ -58,7 +58,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
         
         function getSampleHandler() {
             if (sampleHandler === null) {
-                sampleHandler = SiebelApp.WebSocketManager.CreateWSHandler(consts.get("WS_COMPONENT_TYPE_PLUGIN_SAMPLE"));
+                sampleHandler = SiebelApp.WebSocketManager.CreateWSHandler(consts.get("WS_COMPONENT_TYPE_SAMPLE"));
 
                 sampleHandler.OnClose = onWSClose;
                 sampleHandler.OnFail = onWSSendFail;

@@ -1,6 +1,6 @@
 # DISA Development Guide
 
-## **Chapter 1\. Overview**
+## **1\. Overview**
 
 Desktop Integration Siebel Agent (DISA), as a framework, can be extended and integrated with customized functionalities. With the new extensibility support, users can now create their own custom plug-ins and integrate them with DISA. This will help users fulfill their specific requirements and benefit from DISA's ability as a bridge between Siebel Open UI application running in browser and local files, resources, programs, etc., increasing their productivity and work efficiency.
 
@@ -21,7 +21,7 @@ As in Fig 1.1, to develop based on DISA framework, for each component:
 
 **Fig 1.1 Overview**
 
-## **Chapter 2\. Interfaces**
+## **2\. Interfaces**
 
 **WSHandler**
 
@@ -239,7 +239,7 @@ The following WSHandler and related codes could be added anywhere needed, howeve
 
 4.  Compile the class and pack the META-INF folder in a jar file.
 
-## **Chapter 3\. Deployment**
+## **3\. Deployment**
 
 At DISA side:
 

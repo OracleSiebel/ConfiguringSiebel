@@ -5,21 +5,41 @@ import com.google.gson.JsonObject;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/*
+ * The plugin class depends on disa-api.jar and gson.jar in the lib folder
+ */
 public class CSSWSSysInfoOperator extends CSSWSSingletonOperator {
 
-    public static final String MESSAGE = "Message";
+    // Logger.getLogger("disa.server") returns DISA system log instance
+    // Logs by logger will go into DISA log file.
+    //java.util.logging.Logger logger = java.util.logging.Logger.getLogger("disa.server");
+    //logger.info("Log debug information.");
+
     public static final String COMMAND = "Command";
 
+    /*
+     * Return the type of this plugin operator.
+     */
     @Override
     public String getType() {
         return "plugin_sysinfo";
     }
 
+    /*
+     * Return the version of this plugin operator.
+     */
     @Override
     public String getVersion() {
         return "1.0.0";
     }
 
+    /*
+     * The main logic to process the message DISA gets from Siebel OpenUI
+     * Any message DISA gets for this component type will be put in a
+     * queue, and this method will process messages in the queue.
+     *
+     * @param msg the current message in message queue
+     */
     @Override
     protected void processMessage(JsonObject msg) {
         if (msg.has(COMMAND)) {
@@ -29,6 +49,9 @@ public class CSSWSSysInfoOperator extends CSSWSSingletonOperator {
         }
     }
 
+    /*
+     * Gather the required information and send them back to Open UI.
+     */
     private void getSystemInfo() {
         try {
             InetAddress host = InetAddress.getLocalHost();

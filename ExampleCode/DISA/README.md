@@ -2,19 +2,19 @@
 
 ## **1\. Overview**
 
-Desktop Integration Siebel Agent (DISA), as a framework, can be extended and integrated with customized functionalities. With the new extensibility support, users can now create their own custom plug-ins and integrate them with DISA. This will help users fulfill their specific requirements and benefit from DISA's ability as a bridge between Siebel Open UI application running in browser and local files, resources, programs, etc., increasing their productivity and work efficiency.
+The Desktop Integration Siebel Agent (DISA) framework can be extended by customers to provide customized functionality. This will help customers fulfill any desktop integration requirements by using DISA's ability as a bridge between the Siebel Open UI application running in browser and local files, resources, and programs, potentially increasing their productivity and work efficiency.
 
 This document describes how to develop custom plug-ins based on DISA APIs and integrate them with DISA framework.
 
-As in Fig 1.1, to develop based on DISA framework, for each component:
+Fig 1.1 shows the flow of communication for a DISA plugin. Thus we need to implement the following pieces of the puzzle to complete a plugin:
 
-*   At Siebel OpenUI side, create a WSHandler for the component
+*   From Siebel OpenUI, create a WSHandler for the component
     *   Implement **callbacks** if necessary
     *   Implement **component specific logic**
-*   At DISA side, create a component Operator based on Operator base class
+*   Within DISA, create a component based on the Operator base class
     *   Implement **interfaces**
     *   Implement **component specific logic**
-*   At both sides, call **interfaces of framework** within component logic to send messages between both sides
+*   On both sides, call **framework interfaces** within the component logic to send messages between both sides
 
 
 ![Framework Overview](./diagram.png "Framework Overview")
@@ -25,7 +25,7 @@ As in Fig 1.1, to develop based on DISA framework, for each component:
 
 **WSHandler**
 
-The following WSHandler and related codes could be added anywhere needed, however, generally we recommend to add it to the pmodel of corresponding component.
+The following WSHandler and related codes could be added anywhere needed; however, generally we recommend implementing it in the pmodel of the corresponding component.
 
 1.  Define the **Component Type** and **Component Version** constants of WSHandler.
     *   Specify a unique string with prefix "plugin_" as **Component Type**, to identify the WSHandler in Siebel OpenUI and its corresponding Operator in DISA plug-in.  

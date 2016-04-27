@@ -1,4 +1,4 @@
-// The two specific constants should be defined in SiebelApp.Constants in the following way
+// Two constants should be defined in SiebelApp.Constants in the following way
 // so that the Component Type and Version could be picked up by DISA Framework
 // Note: the following block only needs to execute once before the first call to send message to DISA.
 var consts = SiebelJS.Dependency("SiebelApp.Constants");
@@ -6,10 +6,24 @@ consts.set("WS_COMPONENT_TYPE_SYSINFO","plugin_sysinfo");
 consts.set("WS_PLUGIN_SYSINFO_VERSION", "1.0.0");
 
 // Create message handler and implement its interface.
-// The following WSHandler and related codes could be added anywhere needed,
-// however, generally we recommend to add it to the pmodel of corresponding component.
+// The following WSHandler and related codes could be added anywhere needed.
+// Generally we recommend adding it to the pmodel of corresponding component.
 var sysinfoHandler = null;
 
+// This sends a message to DISA
+// The entire sctructure of the message is something for the developer to decide, but it must be a JSON object
+// In this case, the assumption is that the Java code will expect an object with a field called Command having a value
+// of GetSysInfo
+// Neither "Command" or "GetSysInfo" are DISA-specific, this is just how our plusing example expects the input
+//     --- if (msg.get(COMMAND).getAsString().equals("GetSysInfo")) {
+function getSystemInformationFromDISA() {
+    var handler = getSysInfoHandler();
+    var msgJSON = {};
+    msgJSON["Command"] = "GetSysInfo";
+    handler.SendMessage(msgJSON);
+}
+
+// Here we instantiate a WebSocketHandler and define event callbacks
 function getSysInfoHandler() {
     if (sysinfoHandler === null) {
         sysinfoHandler = SiebelApp.WebSocketManager.CreateWSHandler(consts.get("WS_COMPONENT_TYPE_SYSINFO"));
@@ -22,13 +36,7 @@ function getSysInfoHandler() {
     return sysinfoHandler;
 }
 
-function unregisterSysInfoHandler() {
-    if (sysinfoHandler) {
-        sysinfoHandler.Unregister();
-        sysinfoHandler = null;
-    }
-}
-
+// This is where we process an incoming message from the DISA plugin, in this case expecting specific content from the sysinfo plugin
 function onWSMessage(msg) {
     var hostAddr = msg["HostAddress"];
     var hostName = msg["HostName"];
@@ -40,9 +48,8 @@ function onWSMessage(msg) {
                 + "Processor Count:" + processor + "\n"
                 + "User Home:" + userhome + "\n"
 
-    // Append the information to a textarea
-    var text = $(".siebui-email-rtc-text textarea");
-    text.val(text.val() + content);
+    // Log the result to the console
+	SiebelJS.Log(content);
 }
 
 // Normally this indicates something wrong with the communication attempt with DISA
@@ -61,12 +68,10 @@ function onWSClose() {
     SiebelJS.Debug("[DISA][Warning] DISA connection was closed.");
 }
 
-// Send a message to DISA, include the command string "GetSysInfo"
-// "GetSysInfo" is not DISA-specific, this is the the custom command we trap in the following line of the java code
-//     --- if (msg.get(COMMAND).getAsString().equals("GetSysInfo")) {
-function getSystemInformationFromDISA() {
-    var handler = getSysInfoHandler();
-    var msgJSON = {};
-    msgJSON["Command"] = "GetSysInfo";
-    handler.SendMessage(msgJSON);
+// Call this function at the end of the pmodel's life
+function unregisterSysInfoHandler() {
+    if (sysinfoHandler) {
+        sysinfoHandler.Unregister();
+        sysinfoHandler = null;
+    }
 }

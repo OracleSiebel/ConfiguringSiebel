@@ -2,7 +2,7 @@
 
 ## **1\. Overview**
 
-The Desktop Integration Siebel Agent (DISA) framework can be extended by customers to provide customized functionality. This will help customers fulfill any desktop integration requirements by using DISA's ability as a bridge between the Siebel Open UI application running in browser and local files, resources, and programs, potentially increasing their productivity and work efficiency.
+The Desktop Integration Siebel Agent (DISA) framework can be extended by customers to provide customized functionality (DISA 2.0.11 or higher). This will help customers fulfill any desktop integration requirements by using DISA's ability as a bridge between the Siebel Open UI application running in browser and local files, resources, and programs, potentially increasing their productivity and work efficiency.
 
 This document describes how to develop custom plug-ins based on DISA APIs and integrate them with DISA framework.
 

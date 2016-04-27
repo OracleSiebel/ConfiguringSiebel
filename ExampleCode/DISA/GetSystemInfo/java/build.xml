@@ -1,4 +1,4 @@
-<project name="GetSystemInfo" basedir="." default="main">
+<project name="GetSystemInfo" basedir="." default="buildjar">
     <presetdef name="javac">
         <javac includeantruntime="false" />
     </presetdef>

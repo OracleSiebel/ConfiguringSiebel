@@ -1,5 +1,7 @@
 # Build the Plugin with Ant
 
+DISA Plugins can be built directly from the command line. No special IDE is required, though there's nothing to stop you using your preferred IDE if you so wish. Here, we show how the example plugin can be built from the command line using only Ant.
+
 ## Setup Build Environment
 
 1. Install DISA 2.0.11 or higher.
@@ -27,7 +29,7 @@ Modify the file [build.xml](./build.xml) to change the build path, class path or
     ```xml
     <property name="lib.dir" value="<DISA_HOME>/DesktopIntSiebelAgent/lib"/>
     ```
-    Replace *&lt;DISA_HOME&gt;* with the actrual DISA install path.
+    Replace *&lt;DISA_HOME&gt;* with the actual DISA install path.
 
 * **Class Path**
 

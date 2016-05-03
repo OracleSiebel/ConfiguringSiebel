@@ -15,7 +15,7 @@ if (typeof(SiebelAppFacade.DISAIntegrationPR) === "undefined") {
 				SiebelAppFacade.DISAIntegrationPR.superclass.Init.apply(this, arguments);
 
 				// attach to the PM method called by the WS when it responds
-				this.GetPM().AttachPMBinding("DISAResponse", ShowDISAResponse, {scope:this});
+				this.AttachPMBinding("DISAResponse", ShowDISAResponse, {scope:this});
 			}
 
 			function ShowDISAResponse(response) {

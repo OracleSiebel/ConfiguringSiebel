@@ -7,9 +7,10 @@ if (typeof(SiebelAppFacade.DISAIntegrationPM) === "undefined") {
 
 			var consts = SiebelJS.Dependency("SiebelApp.Constants");
 			var DISA_PLUGIN = "plugin_sysinfo";
-			consts.set("WS_PLUGIN_SYSINFO_VERSION", "1.0.0");
+			consts.set("WS_"+DISA_PLUGIN.toUpperCase()+"_VERSION", "1.0.0");
 			
 			var DISAHandler = null;
+			var attachedHandlers = 0;
 
 			function DISAIntegrationPM(pm) {
 				SiebelAppFacade.DISAIntegrationPM.superclass.constructor.apply(this, arguments);
@@ -22,17 +23,24 @@ if (typeof(SiebelAppFacade.DISAIntegrationPM) === "undefined") {
 
 				// Register a method to interface with DISA. This will be called from the PR
 				this.AddMethod("callDISAPlugin", callDISAPlugin, {sequence:false, scope:this});
+				// Register a method which will carry the DISA plugin response back to the PR
+				this.AddMethod("DISAResponse", function() {}, {});
+				// Increase the number of attached handlers
+				attachedHandlers++;
 			}
 
 			DISAIntegrationPM.prototype.EndLife = function () {
 				// Called when the PM is no longer needed
 				SiebelAppFacade.DISAIntegrationPM.superclass.EndLife.apply(this, arguments);
-				unregisterDISAHandler.call();
+				// Reduce attachHandlers and, if necessary, destroy the WS Handler
+				if (--attachedHandlers == 0) {
+					unregisterDISAHandler.call();
+				}
 			}
 			
 			function callDISAPlugin() {
 				var handler = getDISAHandler.call(this);
-
+				
 				// here we create an object containing data which the Java application will read.
 				// Neither "Command", nor "GetSysInfo" are DISA specific.
 				// The shape and content of the message is entirely up to the developer.
@@ -44,7 +52,6 @@ if (typeof(SiebelAppFacade.DISAIntegrationPM) === "undefined") {
 			}
 			
 			function getDISAHandler() {
-				
 				if (DISAHandler === null) {
 					DISAHandler = SiebelApp.WebSocketManager.CreateWSHandler(DISA_PLUGIN);
 
@@ -102,8 +109,7 @@ if (typeof(SiebelAppFacade.DISAIntegrationPM) === "undefined") {
 			}
 
 			return DISAIntegrationPM;
-		}
-			());
+		}());
 		return "SiebelAppFacade.DISAIntegrationPM";
 	})
 }

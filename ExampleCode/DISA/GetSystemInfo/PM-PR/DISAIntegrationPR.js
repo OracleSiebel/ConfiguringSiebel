@@ -14,11 +14,8 @@ if (typeof(SiebelAppFacade.DISAIntegrationPR) === "undefined") {
 			DISAIntegrationPR.prototype.Init = function () {
 				SiebelAppFacade.DISAIntegrationPR.superclass.Init.apply(this, arguments);
 
-				// register a new method to allow the PM to communicate with the PR
-				this.GetPM().AddMethod("DISAResponse", ShowDISAResponse, {
-					sequence : false,
-					scope : this
-				});
+				// attach to the PM method called by the WS when it responds
+				this.GetPM().AttachPMBinding("DISAResponse", ShowDISAResponse, {scope:this});
 			}
 
 			function ShowDISAResponse(response) {

@@ -24,10 +24,10 @@ if (typeof(SiebelAppFacade.DISAIntegrationPR) === "undefined") {
 			function ShowDISAResponse(response) {
 				// add the DISA Response data to the UI
 				lastField = $("#" + this.GetPM().Get("GetFullId") + " td.scField:eq(-1)").parent().closest(".scField").parent();
-				DISAContent = "<tr valign='top'><td class='scLabelRight' nowrap>IP Address:</td><td>" + response.HostAddress + "</td></tr>";
-				DISAContent += "<tr valign='top'><td class='scLabelRight' nowrap>HostName:</td><td>" + response.HostName + "</td></tr>";
-				DISAContent += "<tr valign='top'><td class='scLabelRight' nowrap>Processors:</td><td>" + response.Processor + "</td></tr>";
-				DISAContent += "<tr valign='top'><td class='scLabelRight' nowrap>UserHome:</td><td>" + response.UserHome + "</td></tr>";
+				DISAContent = "<tr valign='top' style='color:red'><td class='scLabelRight' nowrap>IP Address:</td><td>" + response.HostAddress + "</td></tr>";
+				DISAContent += "<tr valign='top' style='color:red'><td class='scLabelRight' nowrap>HostName:</td><td>" + response.HostName + "</td></tr>";
+				DISAContent += "<tr valign='top' style='color:red'><td class='scLabelRight' nowrap>Processors:</td><td>" + response.Processor + "</td></tr>";
+				DISAContent += "<tr valign='top' style='color:red'><td class='scLabelRight' nowrap>UserHome:</td><td>" + response.UserHome + "</td></tr>";
 				lastField.after(DISAContent);
 			}
 

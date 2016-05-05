@@ -20,7 +20,7 @@ if (typeof(SiebelAppFacade.DISAIntegrationPR) === "undefined") {
 
 			function ShowDISAResponse(response) {
 				// add the DISA Response data to the UI
-				lastField = $("#" + this.Get("GetFullId") + " td.scField:eq(-1)").parent().closest(".scField").parent();
+				lastField = $("#" + this.GetPM().Get("GetFullId") + " td.scField:eq(-1)").parent().closest(".scField").parent();
 				// Inline style is used here purely to minimise the example. The best practice would be to use a class and CSS.
 				DISAContent = "<tr valign='top' style='color:red'><td class='scLabelRight' nowrap>IP Address:</td><td>" + response.HostAddress + "</td></tr>";
 				DISAContent += "<tr valign='top' style='color:red'><td class='scLabelRight' nowrap>HostName:</td><td>" + response.HostName + "</td></tr>";
@@ -31,7 +31,7 @@ if (typeof(SiebelAppFacade.DISAIntegrationPR) === "undefined") {
 
 			DISAIntegrationPR.prototype.ShowUI = function () {
 				SiebelAppFacade.DISAIntegrationPR.superclass.ShowUI.apply(this, arguments);
-				this.ExecuteMethod("callDISAPlugin");
+				this.GetPM().ExecuteMethod("callDISAPlugin");
 			}
 
 			return DISAIntegrationPR;

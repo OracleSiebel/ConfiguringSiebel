@@ -1,6 +1,6 @@
 # REST Load Balancing
 
-The example script stored here will enable you to generate a load balancing script for REST services. Contained within are scripts for Windows and Linux, along with a Webex Replay Format [demo video] to demonstrate how to use the script.
+The example script stored here will enable you to generate a load balancing script for REST services. Contained within are scripts for Windows and Linux, along with a demo video ([wrf] format or [wmv] format) to demonstrate how to use the script.
 
 ## How to use the script
 
@@ -38,4 +38,5 @@ containerhost.us.oracle.com
 ```
 
 [//]: #
-[demo video]: <./demo/loadbalancingautomation.wrf>
+[wrf]: <./demo/loadbalancingautomation.wrf>
+[wmv]: <./demo/loadbalancingautomation.wmv>

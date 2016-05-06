@@ -11,7 +11,7 @@ What this repostitory isn't:
 
 ## Contributing
 
-Contributions will are actively encouraged. Two types pf contribution are envisaged:
+Contributions are actively encouraged. Two types pf contribution are envisaged:
 
 - Improve the party : Fix your code, other people's code, or the code we deliver in Siebel Bookshelf
 - Grow the party : Show us how cool you and your team are by sharing you customizations

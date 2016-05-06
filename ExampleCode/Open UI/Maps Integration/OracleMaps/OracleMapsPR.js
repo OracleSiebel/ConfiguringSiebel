@@ -2,7 +2,7 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
 
     SiebelJS.Namespace("SiebelAppFacade.OracleMapsPR");
 
-    define("siebel/custom/OracleMapsPR", ["siebel/phyrenderer", "siebel/custom/jquery.colorbox-min.js", window.location.protocol + "//elocation.oracle.com/elocation/jslib/oracleelocation.js", window.location.protocol + "//elocation.oracle.com/mapviewer/fsmc/jslib/oraclemaps.js"],
+    define("siebel/custom/OracleMapsPR", ["siebel/phyrenderer", "siebel/custom/3rdParty/jquery.colorbox-min.js", window.location.protocol + "//elocation.oracle.com/elocation/jslib/oracleelocation.js", window.location.protocol + "//elocation.oracle.com/mapviewer/fsmc/jslib/oraclemaps.js"],
         function() {
             SiebelAppFacade.OracleMapsPR = (function() {
 

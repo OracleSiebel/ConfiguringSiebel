@@ -23,7 +23,7 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                     var oControlSet = PM.Get("GetControls");
 
                     //find address label
-                    var sMapPlaceholder = $("#Personal_Address_Label");
+                    var sMapPlaceholder = $("#Business_Street_Address_Label"); 
 
                     //add map icon before label
                     sMapPlaceholder.before("<a href='#map' id='map-icon'><img src='images/map.gif' height='15px' width='15px'></a>");

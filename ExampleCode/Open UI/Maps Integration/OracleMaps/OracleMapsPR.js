@@ -26,7 +26,7 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                     var sMapPlaceholder = $("#Personal_Address_Label");
 
                     //add map icon before label
-                    sMapPlaceholder.before("<a href='#map' id='map-icon'><img src='/images/map.gif' height='15px' width='15px'></a>");
+                    sMapPlaceholder.before("<a href='#map' id='map-icon'><img src='images/map.gif' height='15px' width='15px'></a>");
 
                     //add map div after content
                     $('#_sweclient').after("<div id='map' style='height:100%;width=100%;overflow:hidden;'></div>");
@@ -80,7 +80,7 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                                     var mapZoom = 14;
                                     mapview.setZoomLevel(mapZoom);
                                     //add marker to customer address
-                                    var mfoi1 = MVFOI.createMarkerFOI("1", mpoint, "/IMAGES/marker_red.png", 25, 35);
+                                    var mfoi1 = MVFOI.createMarkerFOI("1", mpoint, "images/marker_red.png", 25, 35);
                                     mapview.addFOI(mfoi1);
                                     mapview.display();
                                 } else {

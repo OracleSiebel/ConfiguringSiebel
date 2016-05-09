@@ -24,7 +24,7 @@ In this example we use:
 ```sh
 C:\build\16_11\Siebel\javacontainer\LoadBalancingConfig.pl
 ```
-##### Parent folder path where all tomcat folders are available.
+##### Parent folder path where all javacontainer folders are available.
 ```sh
 C:\build\16_11\Siebel\javacontainer
 ```

@@ -9,7 +9,9 @@ This integration will add an Oracle Maps modal window from the customer form app
 - Place OracleMapsPR.js and OracleMapsPM.js under custom script folder
 - Download colorbox and place the jquery.colorbox-min.js under /custom/3rdParty and colorbox.css in custom css folder. Be sure to add this css file to your template
 - Set PM user properties for Street Address/ZIP Code/City/Country for appropriate controls (see [here](https://docs.oracle.com/cd/E14004_01/books/config_open_ui/customizing10.html) more info)
+![Printscreen of PM User Properties](https://raw.githubusercontent.com/carlosmlribeiro/ConfiguringSiebel/master/ExampleCode/Open%20UI/Maps%20Integration/OracleMaps/user-properties.jpg)
 - Register the files in the manifest to the desired applet
+![Printscreen of Manifest Administration](https://raw.githubusercontent.com/carlosmlribeiro/ConfiguringSiebel/master/ExampleCode/Open%20UI/Maps%20Integration/OracleMaps/manifest.jpg)
  
 ## General Remarks:
 

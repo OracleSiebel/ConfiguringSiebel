@@ -21,10 +21,11 @@ if (typeof(SiebelAppFacade.OracleMapsPM) === "undefined") {
 
     OracleMapsPM.prototype.Setup = function (propSet) {
      SiebelAppFacade.OracleMapsPM.superclass.Setup.apply(this, arguments);
-     processCustomUserProperty.call(this,propSet,"Street Address")
-     processCustomUserProperty.call(this,propSet,"ZIP Code")
-     processCustomUserProperty.call(this,propSet,"City")
-     processCustomUserProperty.call(this,propSet,"Country")
+     processCustomUserProperty.call(this,propSet,"Street Address");
+     processCustomUserProperty.call(this,propSet,"Zip Code");
+     processCustomUserProperty.call(this,propSet,"City");
+     processCustomUserProperty.call(this,propSet,"Country");
+     processCustomUserProperty.call(this,propSet,"Map Icon Label");
     }
 
     function processCustomUserProperty(propSet,propertyName) {

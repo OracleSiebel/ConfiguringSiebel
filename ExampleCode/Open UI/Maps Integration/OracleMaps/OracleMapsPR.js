@@ -2,10 +2,11 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
 
     SiebelJS.Namespace("SiebelAppFacade.OracleMapsPR");
 
-    define("siebel/custom/OracleMapsPR", ["siebel/phyrenderer", "siebel/custom/3rdParty/jquery.colorbox-min.js", window.location.protocol + "//elocation.oracle.com/elocation/jslib/oracleelocation.js", window.location.protocol + "//elocation.oracle.com/mapviewer/fsmc/jslib/oraclemaps.js"],
+    define("siebel/custom/OracleMapsPR", ["siebel/phyrenderer", "siebel/custom/3rdParty/colorbox/jquery.colorbox-min.js", window.location.protocol + "//elocation.oracle.com/elocation/jslib/oracleelocation.js", window.location.protocol + "//elocation.oracle.com/mapviewer/fsmc/jslib/oraclemaps.js"],
         function() {
             SiebelAppFacade.OracleMapsPR = (function() {
 
+				var mapId = "ompr_map";
                 function OracleMapsPR(pm) {
                     SiebelAppFacade.OracleMapsPR.superclass.constructor.apply(this, arguments);
                 }
@@ -23,18 +24,13 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                     var oControlSet = PM.Get("GetControls");
 
                     //find address label
-                    var sMapPlaceholder = $("#Business_Street_Address_Label"); 
-
+					var sMapPlaceholder = $("#"+PM.Get("Map Icon Label").replace(/ /g,"_")+"_Label");
                     //add map icon before label
-                    sMapPlaceholder.before("<a href='#map' id='map-icon'><img src='images/map.gif' height='15px' width='15px'></a>");
+                    sMapPlaceholder.before("<a href='#"+mapId+"' id='"+mapId+"-icon'><img src='images/map.gif' height='15px' width='15px'></a>");
 
                     //add map div after content
-                    $('#_sweclient').after("<div id='map' style='height:100%;width=100%;overflow:hidden;'></div>");
-                    $('#map').css({
-                        visibility: 'hidden',
-                        height: '0px'
-                    });
-
+                    $('#_sweclient').after("<div id='"+mapId+"' style='height:100%;width=100%;overflow:hidden;'></div>");
+					$('#'+mapId).hide();
                 }
 
                 OracleMapsPR.prototype.BindData = function(bRefresh) {
@@ -43,36 +39,31 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                     var PM = this.GetPM();
                     var oControlSet = PM.Get("GetControls");
 
-                    var mapCenterLat;
-                    var mapCenterLon;
-                    var mapview;
-
                     //attach colorbox frame to map link near address label
-                    $("#map-icon").colorbox({
+                    $("#"+mapId+"-icon").colorbox({
                         inline: true,
                         width: "65%",
                         height: "75%",
                         opacity: 0.5,
                         //on complete add map
                         onComplete: function() {
-                            $('#map').css({
-                                visibility: 'visible',
-                                height: '100%'
-                            });
+							var currentRecord = PM.Get("GetRecordSet")[PM.Get("GetSelection")];
+							$('#'+mapId).show();
                             var oracleMaps = new OracleELocation("http://elocation.oracle.com/elocation");
                             //get customer address from siebel fields *** Adjust to your configuration ***
-                            var custAddress = PM.ExecuteMethod("GetFieldValue", oControlSet[PM.Get("Street Address")]) + ", " + PM.ExecuteMethod("GetFieldValue", oControlSet[PM.Get("ZIP Code")]) + " " + PM.ExecuteMethod("GetFieldValue", oControlSet[PM.Get("City")]) + ", " + PM.ExecuteMethod("GetFieldValue", oControlSet[PM.Get("Country")]);
+                            var custAddress = currentRecord[PM.Get("Street Address")] + ", " + currentRecord[PM.Get("City")] + ", " + currentRecord[PM.Get("Zip Code")] + ", " + currentRecord[PM.Get("Country")];
+							SiebelJS.Debug(custAddress);
                             //get latitude and longitude
                             oracleMaps.geocode(custAddress, function(results, address) {
                                 //if found
                                 if (results[0].accuracy != -1) {
-                                    mapCenterLat = results[0].y;
-                                    mapCenterLon = results[0].x;
+                                    var mapCenterLat = results[0].y;
+                                    var mapCenterLon = results[0].x;
                                     //create point in customer address
                                     var mpoint = MVSdoGeometry.createPoint(mapCenterLon, mapCenterLat, 8307);
                                     var baseURL = "http://elocation.oracle.com/mapviewer";
                                     //add map to map div
-                                    mapview = new MVMapView(document.getElementById("map"), baseURL);
+                                    var mapview = new MVMapView($("#"+mapId)[0], baseURL);
                                     //set map preferences *** more info here: http://slc02okf.oracle.com/mvdemo/fsmc/apidoc/symbols/MVMapView.html
                                     mapview.addMapTileLayer(new MVBaseMap("elocation_mercator.world_map"));
                                     //center in customer address 
@@ -84,18 +75,14 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                                     mapview.addFOI(mfoi1);
                                     mapview.display();
                                 } else {
-                                    $('#map').html("<div style='width: 80%;text-align: center;font-size: larger !important;margin: 10%;'>Address not found!</div>");
+                                    $('#'+mapId).html("<div style='width: 80%;text-align: center;font-size: larger !important;margin: 10%;'>Address not found!</div>");
                                 }
                             });
                         },
                         //when closing revert map div to hidden mode
                         onCleanup: function() {
                             mapview = null;
-                            $('#map').css({
-                                visibility: 'hidden',
-                                height: '0px'
-                            });
-                            $('#map').html("");
+							$('#'+mapId).html("").hide();
                         }
                     });
 
@@ -108,8 +95,7 @@ if (typeof(SiebelAppFacade.OracleMapsPR) === "undefined") {
                 OracleMapsPR.prototype.EndLife = function() {
                     SiebelAppFacade.OracleMapsPR.superclass.EndLife.apply(this, arguments);
                     //clean-up
-                    $.colorbox.remove();
-                    $('#map').remove();
+                    $('#'+mapId).remove();
                 }
 
                 return OracleMapsPR;

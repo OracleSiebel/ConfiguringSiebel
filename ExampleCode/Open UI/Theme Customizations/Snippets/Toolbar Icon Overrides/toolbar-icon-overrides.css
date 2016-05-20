@@ -1,0 +1,42 @@
+
+/* Toolbar icon overrides */
+
+.siebui-icon-tb-newquery::before {
+    content: "\f002";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-executequery::before {
+    content: "\f061";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-apply_target_list::before {
+    content: "\f00b";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-save_target_list::before {
+    content: "\f0ea";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-sitemap::before {
+    content: "\f0ac";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-toggle_task_assistant::before {
+    content: "\f0cb";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-toggle_task_pane::before {
+    content: "\f0ae";
+    font-family: FontAwesome;
+}
+
+.siebui-icon-tb-reports::before {
+    content: "\f201";
+    font-family: FontAwesome;
+}

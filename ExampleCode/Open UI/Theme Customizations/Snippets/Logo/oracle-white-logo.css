@@ -1,0 +1,8 @@
+
+/* Logo Customization */
+
+.siebui-logo {
+    background-image: url("../../images/oracleWhite.png");
+	background-position: 4px 14px;
+	background-size: 95%;
+}

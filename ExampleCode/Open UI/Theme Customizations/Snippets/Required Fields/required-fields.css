@@ -1,0 +1,8 @@
+
+/* Styling for Required Fields */	
+
+input[aria-required="true"], div.mceGridField input.siebui-ctrl-mvg[aria-required="true"], input[aria-required="true"][readonly="readonly"] {
+    border-color: red !important;
+    background: rgb(255, 237, 237) !important;
+    font-weight: bold;
+}

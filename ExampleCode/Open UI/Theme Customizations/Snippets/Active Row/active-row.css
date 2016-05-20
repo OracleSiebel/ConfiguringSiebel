@@ -1,0 +1,6 @@
+
+/* Active Row Highlighting */
+
+.ui-jqgrid .ui-jqgrid-btable .ui-state-highlight td {
+    background-color: #ffe9d6 !important;
+}

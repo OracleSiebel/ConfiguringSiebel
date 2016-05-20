@@ -3,7 +3,7 @@ As delivered, Siebel comes with an Oracle font file which provides the range of 
 
 In the case of FontAwesome, it's easy to [find a CDN](https://www.google.com/search?q=font+awesome+cdn&oq=font+awesome+cdn) which can serve up the required files without needing to copy them locally. The top hit on Google gives us this link:
 
-```https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css```
+https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css
 
 We can register this directly under manifest files like so:
 ![](manifest-files.png)

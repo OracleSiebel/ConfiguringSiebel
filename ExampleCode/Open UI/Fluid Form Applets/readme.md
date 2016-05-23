@@ -65,4 +65,4 @@ It still seems that a default width of 175px is being pushed to the UI from some
 
 ![](images/ContactFormAppletFluid3.png)
 
-There's nothing to stop you registering multuple fluid form layout files to deal with different requirements.
+There's nothing to stop you registering multiple fluid form layout files to deal with different requirements.

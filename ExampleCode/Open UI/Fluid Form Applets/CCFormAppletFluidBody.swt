@@ -1,6 +1,6 @@
 <!-- Template Start: CCFormAppletFluidBody.swt -->
 
-<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+<div class="fluid-form-section siebui-span-xl-3 siebui-span-lg-6 siebui-span-md-6 siebui-span-sm-12">
 	<swe:control id="1000">
 		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
 	</swe:control>	
@@ -18,7 +18,7 @@
 		</swe:control>
 	</swe:for-each>	
 </div>
-<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+<div class="fluid-form-section siebui-span-xl-3 siebui-span-lg-6 siebui-span-md-6 siebui-span-sm-12">
 	<swe:control id="1100">
 		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
 	</swe:control>	
@@ -36,7 +36,7 @@
 		</swe:control>
 	</swe:for-each>	
 </div>
-<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+<div class="fluid-form-section siebui-span-xl-3 siebui-span-lg-6 siebui-span-md-6 siebui-span-sm-12">
 	<swe:control id="1200">
 		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
 	</swe:control>	
@@ -54,7 +54,7 @@
 		</swe:control>
 	</swe:for-each>	
 </div>
-<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+<div class="fluid-form-section siebui-span-xl-3 siebui-span-lg-6 siebui-span-md-6 siebui-span-sm-12">
 	<swe:control id="1300">
 		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
 	</swe:control>	
@@ -72,7 +72,7 @@
 		</swe:control>
 	</swe:for-each>	
 </div>
-<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+<div class="fluid-form-section siebui-span-xl-3 siebui-span-lg-6 siebui-span-md-6 siebui-span-sm-12">
 	<swe:control id="1400">
 		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
 	</swe:control>	
@@ -90,7 +90,7 @@
 		</swe:control>
 	</swe:for-each>	
 </div>
-<div class="fluid-form-section siebui-span-lg-3 siebui-span-md-6 siebui-span-sm-12">
+<div class="fluid-form-section siebui-span-xl-3 siebui-span-lg-6 siebui-span-md-6 siebui-span-sm-12">
 	<swe:control id="1500">
 		<div class="fluid-form-title"><swe:this property="FormattedHtml" hintText="SectionTitle" hintMapType="FormSection"/></div>
 	</swe:control>	

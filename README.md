@@ -7,7 +7,7 @@ What this respository is:
 
 What this repostitory isn't:
 
-- An open source project to deliver Open UI framework code
+- An project to open source Open UI delivered application code
 
 ## Contributing
 

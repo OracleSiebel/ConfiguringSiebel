@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<REPOSITORY
+   NAME="Siebel Repository"
+   UPDATED="04/05/2016 03:46:11"
+   UPDATED_BY="SIEBEL"
+   CREATED="04/05/2016 03:23:39"
+   CREATED_BY="SIEBEL"
+   FIO_PLACEHOLDER_FIO="TRUE">
+	<PROJECT
+	   ALLOW_OBJECT_LOCKING="Y"
+	   INACTIVE="N"
+	   LANGUAGE_LOCKED="ENU"
+	   LOCKED="Y"
+	   LOCKED_DATE="06/01/2016 03:11:04"
+	   NAME="ATP"
+	   UI_FREEZE="N"
+	   LOCKED_BY_NAME="SADMIN"
+	   UPDATED="06/03/2016 03:22:27"
+	   UPDATED_BY="SADMIN"
+	   CREATED="02/04/2002 12:11:47"
+	   CREATED_BY="SADMIN"
+	   FIO_PLACEHOLDER_FIO="TRUE">
+		<BUSINESS_SERVICE
+		   CACHE="N"
+		   CLASS="CSSService"
+		   EXTERNAL_USE="N"
+		   HIDDEN="N"
+		   INACTIVE="N"
+		   NAME="EAI JSON Converter"
+		   SERVER_ENABLED="N"
+		   STATE_MANAGEMENT_TYPE="Stateful"
+		   WEB_SERVICE_ENABLED="N"
+		   UPDATED="06/03/2016 03:22:03"
+		   UPDATED_BY="SADMIN"
+		   CREATED="06/03/2016 02:04:02"
+		   CREATED_BY="SADMIN">
+			<BUSINESS_SERVICE_METHOD
+			   HIDDEN="N"
+			   INACTIVE="N"
+			   NAME="JSONToPropset"
+			   UPDATED="06/03/2016 02:25:48"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:25:47"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_METHOD>
+			<BUSINESS_SERVICE_METHOD
+			   HIDDEN="N"
+			   INACTIVE="N"
+			   NAME="PropsetToJSON"
+			   UPDATED="06/03/2016 02:26:00"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:25:55"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_METHOD>
+			<BUSINESS_SERVICE_SERVER_SCRIPT
+			   INACTIVE="N"
+			   NAME="ConvertJSONtoPS"
+			   PROGRAM_LANGUAGE="JS"
+			   SCRIPT="function ConvertJSONtoPS(Inputs)
+{
+/******************************************
+Created By: Jim
+Support: http://howtosiebel.blogspot.com
+******************************************/
+	eval(&quot;var temp =&quot; + Inputs.GetValue());
+	
+	var op = TheApplication().NewPropertySet();
+	for (var x in temp)
+	{
+		if(typeof(temp[x]) == &quot;object&quot;){
+			var child = TheApplication().NewPropertySet();
+			child = ObjectToPS(temp[x]);
+			child.SetType(x);
+			op.AddChild(child);
+		}			
+		else op.SetProperty(x,temp[x]);
+	}	
+	return (op);
+}"
+			   SEQUENCE="1"
+			   UPDATED="06/03/2016 02:24:39"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:21:28"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_SERVER_SCRIPT>
+			<BUSINESS_SERVICE_SERVER_SCRIPT
+			   INACTIVE="N"
+			   NAME="CreateJSON"
+			   PROGRAM_LANGUAGE="JS"
+			   SCRIPT="function CreateJSON(Inputs:PropertySet){
+/******************************************
+Created By: Jim
+Support: http://howtosiebel.blogspot.com
+******************************************/
+    var str,j;
+    var propName = &quot;&quot;;
+    var propVal = &quot;&quot;;
+    
+    str = &quot;{&quot;;
+    
+    propName = Inputs.GetFirstProperty();    
+    
+    //Type and value
+    if(Inputs.GetValue() != null &amp;&amp; Inputs.GetValue() != &quot;&quot;){
+        str = str + &apos;&quot;&apos; + Inputs.GetType()  + &apos;&quot;&apos; + &quot;:&quot;  + &apos;&quot;&apos; + Inputs.GetValue() + &apos;&quot;&apos;;    
+        if(propName != &quot;&quot;) str= str + &quot;,&quot;;
+    }
+    
+    
+    //Properties
+    while (propName != &quot;&quot;) {
+        propVal = Inputs.GetProperty(propName);
+        str = str + &apos;&quot;&apos; + propName +  &apos;&quot;&apos; + &quot;:&quot; + &apos;&quot;&apos; +propVal + &apos;&quot;&apos;;
+        propName = Inputs.GetNextProperty();
+        if(propName != &quot;&quot;) str = str + &quot;,&quot;;
+        
+    }
+    propName = Inputs.GetFirstProperty();
+    if(propName != &quot;&quot; &amp;&amp; Inputs.GetChildCount()&gt; 0)str = str + &quot;,&quot;;
+    
+    //Loop for child
+    if(Inputs.GetChildCount()&gt; 0){ 
+    if(Inputs.GetChildCount()&gt; 1)str = str + &apos;&quot;Object&quot;&apos; + &quot;:&quot; + &quot;{&quot;;
+    for (var i = 0; i &lt; Inputs.GetChildCount(); i++){
+            j = Inputs.GetChild(i);
+            str = str + &apos;&quot;&apos; + j.GetType() + i + &apos;&quot;&apos; + &quot;:&quot; + CreateJSON(j);// + &quot;,&quot;;
+            if(i+1&lt;Inputs.GetChildCount()) str =str + &quot;,&quot;;
+    }
+    if(Inputs.GetChildCount()&gt; 1)str = str + &quot;}&quot;;
+    }
+    str = str + &quot;}&quot;;
+    return str;    
+}"
+			   SEQUENCE="2"
+			   UPDATED="06/03/2016 02:37:45"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:10:34"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_SERVER_SCRIPT>
+			<BUSINESS_SERVICE_SERVER_SCRIPT
+			   INACTIVE="N"
+			   NAME="ObjectToPS"
+			   PROGRAM_LANGUAGE="JS"
+			   SCRIPT="function ObjectToPS(obj){
+/******************************************
+Created By: Jim
+Support: http://howtosiebel.blogspot.com
+******************************************/
+
+	var op = TheApplication().NewPropertySet();
+	for (var x in obj)
+	{
+		if(typeof(obj[x]) == &quot;object&quot;){
+			var child = TheApplication().NewPropertySet();
+			child = ObjectToPS(obj[x]);
+			child.SetType(x);
+			op.AddChild(child);
+		}			
+		else op.SetProperty(x,obj[x]);
+	}	
+	return (op);
+}"
+			   SEQUENCE="3"
+			   UPDATED="06/03/2016 02:24:16"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:23:53"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_SERVER_SCRIPT>
+			<BUSINESS_SERVICE_SERVER_SCRIPT
+			   INACTIVE="N"
+			   NAME="Service_InvokeMethod"
+			   PROGRAM_LANGUAGE="JS"
+			   SCRIPT="function Service_InvokeMethod (MethodName, Inputs, Outputs)
+{
+
+}"
+			   SEQUENCE="4"
+			   UPDATED="06/03/2016 02:23:53"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:04:28"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_SERVER_SCRIPT>
+			<BUSINESS_SERVICE_SERVER_SCRIPT
+			   INACTIVE="N"
+			   NAME="Service_PreCanInvokeMethod"
+			   PROGRAM_LANGUAGE="JS"
+			   SCRIPT="function Service_PreCanInvokeMethod (MethodName, &amp;CanInvoke)
+{
+	return (ContinueOperation);
+}"
+			   SEQUENCE="5"
+			   UPDATED="06/03/2016 02:23:53"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:22:50"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_SERVER_SCRIPT>
+			<BUSINESS_SERVICE_SERVER_SCRIPT
+			   INACTIVE="N"
+			   NAME="Service_PreInvokeMethod"
+			   PROGRAM_LANGUAGE="JS"
+			   SCRIPT="function Service_PreInvokeMethod (MethodName, Inputs, Outputs)
+{
+	if(MethodName == &quot;PropsetToJSON&quot;){
+		Outputs.SetValue(CreateJSON(Inputs));
+		return (CancelOperation);
+	}
+	if(MethodName == &quot;JSONToPropset&quot;){
+		Outputs.AddChild(ConvertJSONtoPS(Inputs));
+		return (CancelOperation);
+	}
+	return (CancelOperation);
+}"
+			   SEQUENCE="6"
+			   UPDATED="06/03/2016 03:22:03"
+			   UPDATED_BY="SADMIN"
+			   CREATED="06/03/2016 02:04:17"
+			   CREATED_BY="SADMIN">
+			</BUSINESS_SERVICE_SERVER_SCRIPT>
+		</BUSINESS_SERVICE>
+	</PROJECT>
+</REPOSITORY>
+
+
+

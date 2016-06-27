@@ -5,11 +5,11 @@ I also used a CSS rotation transform to animate that png in lines 10-34 of the s
 
 ####Expanded
 
-![](visible menu bar.png)
+![](visibleMenuBar.png)
 
 ####Collapsed
 
-![](collapsed menu bar.png)
+![](collapsedMenuBar.png)
 
 I tested it only on IP14 but it can be easily adapted for IP15 and perhaps IP13.
 

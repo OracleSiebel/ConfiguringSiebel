@@ -6,9 +6,12 @@ In the case of FontAwesome, it's easy to [find a CDN](https://www.google.com/sea
 https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css
 
 We can register this directly under manifest files like so:
+
 ![](manifest-files.png)
 
+
 Finally add it to your theme's loading sequence:
+
 ![](manifest-admin.png)
 
 You can now reference this new icon pack using CSS.

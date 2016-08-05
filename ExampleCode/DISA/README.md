@@ -177,8 +177,9 @@ The following WSHandler and related codes could be added anywhere needed; howeve
     *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility)
     *   Implement **processMessage**, add the task process logic here, if the operator message queue has new message added, this method will be called with the JSON format message as the parameter.
     *   Implement **component logic** needed as private methods.
+    *   Implement **onSessionClose**  (optional), for any work need to be done when the connection to Open UI has been closed.
     *   Call **sendMessage** to send com.google.gson.JsonObject [gson](https://github.com/google/gson) type message from DISA to Siebel OpenUI.
-    *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path) as parameter.
+    *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path), and optional fileMsg (JSON) as parameters.
     *   Example - Plug-in Operator
 
         ```java
@@ -256,8 +257,13 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 **Communicate With DISA Plugin**
 
 Another application may need to communicate with DISA plugin to exchange data or communicate with Open UI through a custom DISA plugin, such requirment can be achieved by implementing inter-process communication ([IPC](https://en.wikipedia.org/wiki/Inter-process_communication)).
+*   Implement a custom WSHandler for the target applet or view, at the right time, send a message to DISA to activate plugin.
+*   Implement a custom DISA plugin, in it's component logic, implement the protocol to inter-process communicate with local application. The plugin need to be loaded by calling the plugin from Open UI before it can start the IPC logic.
+*   In the local application, implement the custom code to inter-process communicate with DISA plugin.
 
-![Framework Overview](./ipc.png "Framework Overview")
+![Inter-process Communication with DISA](./ipc.png "Inter-process Communication with DISA")
+
+**Fig 2.1 Inter-process Communication with DISA**
 
 ## **3\. Deployment**
 

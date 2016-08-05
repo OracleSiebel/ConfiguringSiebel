@@ -48,7 +48,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 2.  Define the **WSHandler** (and its getter if necessary)
     *   Call **SiebelApp.WebSocketManager.CreateWSHandler** with Component Type defined in Step 1 as the argument.
     *   Set callbacks if necessary, including OnMessage, OnFail, and OnClose.  
-        **OnMessage(msg, fileName)**: called when getting message from Operator at DISA  
+        **OnMessage(msg, fileName, fileMsg)**: called when getting message from Operator at DISA. *fileMs*g argument only available when the incomming file includes a message.  
         **OnFail()**: called when failed to send message to DISA  
         **OnClose()**: called when connection to DISA is lost
     *   Example - WSHandler Definition
@@ -68,11 +68,11 @@ The following WSHandler and related codes could be added anywhere needed; howeve
             return sampleHandler;
         }
 
-        function onWSMessage(msg, fileName) {
+        function onWSMessage(msg, fileName, fileMsg) {
             if (msg instanceof Blob) {
                 // Message is binary data
                 // fileName is the ID of the binary data
-                handleFile(msg, fileName);
+                handleFile(msg, fileName, fileMsg);
             } else {
                 // Message is in JSON format
                 // fileName is undefined
@@ -107,8 +107,9 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         }
 
         // Called by onWSMessage event handler
-        function handleFile(msg, fileName) {
+        function handleFile(msg, fileName, fileMsg) {
             console.log("File " + fileName + " received from DISA.");
+            console.log("File attached message: " + JSON.stringify(fileMsg));
         }
 
         // Called by onWSClose or onWSSendFail event handler
@@ -118,7 +119,8 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         }
         ```
 
-4.  Call **SendMessage(msg, fileName)** method of WSHandler to send message to the corresponding operator at DISA 
+4.  Call **SendMessage(msg, fileName, fileMsg)** method of WSHandler to send message to the corresponding operator at DISA 
+    *   *fileName* and *fileMsg* arguments are for binary message types, *fileMsg* requires a JSON object and it is optional
     *   Example - SendMessage of WSHandler
 
         ```js
@@ -132,10 +134,15 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         handler.SendMessage(msgJSON);
 
         // Another format supported is binary data (Blob is recommended, ArrayBuffer is also supported)
-        // With binary data as the first arg, the second arg is required
+        // With binary data as the first arg, the fileName arg is required, fileMsg arg is optional, it must be a JSON object
+        // fileMsg will be attached to the binary message.
         var fileContent = new Blob([JSON.stringify(msgJSON, null, 2)], {type : 'application/json'});
         var fileName = "test.json";
-        handler.SendMessage(fileContent, fileName);
+        var fileMsg = {
+            date: "201608041747",
+            id: "test_file"
+        };
+        handler.SendMessage(fileContent, fileName, fileMsg);
         ```
 
 5.  Call **Unregister()** method of WSHanlder to release the handler itself once no longer used, and it'll also send command to DISA to unregister the corresponding operator.  
@@ -181,11 +188,11 @@ The following WSHandler and related codes could be added anywhere needed; howeve
          * The plugin class depends on disa-api.jar and gson.jar in the lib folder 
          */
         public class SampleOperator extends com.siebel.wsserver.operator.CSSWSSingletonOperator {
-            // Logger.getLogger("disa.server") returns DISA system log instance
-            // Logs by logger will go into DISA log file.
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger("disa.server");
-
-            public static final String FILE_NAME = "FileName";
+            // Operator public constants:
+            // public static final Logger disaLog: DISA log object, logs by disaLog will go into DISA log file.
+            // public static final String FILE_INFO: The key for file message.
+            // public static final String FILE_NAME: In file message, this is the key for file name.
+            // public static final String MESSAGE: in file message, this is the key for file message JSON.
 
             @Override
             public String getType() {
@@ -207,20 +214,27 @@ The following WSHandler and related codes could be added anywhere needed; howeve
             @Override
             protected void processMessage(com.google.gson.JsonObject msg) {
                 // Sample code calling sendFile and sendMessage
-                if (msg.has(FILE_NAME)) {
+                if (msg.has(FILE_INFO)) {
+                    JsonObject fileInfo = msg.getAsJsonObject(FILE_INFO);
                     // if the current message is a file, the message should
-                    // include a key named "FileName" and the value is the local
+                    // include a key named "FILE_INFO" and the value is the local
                     // path to this file.
-                    String fileName = msg.get(FILE_NAME).getAsString();
-                    // Call sendFile(fileName) to send file to Siebel OpenUI
-                    sendFile(fileName);
+                    String fileName = fileInfo.get(FILE_NAME).getAsString();
+                    disaLog.info("Received file: " + fileName);
+                    if (fileInfo.has(MESSAGE)) {
+                        JsonObject fileMsg = fileInfo.get(MESSAGE).getAsJsonObject();
+                        disaLog.info("File message: " + fileMsg.toString());
+                    }
+                    // Call sendFile(fileName) or sendFile(fileName, fileMsg) to send file to Siebel OpenUI
+                    //sendFile(fileName);
+                    sendFile(fileName, fileMsg);
                 } else {
                     // The basic text message format is JSON
                     com.google.gson.JsonObject responseMsg = new com.google.gson.JsonObject();
                     responseMsg.addProperty("Echo", msg.toString());
                     // Call sendMessage(msg) to send JSON message to Siebel OpenUI
                     sendMessage(responseMsg);
-                    logger.info("Echo Message back: " + responseMsg.toString());
+                    disaLog.info("Echo Message back: " + responseMsg.toString());
                 }
             }
         }
@@ -238,6 +252,12 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         ```
 
 4.  Compile the class and pack the META-INF folder in a jar file.
+
+**Communicate With DISA Plugin**
+
+Another application may need to communicate with DISA plugin to exchange data or communicate with Open UI through a custom DISA plugin, such requirment can be achieved by implementing inter-process communication ([IPC](https://en.wikipedia.org/wiki/Inter-process_communication)).
+
+![Framework Overview](./ipc.png "Framework Overview")
 
 ## **3\. Deployment**
 

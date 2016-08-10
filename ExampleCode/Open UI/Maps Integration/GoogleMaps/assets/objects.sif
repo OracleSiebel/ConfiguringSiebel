@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<REPOSITORY
+   NAME="Siebel Repository"
+   UPDATED="12/12/2008 05:09:13"
+   UPDATED_BY="SADMIN"
+   CREATED="12/11/2008 04:11:53"
+   CREATED_BY="SADMIN"
+   FIO_PLACEHOLDER_FIO="TRUE">
+	<PROJECT
+	   ALLOW_OBJECT_LOCKING="Y"
+	   INACTIVE="N"
+	   LANGUAGE_LOCKED="ENU"
+	   LOCKED="Y"
+	   LOCKED_DATE="01/10/2013 13:05:20"
+	   NAME="DF Configuration"
+	   UI_FREEZE="N"
+	   LOCKED_BY_NAME="SADMIN"
+	   UPDATED="01/10/2013 13:05:38"
+	   UPDATED_BY="SADMIN"
+	   CREATED="01/10/2013 13:05:11"
+	   CREATED_BY="SADMIN"
+	   FIO_PLACEHOLDER_FIO="TRUE">
+		<APPLET
+		   BUSINESS_COMPONENT="CUT Address"
+		   CLASS="CSSFrameList"
+		   DISABLE_DATALOSS_WARNING="N"
+		   HEIGHT="4"
+		   INACTIVE="N"
+		   NAME="Account Address Google Map API Applet"
+		   NO_DELETE="N"
+		   NO_INSERT="N"
+		   NO_MERGE="N"
+		   NO_UPDATE="N"
+		   SCRIPTED="N"
+		   TYPE="Standard"
+		   UPGRADE_BEHAVIOR="Preserve"
+		   WIDTH="2"
+		   UPDATED="01/10/2013 13:05:31"
+		   UPDATED_BY="SADMIN"
+		   CREATED="01/07/2013 11:55:08"
+		   CREATED_BY="SADMIN">
+			<APPLET_LOCALE
+			   APPLICATION_CODE="STD"
+			   INACTIVE="N"
+			   LANGUAGE_CODE="ENU"
+			   NAME="ENU-STD"
+			   REDO="N"
+			   TITLE="Address Map"
+			   TRANSLATE="Y"
+			   UPDATED="01/07/2013 11:56:42"
+			   UPDATED_BY="SADMIN"
+			   CREATED="01/07/2013 11:56:42"
+			   CREATED_BY="SADMIN">
+			</APPLET_LOCALE>
+			<APPLET_WEB_TEMPLATE
+			   INACTIVE="N"
+			   NAME="Edit List"
+			   SEQUENCE="0"
+			   TYPE="Edit List"
+			   WEB_TEMPLATE="Applet List No Menu"
+			   UPDATED="01/09/2013 09:57:42"
+			   UPDATED_BY="SADMIN"
+			   CREATED="01/07/2013 11:57:43"
+			   CREATED_BY="SADMIN">
+				<APPLET_WEB_TEMPLATE_ITEM
+				   CONTROL="Full Address"
+				   INACTIVE="N"
+				   ITEM_IDENTIFIER="501"
+				   MARKUP_LANGUAGE="HTML"
+				   NAME="Full Address"
+				   TYPE="List Item"
+				   UPDATED="01/09/2013 09:57:42"
+				   UPDATED_BY="SADMIN"
+				   CREATED="01/09/2013 09:57:42"
+				   CREATED_BY="SADMIN">
+				</APPLET_WEB_TEMPLATE_ITEM>
+			</APPLET_WEB_TEMPLATE>
+			<CONTROL
+			   AUTOMATIC_HORIZONTAL_SCROLL="Y"
+			   AUTOMATIC_VERTICAL_SCROLL="N"
+			   DEFAULT_BUTTON="N"
+			   GROUP="N"
+			   HTML_DEFAULT_CONTROL="N"
+			   HTML_DISPLAY_MODE="EncodeData"
+			   HTML_ONLY="N"
+			   HTML_ROW_SENSITIVE="Y"
+			   HTML_TYPE="Text"
+			   HEIGHT="24"
+			   INACTIVE="N"
+			   MULTI_LINE="N"
+			   NAME="AppletTitlee"
+			   OWNER_DRAW="N"
+			   POPUP_EDIT="N"
+			   PROMPT="N"
+			   READ_ONLY="N"
+			   RUNTIME="N"
+			   SHOW_POPUP="N"
+			   SORT="Y"
+			   TAB_STOP="Y"
+			   TEXT_ALIGNMENT="Left"
+			   TEXT_ALIGNMENT-LABEL="Right"
+			   TOP="0"
+			   TYPE="TextBox"
+			   VERTICAL_SCROLL="N"
+			   VISIBLE="Y"
+			   WANT_RETURN="N"
+			   WIDTH="120"
+			   UPDATED="01/07/2013 12:00:00"
+			   UPDATED_BY="SADMIN"
+			   CREATED="01/07/2013 12:00:00"
+			   CREATED_BY="SADMIN">
+			</CONTROL>
+			<LIST
+			   HTML_MULTI_ROW_EDIT="N"
+			   HTML_MULTI_ROW_SELECT="N"
+			   INACTIVE="N"
+			   NAME="List"
+			   TOTAL_DISPLAYED="N"
+			   TOTAL_REQUIRED="N"
+			   UPDATED="01/09/2013 09:57:27"
+			   UPDATED_BY="SADMIN"
+			   CREATED="01/07/2013 11:56:55"
+			   CREATED_BY="SADMIN">
+				<LIST_COLUMN
+				   AVAILABLE="Y"
+				   BITMAP_COLUMN_HEADING="N"
+				   FIELD="Full Address"
+				   HTML_DISPLAY_MODE="EncodeData"
+				   HTML_LIST_EDIT="Y"
+				   HTML_ONLY="N"
+				   HTML_ROW_SENSITIVE="Y"
+				   HTML_TYPE="Text"
+				   INACTIVE="N"
+				   NAME="Full Address"
+				   POPUP_EDIT="N"
+				   READ_ONLY="N"
+				   RUNTIME="N"
+				   SHOW_IN_LIST="Y"
+				   SHOW_POPUP="N"
+				   TEXT_ALIGNMENT="Left"
+				   TEXT_ALIGNMENT-LABEL="Right"
+				   TOTAL_REQUIRED="N"
+				   TYPE="TextBox"
+				   WIDTH="20"
+				   UPDATED="01/09/2013 09:56:54"
+				   UPDATED_BY="SADMIN"
+				   CREATED="01/09/2013 09:56:54"
+				   CREATED_BY="SADMIN">
+					<LIST_COLUMN_LOCALE
+					   APPLICATION_CODE="STD"
+					   DISPLAY_NAME="Full Address"
+					   INACTIVE="N"
+					   LANGUAGE_CODE="ENU"
+					   NAME="ENU-STD"
+					   TRANSLATE="Y"
+					   UPDATED="01/09/2013 09:57:11"
+					   UPDATED_BY="SADMIN"
+					   CREATED="01/09/2013 09:57:11"
+					   CREATED_BY="SADMIN">
+					</LIST_COLUMN_LOCALE>
+				</LIST_COLUMN>
+			</LIST>
+		</APPLET>
+		<WEB_TEMPLATE
+		   INACTIVE="N"
+		   NAME="Applet List No Menu"
+		   TYPE="Applet Template - List"
+		   UPDATED="01/10/2013 13:05:38"
+		   UPDATED_BY="SADMIN"
+		   CREATED="01/07/2013 11:54:03"
+		   CREATED_BY="SADMIN">
+			<WEB_TEMPLATE_FILE
+			   FILE_NAME="CCAppletList_No_Menu.swt"
+			   INACTIVE="N"
+			   NAME="CCAppletList_No_Menu"
+			   UPDATED="01/07/2013 11:54:20"
+			   UPDATED_BY="SADMIN"
+			   CREATED="01/07/2013 11:54:20"
+			   CREATED_BY="SADMIN">
+			</WEB_TEMPLATE_FILE>
+		</WEB_TEMPLATE>
+	</PROJECT>
+</REPOSITORY>
+
+
+

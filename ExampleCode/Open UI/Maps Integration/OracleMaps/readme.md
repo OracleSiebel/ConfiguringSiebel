@@ -21,8 +21,11 @@ Tested with
 - Place OracleMapsPR.js and OracleMapsPM.js under custom script folder
 - Download colorbox and unzip under siebel/custom/3rdParty. Add a reference to the colorbox css style under Manifest Files, and add the css to your theme.
 - Set PM user properties for Street Address/ZIP Code/City/Country for appropriate controls (see [here](https://docs.oracle.com/cd/E14004_01/books/config_open_ui/customizing10.html) more info)
+
 ![Printscreen of PM User Properties](user-properties.jpg)
+
 - Register the files in the manifest to the desired applet
+
 ![Printscreen of Manifest Administration](https://raw.githubusercontent.com/carlosmlribeiro/ConfiguringSiebel/master/ExampleCode/Open%20UI/Maps%20Integration/OracleMaps/manifest.jpg)
  
 ## General Remarks:

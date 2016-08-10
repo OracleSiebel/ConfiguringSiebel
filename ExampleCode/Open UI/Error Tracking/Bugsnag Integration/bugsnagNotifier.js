@@ -5,6 +5,7 @@ if (typeof(SiebelAppFacade.SiebelBugsnagNotifier) === "undefined") {
         function () {
             try {
                 // The apiKey ties your notifier to your Bugsnag project
+                Bugsnag.apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
                  
                 // berforeNotify allows to add contextual information 
                 Bugsnag.beforeNotify = function(payload, metaData) { 

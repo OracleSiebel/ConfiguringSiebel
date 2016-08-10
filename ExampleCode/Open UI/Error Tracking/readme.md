@@ -6,4 +6,4 @@ In this section, we'll provide code to help you integrate with some of the popul
 
 #####Bugsnag
 
-The initial integration presented here is with [bugsnag](https://bugsnag.com). For more details, [click here](bugsnag integration).
+The initial integration presented here is with [bugsnag](https://bugsnag.com). For more details, [click here](Bugsnag Integration).

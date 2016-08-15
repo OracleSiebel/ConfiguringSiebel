@@ -48,7 +48,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 2.  Define the **WSHandler** (and its getter if necessary)
     *   Call **SiebelApp.WebSocketManager.CreateWSHandler** with Component Type defined in Step 1 as the argument.
     *   Set callbacks if necessary, including OnMessage, OnFail, and OnClose.  
-        **OnMessage(msg, fileName, fileMsg)**: called when getting message from Operator at DISA. *fileMs*g argument only available when the incomming file includes a message.  
+        **OnMessage(msg, fileName, fileMsg)**: called when getting message from Operator at DISA. *fileMsg* argument only available when the incomming file includes a message.  
         **OnFail()**: called when failed to send message to DISA  
         **OnClose()**: called when connection to DISA is lost
     *   Example - WSHandler Definition
@@ -126,7 +126,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         ```js
         var handler = getSampleHandler();
 
-        // This JSON message is what corresponding operator at DISA side should expect
+        // This JSON message and structure should be expected by your DISA-side logic
         var msgJSON = {
             firstName: "First",
             lastName: "Last"
@@ -145,13 +145,13 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         handler.SendMessage(fileContent, fileName, fileMsg);
         ```
 
-5.  Call **Unregister()** method of WSHanlder to release the handler itself once no longer used, and it'll also send command to DISA to unregister the corresponding operator.  
+5.  Call **Unregister()** method of WSHandler to release the handler itself once no longer used, and it'll also send a command to DISA to unregister the corresponding operator.  
     For CSSWSSingletonOperator type, the operator would not actually be released though. For CSSWSOperator type, it would.
     *   Example - Unregister of WSHandler
 
         ```js
         /*
-         * One common called timing would be in the applet pmodel EndLife, for example:
+         * Typically executed in the applet pmodel EndLife, for example
          * EmailPModel.prototype.EndLife = function () {
          *     unregisterSampleHandler.call(this);
          * };
@@ -168,14 +168,14 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 
 1.  Locate _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\lib_ folder and find **disa-api.jar** and **gson.jar** in this folder, add the two jar file paths to the class path of the plugin project.
 
-2.  Create a plugin for component inherit from Operator base class
+2.  Create a plugin which will inherit from relevant "operator" base class
     *   Create **a new Java Package** for the component operator class and other related files if any.
     *   Create **a new component Operator class**.
-        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have requirement for parallel execution. The requests for the same operator type from different components will be place in one queue and processed in one single thread.
-        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed in parallel.
+        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have requirement for parallel execution. The requests for the same operator type from different components will be place in one queue and processed in a single thread.
+        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance with a separate thread for each operator, tasks can be processed in parallel.
     *   Implement **getType**, return component type string. This string should be in accordance with the CompType specified when calling CreateWSHandler to create the corresponding WSHandler at Siebel OpenUI side. A custom plugin type must start with string "plugin_" to indicate it is a plugin operator.
     *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility)
-    *   Implement **processMessage**, add the task process logic here, if the operator message queue has new message added, this method will be called with the JSON format message as the parameter.
+    *   Implement **processMessage**, this is your primary task logic. If the operator message queue has new message added, this method will be called with the JSON format message as the parameter.
     *   Implement **component logic** needed as private methods.
     *   Implement **onSessionClose**  (optional), for any work need to be done when the connection to Open UI has been closed.
     *   Call **sendMessage** to send com.google.gson.JsonObject [gson](https://github.com/google/gson) type message from DISA to Siebel OpenUI.
@@ -256,10 +256,10 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 
 **Communicate With DISA Plugin**
 
-Another application may need to communicate with DISA plugin to exchange data or communicate with Open UI through a custom DISA plugin, such requirment can be achieved by implementing inter-process communication ([IPC](https://en.wikipedia.org/wiki/Inter-process_communication)).
-*   Implement a custom WSHandler for the target applet or view, at the right time, send a message to DISA to activate plugin.
-*   Implement a custom DISA plugin, in it's component logic, implement the protocol to inter-process communicate with local application. The plugin need to be loaded by calling the plugin from Open UI before it can start the IPC logic.
-*   In the local application, implement the custom code to inter-process communicate with DISA plugin.
+Another application may need to communicate with DISA plugin to exchange data or communicate with Open UI through a custom DISA plugin. This requirment can be achieved by implementing inter-process communication ([IPC](https://en.wikipedia.org/wiki/Inter-process_communication)).
+*   Implement a custom WSHandler for the target applet or view. At the right time, send a message to DISA to activate plugin.
+*   Implement a custom DISA plugin. Within its component logic implement the protocol to inter-process communicate with local application. The plugin need to be loaded by calling the plugin from Open UI before it can start the IPC logic.
+*   In the calling application, implement inter-process communication with the DISA plugin.
 
 ![Inter-process Communication with DISA](./ipc.png "Inter-process Communication with DISA")
 
@@ -274,7 +274,7 @@ At DISA side:
 
 At Siebel OpenUI side:
 
-1.  Deploy the js file including new WSHanlder definition in Siebel OpenUI application.
+1.  Deploy the js file including new WSHandler definition in Siebel OpenUI application.
 
 ## **Appendix A. Version Check (Backward Compatibility)**
 

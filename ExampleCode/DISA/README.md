@@ -48,7 +48,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 2.  Define the **WSHandler** (and its getter if necessary)
     *   Call **SiebelApp.WebSocketManager.CreateWSHandler** with Component Type defined in Step 1 as the argument.
     *   Set callbacks if necessary, including OnMessage, OnFail, and OnClose.  
-        **OnMessage(msg, fileName)**: called when getting message from Operator at DISA  
+        **OnMessage(msg, fileName, fileMsg)**: called when getting message from Operator at DISA. *fileMsg* argument only available when the incomming file includes a message.  
         **OnFail()**: called when failed to send message to DISA  
         **OnClose()**: called when connection to DISA is lost
     *   Example - WSHandler Definition
@@ -68,11 +68,11 @@ The following WSHandler and related codes could be added anywhere needed; howeve
             return sampleHandler;
         }
 
-        function onWSMessage(msg, fileName) {
+        function onWSMessage(msg, fileName, fileMsg) {
             if (msg instanceof Blob) {
                 // Message is binary data
                 // fileName is the ID of the binary data
-                handleFile(msg, fileName);
+                handleFile(msg, fileName, fileMsg);
             } else {
                 // Message is in JSON format
                 // fileName is undefined
@@ -107,8 +107,9 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         }
 
         // Called by onWSMessage event handler
-        function handleFile(msg, fileName) {
+        function handleFile(msg, fileName, fileMsg) {
             console.log("File " + fileName + " received from DISA.");
+            console.log("File attached message: " + JSON.stringify(fileMsg));
         }
 
         // Called by onWSClose or onWSSendFail event handler
@@ -118,13 +119,14 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         }
         ```
 
-4.  Call **SendMessage(msg, fileName)** method of WSHandler to send message to the corresponding operator at DISA 
+4.  Call **SendMessage(msg, fileName, fileMsg)** method of WSHandler to send message to the corresponding operator at DISA 
+    *   *fileName* and *fileMsg* arguments are for binary message types, *fileMsg* requires a JSON object and it is optional
     *   Example - SendMessage of WSHandler
 
         ```js
         var handler = getSampleHandler();
 
-        // This JSON message is what corresponding operator at DISA side should expect
+        // This JSON message and structure should be expected by your DISA-side logic
         var msgJSON = {
             firstName: "First",
             lastName: "Last"
@@ -132,19 +134,24 @@ The following WSHandler and related codes could be added anywhere needed; howeve
         handler.SendMessage(msgJSON);
 
         // Another format supported is binary data (Blob is recommended, ArrayBuffer is also supported)
-        // With binary data as the first arg, the second arg is required
+        // With binary data as the first arg, the fileName arg is required, fileMsg arg is optional, it must be a JSON object
+        // fileMsg will be attached to the binary message.
         var fileContent = new Blob([JSON.stringify(msgJSON, null, 2)], {type : 'application/json'});
         var fileName = "test.json";
-        handler.SendMessage(fileContent, fileName);
+        var fileMsg = {
+            date: "201608041747",
+            id: "test_file"
+        };
+        handler.SendMessage(fileContent, fileName, fileMsg);
         ```
 
-5.  Call **Unregister()** method of WSHanlder to release the handler itself once no longer used, and it'll also send command to DISA to unregister the corresponding operator.  
+5.  Call **Unregister()** method of WSHandler to release the handler itself once no longer used, and it'll also send a command to DISA to unregister the corresponding operator.  
     For CSSWSSingletonOperator type, the operator would not actually be released though. For CSSWSOperator type, it would.
     *   Example - Unregister of WSHandler
 
         ```js
         /*
-         * One common called timing would be in the applet pmodel EndLife, for example:
+         * Typically executed in the applet pmodel EndLife, for example
          * EmailPModel.prototype.EndLife = function () {
          *     unregisterSampleHandler.call(this);
          * };
@@ -161,17 +168,18 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 
 1.  Locate _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\lib_ folder and find **disa-api.jar** and **gson.jar** in this folder, add the two jar file paths to the class path of the plugin project.
 
-2.  Create a plugin for component inherit from Operator base class
+2.  Create a plugin which will inherit from relevant "operator" base class
     *   Create **a new Java Package** for the component operator class and other related files if any.
     *   Create **a new component Operator class**.
-        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have requirement for parallel execution. The requests for the same operator type from different components will be place in one queue and processed in one single thread.
-        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance, and with separate thread for each operator, tasks can be processed in parallel.
+        *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have requirement for parallel execution. The requests for the same operator type from different components will be place in one queue and processed in a single thread.
+        *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance with a separate thread for each operator, tasks can be processed in parallel.
     *   Implement **getType**, return component type string. This string should be in accordance with the CompType specified when calling CreateWSHandler to create the corresponding WSHandler at Siebel OpenUI side. A custom plugin type must start with string "plugin_" to indicate it is a plugin operator.
     *   Implement **getVersion**, return component version string, to support comp version check between WSHandler and Operator. The version should be in MAJOR.MINOR.PATCH format. Modify the version number according to rules defined in [Appendix A. Version Check (Backward Compatibility)](#appendix-a-version-check-backward-compatibility)
-    *   Implement **processMessage**, add the task process logic here, if the operator message queue has new message added, this method will be called with the JSON format message as the parameter.
+    *   Implement **processMessage**, this is your primary task logic. If the operator message queue has new message added, this method will be called with the JSON format message as the parameter.
     *   Implement **component logic** needed as private methods.
+    *   Implement **onSessionClose**  (optional), for any work need to be done when the connection to Open UI has been closed.
     *   Call **sendMessage** to send com.google.gson.JsonObject [gson](https://github.com/google/gson) type message from DISA to Siebel OpenUI.
-    *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path) as parameter.
+    *   Call **sendFile** to send file from DISA to Siebel OpenUI, with fileName (full name including path), and optional fileMsg (JSON) as parameters.
     *   Example - Plug-in Operator
 
         ```java
@@ -181,11 +189,11 @@ The following WSHandler and related codes could be added anywhere needed; howeve
          * The plugin class depends on disa-api.jar and gson.jar in the lib folder 
          */
         public class SampleOperator extends com.siebel.wsserver.operator.CSSWSSingletonOperator {
-            // Logger.getLogger("disa.server") returns DISA system log instance
-            // Logs by logger will go into DISA log file.
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger("disa.server");
-
-            public static final String FILE_NAME = "FileName";
+            // Operator public constants:
+            // public static final Logger disaLog: DISA log object, logs by disaLog will go into DISA log file.
+            // public static final String FILE_INFO: The key for file message.
+            // public static final String FILE_NAME: In file message, this is the key for file name.
+            // public static final String MESSAGE: in file message, this is the key for file message JSON.
 
             @Override
             public String getType() {
@@ -207,20 +215,27 @@ The following WSHandler and related codes could be added anywhere needed; howeve
             @Override
             protected void processMessage(com.google.gson.JsonObject msg) {
                 // Sample code calling sendFile and sendMessage
-                if (msg.has(FILE_NAME)) {
+                if (msg.has(FILE_INFO)) {
+                    JsonObject fileInfo = msg.getAsJsonObject(FILE_INFO);
                     // if the current message is a file, the message should
-                    // include a key named "FileName" and the value is the local
+                    // include a key named "FILE_INFO" and the value is the local
                     // path to this file.
-                    String fileName = msg.get(FILE_NAME).getAsString();
-                    // Call sendFile(fileName) to send file to Siebel OpenUI
-                    sendFile(fileName);
+                    String fileName = fileInfo.get(FILE_NAME).getAsString();
+                    disaLog.info("Received file: " + fileName);
+                    if (fileInfo.has(MESSAGE)) {
+                        JsonObject fileMsg = fileInfo.get(MESSAGE).getAsJsonObject();
+                        disaLog.info("File message: " + fileMsg.toString());
+                    }
+                    // Call sendFile(fileName) or sendFile(fileName, fileMsg) to send file to Siebel OpenUI
+                    //sendFile(fileName);
+                    sendFile(fileName, fileMsg);
                 } else {
                     // The basic text message format is JSON
                     com.google.gson.JsonObject responseMsg = new com.google.gson.JsonObject();
                     responseMsg.addProperty("Echo", msg.toString());
                     // Call sendMessage(msg) to send JSON message to Siebel OpenUI
                     sendMessage(responseMsg);
-                    logger.info("Echo Message back: " + responseMsg.toString());
+                    disaLog.info("Echo Message back: " + responseMsg.toString());
                 }
             }
         }
@@ -239,6 +254,17 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 
 4.  Compile the class and pack the META-INF folder in a jar file.
 
+**Communicate With DISA Plugin**
+
+Another application may need to communicate with DISA plugin to exchange data or communicate with Open UI through a custom DISA plugin. This requirment can be achieved by implementing inter-process communication ([IPC](https://en.wikipedia.org/wiki/Inter-process_communication)).
+*   Implement a custom WSHandler for the target applet or view. At the right time, send a message to DISA to activate plugin.
+*   Implement a custom DISA plugin. Within its component logic implement the protocol to inter-process communicate with local application. The plugin need to be loaded by calling the plugin from Open UI before it can start the IPC logic.
+*   In the calling application, implement inter-process communication with the DISA plugin.
+
+![Inter-process Communication with DISA](./ipc.png "Inter-process Communication with DISA")
+
+**Fig 2.1 Inter-process Communication with DISA**
+
 ## **3\. Deployment**
 
 At DISA side:
@@ -248,7 +274,7 @@ At DISA side:
 
 At Siebel OpenUI side:
 
-1.  Deploy the js file including new WSHanlder definition in Siebel OpenUI application.
+1.  Deploy the js file including new WSHandler definition in Siebel OpenUI application.
 
 ## **Appendix A. Version Check (Backward Compatibility)**
 

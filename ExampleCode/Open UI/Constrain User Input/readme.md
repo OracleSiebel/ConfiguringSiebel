@@ -51,7 +51,7 @@ Copy the ConstrainInputPW.js file to your `public/<lang>/<build>/siebel/custom` 
 
 ##### Register PW
 
-Register the PR within Manifest Files
+Register the PW within Manifest Files
 
 ![](docimages/manifestfiles.png)
 

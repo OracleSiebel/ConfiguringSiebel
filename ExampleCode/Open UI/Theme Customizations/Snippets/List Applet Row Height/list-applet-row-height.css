@@ -1,0 +1,6 @@
+.ui-jqgrid tr.ui-row-ltr, .ui-jqgrid tr.ui-row-rtl{
+ height: 20px !important;
+}
+.ui-jqgrid .ui-jqgrid-bdiv{
+ height: auto !important;
+}

@@ -1,9 +1,9 @@
 # Autocomplete Filter
-When using picklists within Siebel, we get the default autocomplete functionality that is delivery with jQuery UI, which is to say that when you enter a letter or set of letters, the picklist is shown with all those picklist entries which CONTAIN that letter or letters.
+When using picklists within Siebel, we get the default autocomplete functionality that is delivered with jQuery UI, which is to say that when you enter a letter or set of letters, the picklist is shown with all those picklist entries which CONTAIN that letter or letters.
 
 ![](docimages/picklist_default_autocomplete.png)
 
-Some customers have requested that autocomplete would be more effective for them if, instead of CONTAINS, it would be preferable if the picklist were restricted to those entries that START WITH the letter or letters entered.
+Some customers have requested that autocomplete would be more effective for them if, instead of a CONTAINS rule, it would be preferable if the picklist were restricted to those entries that START WITH the letter or letters entered.
 
 ![](docimages/picklist_custom_autocomplete.png)
 

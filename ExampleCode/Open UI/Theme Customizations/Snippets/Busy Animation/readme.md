@@ -14,6 +14,6 @@ If you want something a little more unusual, take a look at the loading icons fr
 
 I've provided here a "gears.svg" created using loading.io. Place this on the webserver in public/images/custom and then add gears-busy-animation.css to your custom CSS file.
 
-![](gears.svg)
+![](docimages/gears.png)
 
 There are many more loading icons out there. All of them can be incoporated, and perhaps your company has it's own special logo you could do something with?

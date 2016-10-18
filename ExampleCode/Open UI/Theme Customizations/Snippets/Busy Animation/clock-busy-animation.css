@@ -1,0 +1,65 @@
+/*
+	clock busy icon
+*/
+
+@keyframes timer {
+0% {
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(360deg);
+}
+}
+.siebui-mask-overlay {
+box-sizing: border-box;
+display: block;
+opacity: 1;
+position: absolute;
+bottom: 0 !important;
+left: 0 !important;
+right: 0 !important;
+top: 0 !important;
+z-index: 9999;
+}
+.siebui-mask-overlay .siebui-mask-outer {
+border-radius: 24px;
+box-sizing: border-box;
+left: 50%;
+top: 50%;
+border: 6px solid #1474bf;
+overflow: hidden;
+position: relative;
+text-indent: -9999px;
+height: 48px;
+width: 48px;
+animation: none;
+}
+.siebui-mask-overlay .siebui-mask-outer::before {
+display: block;
+position: absolute;
+width: 6px;
+height: 19.2px;
+left: 15px;
+top: 15px;
+content: '';
+animation: timer 1250ms infinite linear;
+transform-origin: 3px 3px;
+border-radius: 3px;
+background: #57823d;
+}
+.siebui-mask-overlay .siebui-mask-outer::after {
+display: block;
+position: absolute;
+width: 6px;
+height: 16px;
+left: 15px;
+top: 15px;
+content: '';
+animation: timer 15000ms infinite linear;
+transform-origin: 3px 3px;
+border-radius: 3px;
+background: #57823d;
+}
+.siebui-mask-overlay .siebui-mask-inner {
+display: none;
+}

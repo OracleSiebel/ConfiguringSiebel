@@ -1,0 +1,13 @@
+/*
+	svg busy cursor
+*/
+
+.siebui-mask-overlay .siebui-mask-outer {
+    border-radius: 0;
+    animation: none;
+    background: url(../../images/custom/gears.svg);
+    background-size: 100% 100%;
+    border: 0px;
+	width: 80px;
+	height: 80px;
+}

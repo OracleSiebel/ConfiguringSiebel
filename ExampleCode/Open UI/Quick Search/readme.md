@@ -26,4 +26,6 @@ Then administer it for a list applet of your choice:
 
 ![](docimages/ManifestAdmin.png)
 
+Finally a word of warning. I tested this with Chrome, Firefox, IE11, and Microsoft Edge. It seems to work well in all but Firefox; perhaps you can help fix it?
+
 Happy Quick Searching!

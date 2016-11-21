@@ -28,4 +28,40 @@ Then administer it for a list applet of your choice:
 
 Finally a word of warning. I tested this with Chrome, Firefox, IE11, and Microsoft Edge. It seems to work well in all but Firefox; perhaps you can help fix it?
 
-Happy Quick Searching!
+Update: It seems that system with high latency are not working well with this modification. This is due to the fact that, for some reason, if the mouse moves while holding it down, it registers as a mouseleave even if the mouse is not moved away from the icon. This in turn triggers the code to stop the repeated navigation. Thus two alternatives are also now provided.
+
+#Keyboard Accelerators
+
+By default, Siebel is supplied with the following keyboard accelerators. These keys can be held down in order to repeat the associated functionality, thus providing access to repeated next page capability without needing the config above.
+
+Here's how those accelerators as seeded by us:
+
+- First Record Set
+ - Command - First Page (SWE)
+ - Accelerator - ALT+F
+- Previous Record Set
+ - Command - Previous Page (SWE)
+ - Accelerator - CTRL+ALT+,
+- Previous Record
+ - Command - Previous Record (SWE)
+ - Accelerator - CTRL+UP
+- Next Record
+ - Command - Next Record (SWE)
+ - Accelerator - CTRL+DOWN
+- Next Record Set
+ - Command - Next Page (SWE)
+ - Accelerator - CTRL+ALT+Y
+- Last Record Set
+ - Command - Last Page (SWE)
+ - Accelerator - ALT+L
+ 
+ 
+ These accelerators can be altered through Siebel configuration. For example, CTRL+Left and CTRL+Right could be associated with the First Page and Last Page commands.
+  
+ #First and Last Record Navigation Buttons
+ 
+ Continuing with the theme above of being made aware of keyboard accelerators for first and last page navigation, we can also add buttons to the list applet UI to expose these to users:
+ 
+ ![](docimages/FirstLastButtonExample.png)
+ 
+ To create these additional buttons follow the same steps above for Manifest File registration and administration, except use the FirstLastButtonsPR.js file instead. To achieve the icons shown in the image above, the assumption is made that you've already applied the styling from the [larger navigation items theme customizatioN](https://github.com/OracleSiebel/ConfiguringSiebel/tree/master/ExampleCode/Open%20UI/Theme%20Customizations/Snippets/Larger%20Table%20Navigation%20Icons). Just add the addional two lines given in the firstlastbuttons-snippet.css file to add style to the new first and last record buttons

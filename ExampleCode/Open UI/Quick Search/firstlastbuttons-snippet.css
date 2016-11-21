@@ -1,0 +1,6 @@
+span.ui-icon.ui-icon-seek-top:before {
+content: "\f106";
+}
+span.ui-icon.ui-icon-seek-bottom:before {
+content: "\f107";
+}

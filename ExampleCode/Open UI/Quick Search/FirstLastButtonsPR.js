@@ -31,7 +31,9 @@ if (typeof(SiebelAppFacade.FirstLastButtonsPR) === "undefined") {
 						}
 					)
 					.on("click", function() {
-						that.GetPM().ExecuteMethod("InvokeMethod", "GotoFirstSet");
+            //added CanInvokeMethod method to prevent error messages
+            if (that.GetPM().ExecuteMethod("CanInvokeMethod", "GotoFirstSet"))
+              that.GetPM().ExecuteMethod("InvokeMethod", "GotoFirstSet");
 					})
 					.end()
 					.find(".ui-icon-seek-bottom").hover(
@@ -40,7 +42,9 @@ if (typeof(SiebelAppFacade.FirstLastButtonsPR) === "undefined") {
 						}
 					)
 					.on("click", function() {
-						that.GetPM().ExecuteMethod("InvokeMethod", "GotoLastSet");
+            //added CanInvokeMethod method to prevent error messages
+            if (that.GetPM().ExecuteMethod("CanInvokeMethod", "GotoLastSet"))
+              that.GetPM().ExecuteMethod("InvokeMethod", "GotoLastSet");
 					});
 			}
 

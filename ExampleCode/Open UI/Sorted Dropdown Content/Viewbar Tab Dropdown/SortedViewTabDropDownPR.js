@@ -1,7 +1,7 @@
 if (typeof(SiebelAppFacade.SortedViewTabDropDownPR) === "undefined") {
 	SiebelJS.Namespace("SiebelAppFacade.SortedViewTabDropDownPR");
 
-	define ("siebel/custom/SortedViewTabDropDownPR", ["order!siebel/accnavigationphyrender"], function () {
+	define ("siebel/custom/SortedViewTabDropDownPR", ["siebel/accnavigationphyrender"], function () {
 
 		SiebelAppFacade.SortedViewTabDropDownPR = (function () {
 

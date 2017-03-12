@@ -21,7 +21,7 @@ if (typeof(SiebelAppFacade.DoubleClickProcessingPR) === "undefined") {
 				$("#" + appletId).find(".ui-jqgrid-view").dblclick(function () {
 					if ($("#" + appletId).find(".AppletStylePopup .siebui-icon-pickrecord").length > 0)
 						pm.ExecuteMethod("InvokeMethod", "PickRecord");
-					else if ($("#" + appletId).find(".AppletStylePopup").length > 0)
+					else if ($("#" + appletId).find(".AppletStylePopup .siebui-icon-addrecord").length > 0)
 						pm.ExecuteMethod("InvokeMethod", "AddRecord");
 				});
 				$("#" + appletId).find("#sieb-ui-popup-mvg-available").find(".ui-jqgrid-view").dblclick(function () {

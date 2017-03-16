@@ -1,4 +1,4 @@
-#Busy Animation
+# Busy Animation
 
 Siebel IP16 came with a new busy animation featuring the Oracle O. This is actually completely built using CSS; essentially a border around a box with rounded corners. The point is really that, like much of the rest of the application, this can be themed according to a developer's or client's requirement.
 

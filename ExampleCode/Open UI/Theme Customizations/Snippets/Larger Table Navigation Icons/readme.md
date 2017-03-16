@@ -1,4 +1,4 @@
-#Larger Table Navigation Icons
+# Larger Table Navigation Icons
 By default, the table navigation icons are quite small.
 
 ![](default-table-icons.png)

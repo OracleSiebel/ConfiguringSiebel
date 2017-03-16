@@ -1,4 +1,4 @@
-#Commit Pending Indicator
+# Commit Pending Indicator
 IP16 introduced a commit-pending indication to inform users that there is unsaved data on screen. By default this is quite subtle:
 
 ![](docimages/default-commit-pending.png)

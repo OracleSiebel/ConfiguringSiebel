@@ -1,14 +1,18 @@
 # Universal DISA Handler Example
 
-This example creates a DISA handler which will be activated once Siebel application get initialized, and can be accessible across applets/views.
+This example creates a DISA handler which will be activated after user login to Siebel, once Siebel application get initialized, and can be accessible across applets/views.
 
 ## OpenUI DISA Handler
 
-1.  Put UniversalDISAHandler.js in Siebel JS custom folder
-    *CLIENT_HOME*\PUBLIC\\*language_code*\\*release_number*\scripts\siebel\custom  
+1.  Put UniversalDISAHandler.js in Siebel JS custom folder  
+    For example:  
+    On IP 2016:  
+    *INSTALL_DIR*\eappweb\PUBLIC\scripts\siebel\custom  
+    On IP 2015:  
+    *INSTALL_DIR*\eappweb\PUBLIC\\*language_code*\\*build_number*\scripts\siebel\custom
 
     where:  
-    *   *ORACLE_HOME* is the folder where you installed the Siebel Server.
+    *   *INSTALL_DIR* is the folder where you installed the Siebel Server.
 
 2.  Do manifest configurations for UniversalDISAHandler.js 
     1.	Log in to the Siebel OpenUI application with administrative privileges.
@@ -43,9 +47,6 @@ This example creates a DISA handler which will be activated once Siebel applicat
             ![UI Object Expression Files List Applet](./3.1.3.png "UI Object Expression Files List Applet")
 
     4.	Log out Siebel and log in again, to make the changes take effect.
-
-
-3.  Put code snippet in DISALOYMemberListPM.js into the click event handler of Phone button on the applet.
 
 ## DISA Plugin
 

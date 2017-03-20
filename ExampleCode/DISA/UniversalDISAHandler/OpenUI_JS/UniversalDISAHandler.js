@@ -26,8 +26,8 @@ if (typeof SiebelApp.UniversalDISAHandler === "undefined") {
                     handler.SendMessage(msgJSON);
                 }, this);
 
-                    return handler;
-                }
+                return handler;
+            }
 
             // This indicates Siebel OpenUI with DISA connection was lost
             // Maybe because Siebel OpenUI never establishes connection with DISA due to various reasons

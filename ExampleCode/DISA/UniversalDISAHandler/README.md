@@ -17,7 +17,7 @@ This example creates a DISA handler which will be activated after user login to 
 2.  Do manifest configurations for UniversalDISAHandler.js 
     1.	Log in to the Siebel OpenUI application with administrative privileges.
 
-    2.	Navigate to Administration - Application screen, Manifest Files view.
+    2.	Navigate to Administration - Application screen, Manifest Files view.  
     Add file entry for UniversalDISAHandler.js.  
     ![Manifest Files View](./2.1.png "Manifest Files View")
 

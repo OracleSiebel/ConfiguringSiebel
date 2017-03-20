@@ -18,7 +18,7 @@ if (typeof SiebelApp.UniversalDISAHandler === "undefined") {
                 handler.OnMessage = onWSMessage.bind(this);
 
                 // Tell DISA plugin that OpenUI handler is ready
-                // Neither "Command", nor "Ready" are DISA specific.
+                // "Command" and "Ready" are custom message protocol.
                 // The shape and content of the message is entirely up to the developer.
                 SiebelApp.EventManager.addListner("AppInit", function () {
                     var msgJSON = {};

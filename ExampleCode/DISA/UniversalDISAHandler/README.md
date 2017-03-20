@@ -1,6 +1,6 @@
 # Universal DISA Handler Example
 
-This example creates a DISA handler which will be initialized once Siebel application loaded, and can be accessed across applets/views.
+This example creates a DISA handler which will be activated once Siebel application get initialized, and can be accessible across applets/views.
 
 ## OpenUI DISA Handler
 
@@ -53,7 +53,7 @@ This example creates a DISA handler which will be initialized once Siebel applic
 
 *   Put the generated JAR in *<DISA_HOME>*\DesktopIntSiebelAgent\plugins folder, and restart DISA to load it.
 
-## Verify The Hanlder and Plugin
+## Verify the Handler and Plugin
 
 With all the above settings, re-login Siebel, there should be a log in browser console like:
 > UniversalDISAHandler: JSON message received: {"Echo":"Hello, handler!"}.

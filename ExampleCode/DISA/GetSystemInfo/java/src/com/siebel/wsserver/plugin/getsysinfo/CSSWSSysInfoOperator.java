@@ -1,4 +1,4 @@
-package com.siebel.wsserver.plugin;
+package com.siebel.wsserver.plugin.getsysinfo;
 
 import com.siebel.wsserver.operator.CSSWSSingletonOperator;
 import com.google.gson.JsonObject;

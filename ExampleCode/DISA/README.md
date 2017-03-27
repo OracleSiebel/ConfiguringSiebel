@@ -169,7 +169,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
 1.  Locate _&lt;DISA_HOME&gt;\DesktopIntSiebelAgent\lib_ folder and find **disa-api.jar** and **gson.jar** in this folder, add the two jar file paths to the class path of the plugin project.
 
 2.  Create a plugin which will inherit from relevant "operator" base class
-    *   Create **a new Java Package** for the component operator class and other related files if any.
+    *   Create **a new Java Package** for the component operator class and other related files if any. **It is strongly recommended that the plugin class should have a unique package name, to avoid potential conflict**.
     *   Create **a new component Operator class**.
         *   Inherit from **CSSWSSingletonOperator** if the operator is designed for sequential tasks, and does not have requirement for parallel execution. The requests for the same operator type from different components will be place in one queue and processed in a single thread.
         *   Inherit from **CSSWSOperator** if the operator is required to handling tasks in parallel, or tasks are expected to execute for a long time. Each component will be assigned to a new operator instance with a separate thread for each operator, tasks can be processed in parallel.
@@ -183,7 +183,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
     *   Example - Plug-in Operator
 
         ```java
-        package com.domain.disa.plugin;
+        package com.domain.disa.plugin.sample;
 
         /*
          * The plugin class depends on disa-api.jar and gson.jar in the lib folder 
@@ -249,7 +249,7 @@ The following WSHandler and related codes could be added anywhere needed; howeve
     *   Example - META-INF for Plug-in
 
         ```java
-        com.domain.disa.plugin.SampleOperator
+        com.domain.disa.plugin.sample.SampleOperator
         ```
 
 4.  Compile the class and pack the META-INF folder in a jar file.

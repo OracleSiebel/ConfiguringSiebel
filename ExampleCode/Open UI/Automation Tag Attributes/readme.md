@@ -20,7 +20,7 @@ To choose good values for these attributes, you need to appreciate that the valu
 
 ### OT
 
-In 17.0, the following mappings exist between Object Type values and Keyword Definitions (KWD). In order to record a sensible script which can be edited in a meaningful way, with available actions appropriate to the control type, you need to select one of the Object Types value above in order. A completely custom value will record OK, but will not result in a fully functional automation script.
+In 17.0, the following mappings exist between Object Type values and Keyword Definitions (KWD). In order to record a sensible script which can be edited in a meaningful way, with available actions appropriate to the control type, you need to select one of the Object Type values below. A completely custom value will record OK, but will not result in a fully functional automation script.
 
 
 | Valid Object Types | KWD Mapping |

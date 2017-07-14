@@ -35,7 +35,11 @@ if( typeof( SiebelAppFacade.GoogleMapApiPR ) === "undefined" ){
 				strHTML+='	  #map_canvas { height: 100% }';
 				strHTML+='	</style>';
 				strHTML+='	<script type="text/javascript"';
+				//Try this for testing, comment if using the API KEY below
 				strHTML+='	  src="http://maps.googleapis.com/maps/api/js?sensor=true">';
+				//Obtain an API key from https://developers.google.com/maps/documentation/javascript/get-api-key
+				//Uncomment the following line for production use and insert your key
+				//strHTML += ' src="http://maps.googleapis.com/maps/api/js?key=MY_API_KEY">';
 				strHTML+='	</script>';
 				strHTML+='	<script type="text/javascript"';
 				strHTML+='	  src="'+SIEBEL_BUILD+'siebel/custom/3rdParty/markerclusterer.js">';
@@ -94,7 +98,7 @@ if( typeof( SiebelAppFacade.GoogleMapApiPR ) === "undefined" ){
 				strHTML+='	</script>';
 				strHTML+='  </head>';
 				strHTML+='  <body>';
-				strHTML+='	<div id="map_canvas" style="width:100%; height:100%;"></div>';
+				strHTML+='	<div id="map_canvas" style="width:100%; height:100%; border-radius: 8px; -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,1)));"></div>';
 				strHTML+='	<script>initialize()</script>';
 				strHTML+='  </body>';
 				$(".map_canvas")[0].contentWindow.document.write(strHTML);

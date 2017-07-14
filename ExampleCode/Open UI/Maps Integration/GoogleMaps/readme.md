@@ -103,5 +103,7 @@ extensions.
 At present, the integration uses anonymous access to the Google API v3 library. This limits usage to the
 request IP to 15,000 per day. If this were to be widely deployed in an organization, it’s likely that the
 organization would need to sign up with Google for an enterprise account, which will then grant more usage.
+Code has been added to allow you to quickly switch to a Google API Key, which can be [obtained freely](
+https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 If you have any issues using this example, please record an issue in Github.

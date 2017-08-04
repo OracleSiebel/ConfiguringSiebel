@@ -23,7 +23,23 @@
     <target name="buildjar" depends="compile">
         <mkdir dir="${jar.dir}"/>
         <jar destfile="${jar.dir}/${target.name}.jar" basedir="${classes.dir}">
+            <!-- Add an existing service metainfo -->
             <metainf dir="${metainf.dir}"/>
+
+            <!-- Or generate service metainfo -->
+            <!--
+            <service type="com.siebel.wsserver.operator.CSSWSOperator">
+                <provider classname="com.siebel.wsserver.plugin.universal.CSSWSUniversalOperator"/>
+            </service>
+            -->
+
+            <!-- Add third-party to the manifest class path of the plugin jar -->
+            <!-- value is the relative path to the plugin jar -->
+            <!--
+            <manifest>
+                <attribute name="Class-Path" value="lib/3rdparty.jar"/>
+            </manifest>
+            -->
         </jar>
     </target>
 </project>

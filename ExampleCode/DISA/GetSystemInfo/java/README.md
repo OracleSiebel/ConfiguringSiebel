@@ -31,6 +31,19 @@ Modify the file [build.xml](./build.xml) to change the build path, class path or
     ```
     Replace *&lt;DISA_HOME&gt;* with the actual DISA install path.
 
+* **META-INF**
+
+    Metainf contains the plugin service information, you can manully create the file following the DISA Development Guide, and refer the path in the jar action.
+    ```xml
+    <metainf dir="${metainf.dir}"/>
+    ```
+    Or let the jar action generate the service information.
+    ```xml
+    <service type="com.siebel.wsserver.operator.CSSWSOperator">
+        <provider classname="com.siebel.wsserver.plugin.universal.CSSWSUniversalOperator"/>
+    </service>
+    ```
+
 * **Class Path**
 
     ```xml
@@ -40,6 +53,14 @@ Modify the file [build.xml](./build.xml) to change the build path, class path or
     </path>
     ```
     Add any library files that will be referenced by the plugin code in here.
+
+* **Third-party Dependency**
+    ```xml
+    <manifest>
+        <attribute name="Class-Path" value="Siebel.jar"/>
+    </manifest>
+    ```
+    For third-party libraries that will be referenced by the plugin, add them to the plugin jar's manifest class path in the jar action.
 
 ## Build The Plugin
 

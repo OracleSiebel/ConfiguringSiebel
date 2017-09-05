@@ -25,4 +25,4 @@ As this overrides the default list applet renderer, making a mistake will render
 
 The default list applet renderer is the one used when no applet specific manifest admin rules apply. Any customized PRs you have created for list applets will need to specifically extend this new default list applet renderer if you need them to inherit this double click functionality.
 
-The most likely reason for issues with this and all PR is getting the case wrong in the file names.
+The most likely reason for issues with this and all PR is getting the case wrong in the file names. 

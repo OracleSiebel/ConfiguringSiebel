@@ -1,4 +1,4 @@
-# Configuring Siebel
+# Siebel Approval Management (SAM) - REST Services
 
 What this respository is:
 

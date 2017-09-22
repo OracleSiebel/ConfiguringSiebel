@@ -1,7 +1,7 @@
-#Post-Load Code
+# Post-Load Code
 The Siebel framework provides an event which is executed at the end of each view load. This is called the postload event, and we can add script to this in order to make adjustments to the UI that are, for whatever reason, not easy elsewhere. Note that, due to it happening after the view has completed loading, and large shifts in UI should be avoided as they will be visible to the user.
 
-##Template
+## Template
 Here's a template for a postload event handler:
 
 ```

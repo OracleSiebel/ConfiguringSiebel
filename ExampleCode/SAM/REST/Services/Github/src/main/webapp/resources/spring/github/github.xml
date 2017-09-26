@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:c="http://www.springframework.org/schema/c"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+			http://www.springframework.org/schema/aop 
+  			http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+  			http://www.springframework.org/schema/context 
+  			http://www.springframework.org/schema/context/spring-context-4.2.xsd
+  			http://www.springframework.org/schema/tx
+  			http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+  			http://www.springframework.org/schema/util 
+  			http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+    <bean  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+           p:location="resources/properties/github.properties" />
+           
+    <bean id="GitConnect"
+    		class="com.oracle.utils.GitConnect"
+    		p:authToken="${github.authToken}"
+    		p:sslRESTTemplateHost="${github.sslRESTTemplateHost}"
+    		p:sslRESTTemplatePort="${github.sslRESTTemplatePort}"
+    		p:sslRESTTemplateScheme="${github.sslRESTTemplateScheme}"
+    		p:githubURI="${github.githubURI}"
+    		p:proxyHost="${github.proxyHost}"
+    		p:proxyPort="${github.proxyPort}"
+    		p:proxyScheme="${github.proxyScheme}"
+    		/>
+
+</beans>

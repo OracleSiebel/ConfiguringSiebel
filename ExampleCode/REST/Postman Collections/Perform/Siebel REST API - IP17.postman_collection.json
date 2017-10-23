@@ -1,0 +1,613 @@
+{
+	"info": {
+		"name": "Siebel REST API - IP17",
+		"_postman_id": "13635f03-adb4-65e0-eb01-02d7a3921677",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Heartbeat",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/heartbeat",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"heartbeat"
+					]
+				},
+				"description": "Heartbeat - A test that REST is available and healthy."
+			},
+			"response": []
+		},
+		{
+			"name": "Get BC Data - All Records",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service%20Request/Service%20Request",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service%20Request",
+						"Service%20Request"
+					]
+				},
+				"description": "Request for Siebel Business Data. In this case a list of Service Requests is sought."
+			},
+			"response": []
+		},
+		{
+			"name": "Get BC Data - All Records - Pagination",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service%20Request/Service%20Request?PageSize=2&StartRowNum=0",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service%20Request",
+						"Service%20Request"
+					],
+					"query": [
+						{
+							"key": "PageSize",
+							"value": "2",
+							"equals": true
+						},
+						{
+							"key": "StartRowNum",
+							"value": "0",
+							"equals": true
+						}
+					]
+				},
+				"description": "This request shows how the PageSize and StartRowNum URL parameters can be used to retrieve a specific set of rows, thus catering to pagination implementations."
+			},
+			"response": []
+		},
+		{
+			"name": "Get BC Data - Specific Record",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request/1-1NHP",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service Request",
+						"Service Request",
+						"1-1NHP"
+					]
+				},
+				"description": "This is a request for a specific Service Request, taken from the \"self\" link response from a list of SRs."
+			},
+			"response": []
+		},
+		{
+			"name": "Get BC Data - Specific Records - Specific Fields",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request/1-1NHP?fields=Id,Status,Closed Date",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service Request",
+						"Service Request",
+						"1-1NHP"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "Id,Status,Closed Date",
+							"equals": true
+						}
+					]
+				},
+				"description": "This request demonstrates the \"fields\" URL parameter, which gives control over the quantity of data being delivered."
+			},
+			"response": []
+		},
+		{
+			"name": "Get BC Data - Search Spec",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request?searchspec=([Status]~LIKE\"*open*\")&fields=Id,Status,Closed Date",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service Request",
+						"Service Request"
+					],
+					"query": [
+						{
+							"key": "searchspec",
+							"value": "([Status]~LIKE\"*open*\")",
+							"equals": true
+						},
+						{
+							"key": "fields",
+							"value": "Id,Status,Closed Date",
+							"equals": true
+						}
+					]
+				},
+				"description": "Demonstrating searchspec usage. Here, standard Siebel search spec rules apply. In this example, the fields parameter is also in use."
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS Request",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service Request",
+						"Service Request"
+					]
+				},
+				"description": "This request demonstrates the OPTIONS HTTP verb. This is typically used as a pre-flight request by browsers to ensure that the server will permit integration with the REST API."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Repository Content - Applets",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/workspace/main/Applet",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"workspace",
+						"main",
+						"Applet"
+					]
+				},
+				"description": "To work, this REST API requires workspaces to be enabled (done by default in IP17+). This particular request will show the world according to the \"main\" workspace. Alter the workspace name in respect of your current environment."
+			},
+			"response": []
+		},
+		{
+			"name": "Write Repository Content - Applet",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"!!A New Applet Via REST\",\n    \"ProjectName\": \"Contact\",\n    \"UpgradeBehavior\": \"Preserve\"\n}"
+				},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/workspace/dev_sadmin_aphrodite/Applet",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"workspace",
+						"dev_sadmin_aphrodite",
+						"Applet"
+					]
+				},
+				"description": "This request demonstrates use of the REST API's \"PUT\" verb. In this case, the call will create a new Applet record within the \"dev_sadmin_aphrodite\" workspace (which must exist in order for this to work). Adjust the name of the Applet and the name of the Workspace accordingly for your environment. You can review the results within Siebel Tools, or Siebel Web Tools by opening the approprate workspace and reviewing changes within the workspace."
+			},
+			"response": []
+		},
+		{
+			"name": "Invoke Service",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"body\": {\r\n        \"StartRowNum\": \"0\",\r\n        \"SiebelMessage\": {\r\n            \"MessageId\": \"\",\r\n            \"MessageType\": \"Integration Object\",\r\n            \"IntObjectName\": \"Employee Interface\",\r\n            \"IntObjectFormat\": \"Siebel Hierarchical\",\r\n            \"ListOfEmployee Interface\": {\r\n                \"Employee\": {\r\n                    \"Login Name\": \"SADMIN\"\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/service/Siebel Employee/QueryByExample",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"service",
+						"Siebel Employee",
+						"QueryByExample"
+					]
+				},
+				"description": "This request demonstrates how to use the HTTP verb \"POST\", to request invocation of a business service, in this case, allowing an alternative mechanism of querying for Siebel Data. More generically, this could be initiating a workflow, or delivering data from an IOT device service. If the service has not been exposed correctly (Administration - Application > Business Service Access), a 404 will be returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Invoke Workflow",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"body\": {\n\t\t\"ProcessName\": \"RESTWorkflowTest\",\n\t\t\"InputIO\" : {\n\t\t\t\"Property\": \"Value\"\n\t\t}\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://demohost.us.oracle.com:9001/siebel/v1.0/service/Workflow Process Manager/RunProcess",
+					"protocol": "http",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"service",
+						"Workflow Process Manager",
+						"RunProcess"
+					]
+				},
+				"description": "Example workflow invocation. If you expose Workflow Process Manager via service access administration, a process can be invoked by posting the body as shown. Adjust the name of the workflow in the body per your requirements."
+			},
+			"response": []
+		}
+	]
+}

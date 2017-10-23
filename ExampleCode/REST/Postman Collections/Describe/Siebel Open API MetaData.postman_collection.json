@@ -1,0 +1,497 @@
+{
+	"info": {
+		"name": "Siebel Open API MetaData",
+		"_postman_id": "883252b4-c31b-db9d-8e01-521cc0f99f60",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BO Catalog",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/describe?PageSize=100&StartRowNum=0",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"describe"
+					],
+					"query": [
+						{
+							"key": "PageSize",
+							"value": "100",
+							"equals": true
+						},
+						{
+							"key": "StartRowNum",
+							"value": "0",
+							"equals": true
+						}
+					]
+				},
+				"description": "This describe request will query all available BOs accessible via REST. Review the content in the 'paths' attribute to see the full list. Normally they would be returned 10 at a time, but the URL params used here override that to return up to 100 results."
+			},
+			"response": []
+		},
+		{
+			"name": "Parent BC for a BO",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Account/Account/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Account",
+						"Account",
+						"describe"
+					]
+				},
+				"description": "Taking the Account BO as an example, this query describes the parent BC within this BO. All fields are listed and described (type,length). Viable operations are reported. Furthermore, all potential child BCs for the parent are listed."
+			},
+			"response": []
+		},
+		{
+			"name": "Child BC Description",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Account/Account/{key}/Contact/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Account",
+						"Account",
+						"{key}",
+						"Contact",
+						"describe"
+					]
+				},
+				"description": "Drilling further into the Account BC metadata, this query returns a detailed definition for a specific child BC, listing all fields (with individual types and lengths)."
+			},
+			"response": []
+		},
+		{
+			"name": "Top Level Repository Objects",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/workspace/main/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"workspace",
+						"main",
+						"describe"
+					]
+				},
+				"description": "Catalog of all repository objects. Paginate through results in the usual way:\n\n?PageSize=10&StartRowNum=10"
+			},
+			"response": []
+		},
+		{
+			"name": "Repository Object Catalog",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/workspace/main/Applet/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"workspace",
+						"main",
+						"Applet",
+						"describe"
+					]
+				},
+				"description": "This query returns the definition of a specific repository object; in this case the 'Applet' object. The result delivers all child repository objects for the queried object, along with URL references to those children."
+			},
+			"response": []
+		},
+		{
+			"name": "Repository Object Child Catalog",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/workspace/main/Applet/{key}/Applet Browser Script/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"workspace",
+						"main",
+						"Applet",
+						"{key}",
+						"Applet Browser Script",
+						"describe"
+					]
+				},
+				"description": "This query returns the definition of a specific child of a specific repository object; in this case the 'Applet Browser Script' child of the 'Applt' object. The result delivers all child repository objects for the queried object, along with URL references to those children. Note how {key} references can be left in 'template' form for the purpose of catalog queries."
+			},
+			"response": []
+		},
+		{
+			"name": "Service List",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/service/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"service",
+						"describe"
+					]
+				},
+				"description": "This requests returns a description of available business services. This is simply a full list of services, and gives no indication of whether those services can be called by the authenticated user."
+			},
+			"response": []
+		},
+		{
+			"name": "Service Methods",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/service/Siebel Account/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"service",
+						"Siebel Account",
+						"describe"
+					]
+				},
+				"description": "Taking the 'Siebel Account' as an example, this API request returns the available methods for the service. Again, this does not convey whether those methods are callable by the authenticated user."
+			},
+			"response": []
+		},
+		{
+			"name": "Service Method Parameters",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/service/Siebel Account/InsertOrUpdate/describe",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"service",
+						"Siebel Account",
+						"InsertOrUpdate",
+						"describe"
+					]
+				},
+				"description": "Drilling all the way down to the level of the method, this API query returns the parameters of for the query. More detailed knowledge of Siebel would be required to determine which parameters were required and which fields ultimately would form valid unique keys for the purpose of the insert or update example shown here."
+			},
+			"response": []
+		}
+	]
+}

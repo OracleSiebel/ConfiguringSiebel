@@ -1,15 +1,15 @@
-#Fluid Form Applet
+# Fluid Form Applet
 Here I'm defining a fluid form applet as one which resizes well under two conditions:
 - resizing of the browser (usually rotating a tablet, but could also be resizing for the desktop applet)
 - removal of fields programmatically (via a custom PR)
 
-####Before
+#### Before
 ![](images/before.png)
-####After
+#### After
 ![](images/after.png)
 The primary reason for creating this example is to show how effective the switch can be to move from "Grid" based form applets to something more modern and fluid. Grid based layouts do offer a benefit which we lose if we go in this directions however (at least until IP17), which is WYSIWYG. Siebel Tools does not include CSS when interpretting an SWT file and thus we don't see the fluidity of our applet within tools, and we also don't get the responsive grid layout structure which is the result of the CSS. It's really just a question of getting used to compiling quickly and regularly in and then playing with a modern browser's responsive tools to assist the developer.
 
-##Setup
+## Setup
 In order to use these layouts, you'll need to copy the files into your OUIWEBTEMPL/CUSTOM folder. If you've already made the move to IP16, don't forget that there's no longer an OUIWEBTEMPL directory; everything is Open UI now, so in this case copy to WEBTEMPL/CUSTOM. You should do this for both the Web Client and Siebel Tools in order to be able to use Edit Web Layout from Tools.
 
 With that done, go ahead and create a new Web Template record in Siebel Tools:
@@ -18,7 +18,7 @@ With that done, go ahead and create a new Web Template record in Siebel Tools:
 
 You're now ready to use the new template.
 
-##Example
+## Example
 Let's work through an example of implementing our new fluid form layout. Our starting position will be the Contact Form Applet. Here's how it looks in IP16 by default:
 
 ![](images/ContactFormAppletDefault.png)

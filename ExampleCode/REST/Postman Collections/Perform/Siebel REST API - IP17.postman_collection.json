@@ -286,6 +286,66 @@
 			"response": []
 		},
 		{
+			"name": "Get BC Data - Specific Records - Specific Fields and Specific Links",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request/1-1NHP?fields=Id,Status,Closed Date",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Service Request",
+						"Service Request",
+						"1-1NHP"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "Id,Status,Closed Date",
+							"equals": true
+						}
+					]
+				},
+				"description": "This request demonstrates the \"ChildLinks\" URL parameter (17.2+), which gives control over the quantity of data being delivered."
+			},
+			"response": []
+		},
+		{
 			"name": "Get BC Data - Search Spec",
 			"request": {
 				"auth": {

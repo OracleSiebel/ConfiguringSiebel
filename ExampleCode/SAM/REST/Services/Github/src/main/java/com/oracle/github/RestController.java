@@ -47,7 +47,7 @@ public class RestController {
 		Set<String> tempFilteredGithubData = new HashSet<String>();		
 		RestTemplate restTemplate = null;
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", gitConnect.getAuthToken());
+		headers.add("Authorization", "token " + gitConnect.getAuthToken());
 		
 		ApiTemplate apiTemplate = new ApiTemplate();
 		restTemplate = apiTemplate.createSSLBasedRestTemplateWithBasicCredentials(gitConnect.getSslRESTTemplateHost(), gitConnect.getSslRESTTemplatePort(), gitConnect.getSslRESTTemplateScheme());

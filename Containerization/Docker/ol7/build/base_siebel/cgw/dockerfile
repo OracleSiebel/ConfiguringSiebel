@@ -1,0 +1,15 @@
+ARG DBCONTAINER=registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1
+FROM ${DBCONTAINER}
+
+COPY cgw/oraInst.loc cgw/cgw.rsp cgw/setup.sh /config/
+COPY siebelkeystore.jks /config/
+COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
+
+RUN mkdir -p -ma+rwx /siebel/ses/cgw \
+&& echo Installing Siebel ... \
+&& bash /config/setup.sh \
+&& rm -rf /mnt/Siebel_Enterprise_Server/ \
+&& echo Waiting for deployment of web archive ... \
+&& sleep 30 \
+&& chmod -R 755 /siebel/ses/cgw
+

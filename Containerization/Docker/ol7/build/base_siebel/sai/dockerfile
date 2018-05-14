@@ -1,0 +1,17 @@
+ARG DBCONTAINER=registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1
+FROM ${DBCONTAINER}
+
+COPY sai/oraInst.loc sai/sai.rsp sai/setup.sh /config/
+COPY siebelkeystore.jks /config/
+COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
+
+RUN mkdir -p -ma+rwx /siebel/sai \
+&& echo Installing Siebel ... \
+&& bash /config/setup.sh \
+&& rm -rf /mnt/Siebel_Enterprise_Server/ \
+&& echo Waiting for deployment of web archive ... \
+&& sleep 60 \
+&& chmod -R 755 /siebel/sai
+
+EXPOSE 9011
+

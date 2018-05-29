@@ -21,6 +21,7 @@ RUN yum -y install \
  libXtst.i686 \
  libXext.i686 \
  libXi.i686 \
+ libcurl.i686 \
 && yum -y localinstall   oracle-instantclient12.2-*.i386.rpm \
 && yum clean all \
 && rm -rf /var/cache/yum/x86_64  \

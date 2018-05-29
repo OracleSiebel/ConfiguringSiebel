@@ -5,8 +5,7 @@ COPY sai/oraInst.loc sai/sai.rsp sai/setup.sh /config/
 COPY siebelkeystore.jks /config/
 COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
 
-RUN mkdir -p -ma+rwx /siebel/sai /siebel/oraInventory  /stage \
-&& groupadd -g  487 siebel && useradd -m -g siebel -G siebel -u 9999  siebel \
+RUN mkdir -p -ma+rwx /siebel/sai \
 && echo Installing Siebel ... \
 && bash /config/setup.sh \
 && rm -rf /mnt/Siebel_Enterprise_Server/ \

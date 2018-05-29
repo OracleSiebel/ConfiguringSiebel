@@ -5,10 +5,14 @@ COPY ses/oraInst.loc ses/ses.rsp ses/setup.sh /config/
 COPY siebelkeystore.jks /config/
 COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
 
-RUN mkdir -p -ma+rwx /siebel/ses \
+RUN mkdir -p -ma+rwx /siebel/ses /siebel/oraInventory  /stage \
+&& groupadd -g  487 siebel && useradd -m -g siebel -G siebel -u 9999  siebel \
 && echo Installing Siebel ... \
 && bash /config/setup.sh \
 && rm -rf /mnt/Siebel_Enterprise_Server/ \
 && echo Waiting for deployment of web archive ... \
 && sleep 30 \
 && chmod -R 755 /siebel/ses
+
+ENV RESOLV_MULTI=off
+

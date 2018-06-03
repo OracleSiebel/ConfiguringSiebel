@@ -1,0 +1,20 @@
+#!/bin/bash
+# e.g. build-all 18.4 registry.local.com:5000 siebel registry.local.com:5000/siebel 17.0 2>&1 | tee build.log
+
+function buildElement {
+        echo ...
+        echo Building $1 element for $2
+        echo ...
+        docker build -f ../$1/dockerfile -t $3/$4/$1:$2 --build-arg BASECONTAINERPATH=$5/$1 --build-arg BASECONTAINERVERSION=$6 --squash ..
+        docker image prune -f
+}
+
+echo Beginning build for $1
+date
+chmod -R 755 ..
+buildElement sai $1 $2 $3 $4 $5
+buildElement cgw $1 $2 $3 $4 $5
+buildElement ses $1 $2 $3 $4 $5
+date
+echo Build of $1 complete
+

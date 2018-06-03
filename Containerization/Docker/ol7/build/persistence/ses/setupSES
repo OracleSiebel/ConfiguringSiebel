@@ -1,0 +1,153 @@
+#!/bin/bash
+
+if [ -d "/persistent/replaceJKS" ] ; then
+
+/bin/cp -f /persistent/replaceJKS/siebelkeystore.jks /siebel/ses/applicationcontainer/siebelcerts
+
+fi
+
+# add DB connection to tnsnames ... should come from env variables
+
+# defaults
+[ -z "$DBCSTR"] && export DBCSTR=ORCLPDB1
+[ -z "$DBHOST"] && export DBHOST=oracle12c
+[ -z "$DBPORT"] && export DBPORT=1521
+[ -z "$DBSRVC"] && export DBSRVC=ORCLPDB1.localdomain
+
+# setup tnsnames entry
+echo $DBCSTR'=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = '$DBHOST')(PORT = '$DBPORT'))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = '$DBSRVC')))
+'>/config/tnsnames.ora
+
+if [ ! -d "/persistent/applicationcontainer" ] ; then
+
+# persistent volume does not exist ... create volume structure, move existing content, and link to mounted content
+
+# create hierarchy
+
+mkdir -p /persistent/applicationcontainer
+mkdir -p /persistent/siebsrvr/bin/enu
+mkdir -p /persistent/siebsrvr/admin
+mkdir -p /persistent/siebsrvr/mw
+
+# move existing persistent files and relink
+
+mv /siebel/ses/siebsrvr/bin/disable_lang.ksh /persistent/siebsrvr/bin/disable_lang.ksh
+ln -s /persistent/siebsrvr/bin/disable_lang.ksh /siebel/ses/siebsrvr/bin/disable_lang.ksh
+
+
+# prepare links for files that will be created
+
+ln -s /persistent/deleteserver_APPLSRVR.resp /siebel/ses/deleteserver_APPLSRVR.resp
+ln -s /persistent/siebelserver_APPLSRVR.resp /siebel/ses/siebelserver_APPLSRVR.resp
+ln -s /persistent/siebsrvr/srvrmgr.out /siebel/ses/siebsrvr/srvrmgr.out
+ln -s /persistent/siebsrvr/bin/configdb2 /siebel/ses/siebsrvr/bin/configdb2
+ln -s /persistent/siebsrvr/bin/enu/omdefs_sia.run /siebel/ses/siebsrvr/bin/enu/omdefs_sia.run
+ln -s /persistent/siebsrvr/bin/enu/omdefs.run /siebel/ses/siebsrvr/bin/enu/omdefs.run
+ln -s /persistent/siebsrvr/bin/enu/siebel.cfg /siebel/ses/siebsrvr/bin/enu/siebel.cfg
+ln -s /persistent/siebsrvr/siebenv.csh /siebel/ses/siebsrvr/siebenv.csh
+ln -s /persistent/siebsrvr/siebenv.sh /siebel/ses/siebsrvr/siebenv.sh
+ln -s /persistent/siebsrvr/bin/options.bin /siebel/ses/siebsrvr/bin/options.bin
+ln -s /persistent/siebsrvr/bin/diccache.dat /siebel/ses/siebsrvr/bin/diccache.dat
+ln -s /persistent/siebsrvr/admin/srvrdefs.run /siebel/ses/siebsrvr/admin/srvrdefs.run
+ln -s /persistent/siebsrvr/admin/srvrdefs_sia.run /siebel/ses/siebsrvr/admin/srvrdefs_sia.run
+#touch /persistent/siebsrvr/admin/NCC1701D.APPLSRVR.shm
+#chmod 777 /persistent/siebsrvr/admin/NCC1701D.APPLSRVR.shm
+#ln -s /persistent/siebsrvr/admin/NCC1701D.APPLSRVR.shm /siebel/ses/siebsrvr/admin/NCC1701D.APPLSRVR.shm
+
+# problem with start_server probably (was in CGW start_ns) ... created in advance, it won't be written .... not created in advance, can't write to dangling symlink .... gtwysrvr/install_script/install/CreateScriptFromTemplate needs to change to accomodate this
+# workaround by performing the duties of CreateScriptFromTemplate here but against persistent volume
+cp /siebel/ses/siebsrvr/admin/start_server.tmpl /persistent/siebsrvr/bin/start_server
+cp /siebel/ses/siebsrvr/admin/siebel_server.tmpl /persistent/siebsrvr/bin/siebel_server
+chmod ug+x /persistent/siebsrvr/bin/start_server
+chmod ug+x /persistent/siebsrvr/bin/siebel_server
+# then link
+ln -s /persistent/siebsrvr/bin/start_server /siebel/ses/siebsrvr/bin/start_server
+ln -s /persistent/siebsrvr/bin/siebel_server /siebel/ses/siebsrvr/bin/siebel_server
+
+
+# move existing folders that will contain persistent content and relink
+
+mv /siebel/ses/applicationcontainer/logs /persistent/applicationcontainer
+ln -s /persistent/applicationcontainer/logs /siebel/ses/applicationcontainer/logs
+mv /siebel/ses/cfgtoollogs /persistent
+ln -s /persistent/cfgtoollogs /siebel/ses/cfgtoollogs
+mv /siebel/ses/siebsrvr/log /persistent/siebsrvr
+ln -s /persistent/siebsrvr/log /siebel/ses/siebsrvr/log
+mv /siebel/ses/siebsrvr/sys /persistent/siebsrvr
+ln -s /persistent/siebsrvr/sys /siebel/ses/siebsrvr/sys
+mv /siebel/ses/siebsrvr/mw/.mw /persistent/siebsrvr/mw/.mw
+ln -s /persistent/siebsrvr/mw/.mw /siebel/ses/siebsrvr/mw/.mw
+
+
+# prep additional folders that will be created
+
+mkdir /persistent/siebsrvr/enterprises
+ln -s /persistent/siebsrvr/enterprises /siebel/ses/siebsrvr/enterprises
+mkdir /persistent/siebsrvr/kwd
+ln -s /persistent/siebsrvr/kwd /siebel/ses/siebsrvr/kwd
+mkdir /persistent/siebsrvr/upt
+ln -s /persistent/siebsrvr/upt /siebel/ses/siebsrvr/upt
+
+# startup SES Tomcat
+
+/siebel/ses/applicationcontainer/bin/startup.sh > /persistent/applicationcontainer/logs/containerStartup.log
+
+else 
+
+# persistent volume does exist ... remove exiting persistent content and link to mounted content
+
+# remove existing persistent files and relink
+
+rm -f /siebel/ses/siebsrvr/bin/disable_lang.ksh
+ln -s /persistent/siebsrvr/bin/disable_lang.ksh /siebel/ses/siebsrvr/bin/disable_lang.ksh
+
+
+# links to existing files
+
+ln -s /persistent/deleteserver_APPLSRVR.resp /siebel/ses/deleteserver_APPLSRVR.resp
+ln -s /persistent/siebelserver_APPLSRVR.resp /siebel/ses/siebelserver_APPLSRVR.resp
+ln -s /persistent/siebsrvr/srvrmgr.out /siebel/ses/siebsrvr/srvrmgr.out
+ln -s /persistent/siebsrvr/bin/configdb2 /siebel/ses/siebsrvr/bin/configdb2
+ln -s /persistent/siebsrvr/bin/enu/omdefs_sia.run /siebel/ses/siebsrvr/bin/enu/omdefs_sia.run
+ln -s /persistent/siebsrvr/bin/enu/omdefs.run /siebel/ses/siebsrvr/bin/enu/omdefs.run
+ln -s /persistent/siebsrvr/bin/enu/siebel.cfg /siebel/ses/siebsrvr/bin/enu/siebel.cfg
+ln -s /persistent/siebsrvr/siebenv.csh /siebel/ses/siebsrvr/siebenv.csh
+ln -s /persistent/siebsrvr/siebenv.sh /siebel/ses/siebsrvr/siebenv.sh
+ln -s /persistent/siebsrvr/bin/options.bin /siebel/ses/siebsrvr/bin/options.bin
+ln -s /persistent/siebsrvr/bin/diccache.dat /siebel/ses/siebsrvr/bin/diccache.dat
+ln -s /persistent/siebsrvr/admin/srvrdefs.run /siebel/ses/siebsrvr/admin/srvrdefs.run
+ln -s /persistent/siebsrvr/admin/srvrdefs_sia.run /siebel/ses/siebsrvr/admin/srvrdefs_sia.run
+ln -s /persistent/siebsrvr/bin/start_server /siebel/ses/siebsrvr/bin/start_server
+ln -s /persistent/siebsrvr/bin/siebel_server /siebel/ses/siebsrvr/bin/siebel_server
+
+
+# move existing folders that will contain persistent content and relink
+
+rm -rf /siebel/ses/applicationcontainer/logs
+ln -s /persistent/applicationcontainer/logs /siebel/ses/applicationcontainer/logs
+rm -f /siebel/ses/cfgtoollogs
+ln -s /persistent/cfgtoollogs /siebel/ses/cfgtoollogs
+rm -rf /siebel/ses/siebsrvr/log
+ln -s /persistent/siebsrvr/log /siebel/ses/siebsrvr/log
+rm -rf /siebel/ses/siebsrvr/sys
+ln -s /persistent/siebsrvr/sys /siebel/ses/siebsrvr/sys
+rm -rf /siebel/ses/siebsrvr/mw/.mw
+ln -s /persistent/siebsrvr/mw/.mw /siebel/ses/siebsrvr/mw/.mw
+
+
+# link additional folders
+
+ln -s /persistent/siebsrvr/enterprises /siebel/ses/siebsrvr/enterprises
+ln -s /persistent/siebsrvr/kwd /siebel/ses/siebsrvr/kwd
+ln -s /persistent/siebsrvr/upt /siebel/ses/siebsrvr/upt
+
+# startup SES Tomcat
+
+/siebel/ses/applicationcontainer/bin/startup.sh > /persistent/applicationcontainer/logs/containerStartup.log
+sleep 30
+
+# startup SES
+. /siebel/ses/siebsrvr/siebenv.sh
+/siebel/ses/siebsrvr/bin/start_server all >> /persistent/applicationcontainer/logs/containerStartup.log
+
+fi

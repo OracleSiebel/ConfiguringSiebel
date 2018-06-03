@@ -1,0 +1,10 @@
+ARG PARENTBASE=registry.local.com:5000/siebel
+ARG VERSION=18.4
+FROM ${PARENTBASE}/sai:${VERSION}
+
+COPY sai/setupSAI /config
+COPY sai/healthcheck /config
+HEALTHCHECK CMD /config/healthcheck
+VOLUME ["/persistent"]
+VOLUME ["/sfs"]
+CMD [ "bash", "-c", "/bin/bash /config/setupSAI; bash" ]

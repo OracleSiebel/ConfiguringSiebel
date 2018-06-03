@@ -1,7 +1,6 @@
 #!/bin/bash
 # e.g. build-all 17.0 registry.local.com:5000 siebel registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 2>&1 | tee build.log
 
-
 function buildElement {
         echo ...
         echo Building $1 element for $2
@@ -12,6 +11,7 @@ function buildElement {
 
 echo Beginning build for $1
 date
+chmod -R 755 ..
 buildElement sai $1 $2 $3 $4
 buildElement cgw $1 $2 $3 $4
 buildElement ses $1 $2 $3 $4

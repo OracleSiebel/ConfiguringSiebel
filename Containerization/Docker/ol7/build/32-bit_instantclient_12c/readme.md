@@ -41,5 +41,5 @@ TAG                 IMAGE ID            CREATED             SIZE
 Verify your container functions as expected by starting the container and connecting to a database: e.g.
 
 ```
-    docker run -it --rm oracle-32-bit-12c-client sqlplus user/pass@dbserver:port/servicename
+    docker run -it --rm registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 sqlplus user/pass@dbserver:port/servicename
 ```

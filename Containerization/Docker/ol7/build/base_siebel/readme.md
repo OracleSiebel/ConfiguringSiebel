@@ -22,7 +22,7 @@ In order to build, descend into the build folder and first edit the build-all sc
 ```    
 Also consider that the SAI, CGW, and SES containers all need db access and are thus built frfom the DB client container you previously build. So to build our Siebel container, we will pass in the name we used to tag our dbclient container along with the naming details, e.g:
 ```
-    ./build-all 17.0 registry.local.com:5000 siebel registry.local.com:5000/oracle/dbclient/32bit:12.2.0.1 2>&1 | tee build.log
+    ./build-all 17.0 registry.local.com:5000 siebel registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 2>&1 | tee build.log
 ```
 This will generate a log file (build.log) containing all output from the build process to enable you to review what happened at a later date.
 

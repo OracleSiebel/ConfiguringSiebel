@@ -1,12 +1,12 @@
 {
 	"info": {
+		"_postman_id": "f049bcd5-e1c3-1a0f-6fd0-c19d96d89cf8",
 		"name": "Siebel REST API - IP17",
-		"_postman_id": "13635f03-adb4-65e0-eb01-02d7a3921677",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
+			"_postman_id": "dc8547c6-105f-4d69-8dea-3342b89c99d8",
 			"name": "Heartbeat",
 			"request": {
 				"auth": {
@@ -57,6 +57,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "64c7dc78-763b-4a34-8997-59a1a0762908",
 			"name": "Get BC Data - All Records",
 			"request": {
 				"auth": {
@@ -109,6 +110,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "ab8076ad-f753-4ee9-905e-d9d1a7697652",
 			"name": "Get BC Data - All Records - Pagination",
 			"request": {
 				"auth": {
@@ -158,13 +160,11 @@
 					"query": [
 						{
 							"key": "PageSize",
-							"value": "2",
-							"equals": true
+							"value": "2"
 						},
 						{
 							"key": "StartRowNum",
-							"value": "0",
-							"equals": true
+							"value": "0"
 						}
 					]
 				},
@@ -173,6 +173,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "b25698b1-7866-4199-967d-5cd3b50d13af",
 			"name": "Get BC Data - Specific Record",
 			"request": {
 				"auth": {
@@ -226,6 +227,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "0632c392-478d-4c1e-9d97-4e99af23f384",
 			"name": "Get BC Data - Specific Records - Specific Fields",
 			"request": {
 				"auth": {
@@ -276,8 +278,7 @@
 					"query": [
 						{
 							"key": "fields",
-							"value": "Id,Status,Closed Date",
-							"equals": true
+							"value": "Id,Status,Closed Date"
 						}
 					]
 				},
@@ -286,6 +287,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "f0e8c3b6-fea9-43ae-874b-8a855d33da37",
 			"name": "Get BC Data - Specific Records - Specific Fields and Specific Links",
 			"request": {
 				"auth": {
@@ -316,7 +318,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request/1-1NHP?fields=Id,Status,Closed Date",
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Service Request/Service Request/8SIA-7KJNH?fields=Id,Status,Closed Date&ChildLinks=Service Agreement Contact",
 					"protocol": "https",
 					"host": [
 						"demohost",
@@ -331,13 +333,16 @@
 						"data",
 						"Service Request",
 						"Service Request",
-						"1-1NHP"
+						"8SIA-7KJNH"
 					],
 					"query": [
 						{
 							"key": "fields",
-							"value": "Id,Status,Closed Date",
-							"equals": true
+							"value": "Id,Status,Closed Date"
+						},
+						{
+							"key": "ChildLinks",
+							"value": "Service Agreement Contact"
 						}
 					]
 				},
@@ -346,6 +351,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "c14471bd-7e99-4e7b-af9f-8179e2b67fd9",
 			"name": "Get BC Data - Search Spec",
 			"request": {
 				"auth": {
@@ -395,13 +401,11 @@
 					"query": [
 						{
 							"key": "searchspec",
-							"value": "([Status]~LIKE\"*open*\")",
-							"equals": true
+							"value": "([Status]~LIKE\"*open*\")"
 						},
 						{
 							"key": "fields",
-							"value": "Id,Status,Closed Date",
-							"equals": true
+							"value": "Id,Status,Closed Date"
 						}
 					]
 				},
@@ -410,6 +414,76 @@
 			"response": []
 		},
 		{
+			"_postman_id": "02b17789-b50e-445e-8ffe-31fa7bc52452",
+			"name": "Find Account Id for an Account related to a Contact",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Contact/Contact/9SIA-BU54L/Account?SearchSpec=Name=\"Brand New Test\"&fields=Id&ChildLinks=none",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Contact",
+						"Contact",
+						"9SIA-BU54L",
+						"Account"
+					],
+					"query": [
+						{
+							"key": "SearchSpec",
+							"value": "Name=\"Brand New Test\""
+						},
+						{
+							"key": "fields",
+							"value": "Id"
+						},
+						{
+							"key": "ChildLinks",
+							"value": "none"
+						}
+					]
+				},
+				"description": "This request shows how you can retrieve the ROW ID for an account that was added via the REST API directly to a contact. At present, the request to update the contact and add an account does not return the ID of the newly created record"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "55ac8bca-cac6-4263-ba20-3d754abdc0cc",
 			"name": "OPTIONS Request",
 			"request": {
 				"method": "OPTIONS",
@@ -438,6 +512,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "71d27f94-3f36-43e4-b319-a6f592e78329",
 			"name": "Get Repository Content - Applets",
 			"request": {
 				"auth": {
@@ -490,6 +565,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "989a66d3-38b2-4be7-a844-39faea7147fc",
 			"name": "Write Repository Content - Applet",
 			"request": {
 				"auth": {
@@ -550,6 +626,70 @@
 			"response": []
 		},
 		{
+			"_postman_id": "3683542e-201e-42a9-b96c-143d522ae34a",
+			"name": "Add Account To Contact",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Brand New Test\",\n\t\"Primary Organization\": \"Default Organization\",\n\t\"Location\": \"\"\n}"
+				},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Contact/Contact/9SIA-BU54L/Account",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Contact",
+						"Contact",
+						"9SIA-BU54L",
+						"Account"
+					]
+				},
+				"description": "This request updates the contact record and associates an account. If the account is not existing in the system, it will be created."
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "9d8265c4-38d3-4168-bb7d-8c619806591f",
 			"name": "Invoke Service",
 			"request": {
 				"auth": {
@@ -610,6 +750,7 @@
 			"response": []
 		},
 		{
+			"_postman_id": "4ae4c7d2-21a9-4ab4-92c0-94c9b89b3b31",
 			"name": "Invoke Workflow",
 			"request": {
 				"auth": {
@@ -666,6 +807,67 @@
 					]
 				},
 				"description": "Example workflow invocation. If you expose Workflow Process Manager via service access administration, a process can be invoked by posting the body as shown. Adjust the name of the workflow in the body per your requirements."
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "68d65a61-9287-4dea-a72f-c4cb40f98c7f",
+			"name": "Create Contact BC Data",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sadmin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "welcome1",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"First Name\": \"James\",\n    \"Last Name\": \"Watchford\",\n    \"Primary Organization\": \"Default Organization\",\n    \"Person UId\": \"Unique1\",\n    \"Personal Contact\": \"N\"\n}"
+				},
+				"url": {
+					"raw": "https://demohost.us.oracle.com:9001/siebel/v1.0/data/Contact/Contact",
+					"protocol": "https",
+					"host": [
+						"demohost",
+						"us",
+						"oracle",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"siebel",
+						"v1.0",
+						"data",
+						"Contact",
+						"Contact"
+					]
+				},
+				"description": "This shows one way in which contact data can be added to Siebel via REST, which utilises the IOC user key to ensure uniqueness. Most likely, the PersonU UId would be the unique Id of the contact in the target system."
 			},
 			"response": []
 		}

@@ -4,7 +4,7 @@ For a Siebel container, the notion of persistence is giving the container a memo
 
 ## Docker Volumes To The Rescue
 
-A docker volume is a directory containing files. Docker volumes are not deleted when the application exists and are thus our chosen path to persistence. It would also be possible to simply use some network attached storage, which is often the right solution for production Siebel systems. Ultimately, Docker does not care where the directory you attach sits, as long as it has appropriate access rights to the content. In the examples following, we're focussing on getting a working Siebel enterprise in the shortest possible time. Once you've familiarised yourself with the layout and operation of Siebel as a set of Docker containers, you can adjust the location of the mounted volumes to suit your goals.
+A docker volume is a directory containing files. Docker volumes are not deleted when the application exits and are thus our chosen path to persistence. It would also be possible to simply use some network attached storage, which is often the right solution for production Siebel systems. Ultimately, Docker does not care where the directory you attach sits, as long as it has appropriate access rights to the content. In the examples following, we're focussing on getting a working Siebel enterprise in the shortest possible time. Once you've familiarised yourself with the layout and operation of Siebel as a set of Docker containers, you can adjust the location of the mounted volumes to suit your goals.
 
 ## SES, SAI, CGW, and SFS
 

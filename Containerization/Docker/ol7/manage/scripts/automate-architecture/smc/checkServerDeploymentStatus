@@ -1,0 +1,21 @@
+#!/bin/bash
+while getopts u:p:a:b:d:e:f: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SERVER=${OPTARG};;
+ b)  PORT=${OPTARG};;
+ d)  PROFILE=${OPTARG};;
+ e)  ENTNAME=${OPTARG};;
+ f)  ENTDESC=${OPTARG};;
+ esac
+done
+ENCODED="$(echo $USER:$PASS|base64)"
+
+curl -s  -k -H "Accept: application/json"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X GET \
+https://$SERVER:$PORT/siebel/v1.0/cloudgateway/deployments/servers/

@@ -27,7 +27,7 @@ function waitContainer {
 }
 
 date
-echo 'Starting Enterprises'
+echo 'Starting Enterprise'
 echo "Starting DB"
 set -x
 ${ROOT}/generic/container/startOracle -v ${PV}/ORCL -w ${DOCKERNET}

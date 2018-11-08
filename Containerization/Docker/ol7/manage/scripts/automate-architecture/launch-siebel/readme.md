@@ -10,11 +10,15 @@ Parameters for the environment are stored in ent1.sh. If you wish to run multipl
 
 Once the environment parameters are set, the enterprise can be set running using the following command style:
 
-./startAll < version > < parameter file >
+```
+./startAll <version> <parameter file>
+```
 
 e.g.
 
+```
 ./startAll 18.10 ent1.sh
+```
 
 The example startAll script will launch 4 containers. First it will launch the database engine, then the SAI container, then CGW, and finally SES. The given setup assumes that the ent1.sh parameter file will describe the base location for the persistent volumes using the variable PV. From here, the assumption is that the PV folder will contai a directory named by the ENTERPRISE parameter, and from there the assumption is that this folder will contain a subfolder for each of SES, CGW, SAI, and SFS. These folder must be created and readied before the first run, and need to be writeable by the user that will run the scripts, defined by the parameter RUNASUSER.
 
@@ -24,8 +28,12 @@ If the persistent folders are empty on the first run, they will be populated dur
 
 Once the containers complete the launch process, all should should a healthy state, reported by docker ps. At this point, it is possible to configure the enterprise manually using SMC. SMC should be available at the IP address of the machine that launched the enterprise containers at the port specified in the PORT parameter in ent1.sh. Thus, the following URL should be available:
 
-https://< machine IP >:< PORT >/siebel/smc
+```
+https://<machine-IP>:<PORT>/siebel/smc
+```
 
 In order to ease the burden of manual setup via SMC, a configure script is also provided which will automate setup using the scripts in the smc folder. The execute this, use:
 
+```
 ./configure ent1.sh
+```

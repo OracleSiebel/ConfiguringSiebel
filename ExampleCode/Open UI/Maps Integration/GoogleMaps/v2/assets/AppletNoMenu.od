@@ -1,0 +1,26 @@
+<div od-type="control" od-id="1100">
+   <div class=CmdTxt>
+      <div od-property="FormattedHtml" hintText="Outside Applet Help Text" hintMapType="Control"/>
+   </div>
+<!--od section control close-->
+</div>
+<div od-type="form">
+   <div class="od-context-SelectStyle">
+      <div od-type="error" type="Popup">
+         <div class="od-attr-class AppletBack error siebui-error">
+            <div od-property="FormattedHtml"/>
+         </div>
+      <!--od section error close-->
+      </div>
+      <div class="AppletHIListBorder siebui-applet-content siebui-collapsible">
+         <div od-type="list">
+            <table valign="top" width="100%" datatable="1" summary="od-context-ListSummary">
+               <div od-include="CCListBody"/>
+            </table>
+         <!--od section list close-->
+         </div>
+      </div>
+   </div>
+</span>
+<!--od section form close-->
+</div>

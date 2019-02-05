@@ -2,6 +2,8 @@
 
 At some point in the future, Oracle may make available pre-built containers to enable Siebel to run in a containerised way. Until then, and possibly even subsequently, you may wish to build your own container.
 
+Before continuing, consider that the content here has only been tested with builds after IP17. As the architecture changed significantly at that point, you should not expect to have any success with earlier versions without a great deal of effort.
+
 Consider the content here as one way in which Siebel can be built for use with Docker rather than a formula you must obey. The two seemingly obvious ways to proceed are to build a single monolithic container or to split Siebel into separate components.
 
 Here we'll provide content in order to allow you to build Siebel as a set of 3 containers, each encapsulating a specific aspect of Siebel;

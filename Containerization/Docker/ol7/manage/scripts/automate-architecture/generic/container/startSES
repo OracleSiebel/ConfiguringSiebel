@@ -4,7 +4,7 @@ usage() { echo "Usage: $0 [-n <SES container name>] [-v <directory to map for pe
 
 
 
-while getopts n:v:s:d:e:f:g:r:c:o:w:u: option
+while getopts n:v:s:d:e:f:g:r:c:o:w:u:z: option
 do
  case "${option}" in
   n)  NAME=${OPTARG};;
@@ -19,6 +19,7 @@ do
   o)  DOMAIN=${OPTARG};;
   u)  USER=${OPTARG};;
   w)  NETWORK=${OPTARG};;
+  z)  SESSERVERNAME=${OPTARG};;
   *)  usage;
 
  esac
@@ -47,5 +48,6 @@ docker run \
         -e "dbServerName=${DBHOST}" \
         -e "dbPort=${DBPORT}" \
         -e "dbServiceName=${DBSRVC}" \
+        -e "sesServerName=${SESSERVERNAME}" \
 	-u ${USER} \
 	${CONTAINERBASE}/ses:${REL}

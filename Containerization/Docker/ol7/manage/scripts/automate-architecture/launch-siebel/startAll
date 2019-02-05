@@ -27,7 +27,7 @@ function waitContainer {
 }
 
 date
-echo 'Starting Enterprise'
+echo 'Starting Enterprises'
 echo "Starting DB"
 set -x
 ${ROOT}/generic/container/startOracle -v ${PV}/ORCL -w ${DOCKERNET}
@@ -48,10 +48,10 @@ ${ROOT}/generic/container/startCGW -n cgw-${ENTERPRISE1} -v ${PV}/${ENTERPRISE1}
 set +x
 waitContainer cgw-${ENTERPRISE1} 
 echo
-echo "Starting SES1"
+echo "Starting ses-${ENTERPRISE1}"
 echo
 set -x
-${ROOT}/generic/container/startSES -n ses-${ENTERPRISE1} -v ${PV}/${ENTERPRISE1}/SES -s ${PV}/${ENTERPRISE1}/SFS -d ${TNSCONN} -e ${DBHOST} -f ${DBPORT} -g ${DBINST} -r $1 -c ${CONTAINERBASE} -o ${DOMAIN} -w ${DOCKERNET} -u ${RUNASUSER}
+${ROOT}/generic/container/startSES -n ses-${ENTERPRISE1} -v ${PV}/${ENTERPRISE1}/SES -s ${PV}/${ENTERPRISE1}/SFS -d ${TNSCONN} -e ${DBHOST} -f ${DBPORT} -g ${DBINST} -r $1 -c ${CONTAINERBASE} -o ${DOMAIN} -w ${DOCKERNET} -u ${RUNASUSER} -z ${SES1SERVERNAME}
 set +x
 waitContainer ses-${ENTERPRISE1} 
 docker ps

@@ -1,0 +1,9 @@
+#!/bin/bash
+docker network create db
+docker run \
+	-d -it -P \
+	--name oracle12c \
+	-h oracle12c \
+	--network db \
+	--network-alias oracle12c \
+	store/oracle/database-enterprise:12.2.0.1

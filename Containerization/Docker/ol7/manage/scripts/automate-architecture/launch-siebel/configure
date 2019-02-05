@@ -54,7 +54,7 @@ echo "Enterprise Deployed"
 set -x
 ${ROOT}/smc/createServerProfile -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -n CC_WebTools_EAI -c ${COMPGRPS} -l ${ANONUSER} -m ${ANONPASS}
 sleep 3
-${ROOT}/smc/deployServer -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -e SES -f SiebelServer -d CC_WebTools_EAI -h ses-${ENTERPRISE1}.${DOMAIN} -i 4430 -l enu
+${ROOT}/smc/deployServer -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -e ${SES1SERVERNAME} -f SiebelServer -d CC_WebTools_EAI -h ses-${ENTERPRISE1}.${DOMAIN} -i 4430 -l enu
 set +x
 sleep 3
 waitServerDeployment

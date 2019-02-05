@@ -7,4 +7,6 @@ COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
 
 RUN  bash /config/cgw_update.sh \
 && rm -rf /mnt/Siebel_Enterprise_Server/ \
-&& rm -rf /siebel/ses/cgw/ps_backup
+&& rm -rf /siebel/cgw/ps_backup \
+&& echo Waiting for deployment of web archive ... \
+&& sleep 30 

@@ -1,0 +1,34 @@
+# Code to check the OS kernel version required to run Siebel
+linuxVersion=`uname -r`
+echo "The current kernel version is: $linuxVersion" 
+
+if [[ $linuxVersion =~ "uek" ]]
+then 
+
+echo -e "uek kernel detected  $linuxVersion  \n"
+
+linuxVersion=`uname -r | sed -e 's/\.[a-z].*//' -e 's/-/./'`
+
+#test if we run a 4.1 uek kernel
+#ol7 supports docker only on uek 4.1 or higher
+#
+if [[ `echo -e "$linuxVersion\n4.1" | sort -V | head -1` != "4.1" ]]
+then 
+       echo "Error kernel higher than 4.1.12-124.7.1 is required;  run “sudo yum upgrade kernel-uek.x86_64”";
+     exit 1
+fi
+        
+#test if we are between 4.1.12.112.14.10 and 4.1.12.124.7.0
+#
+if [[ `echo -e "$linuxVersion\n4.1.12.112.14.10" | sort -V | head -1` = "4.1.12.112.14.10" ]]
+then 
+    if [[ `echo -e "$linuxVersion\n4.1.12.124.7.0" | sort -V | head -1` = "$linuxVersion" ]]
+    then 
+       echo "Error Kernels between  4.1.12-112.14.10 and 4.1.12-124.7.0 : not working for 32-bit binaries due to kernel regression";
+       echo "run “sudo yum upgrade kernel-uek.x86_64”";
+       exit 1;
+    fi
+fi
+
+fi
+echo "Kernel test passed"

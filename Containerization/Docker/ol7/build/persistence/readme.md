@@ -4,7 +4,7 @@ For a Siebel container, the notion of persistence is giving the container a memo
 
 ## Docker Volumes To The Rescue
 
-A docker volume is a directory containing files. Docker volumes are not deleted when the application exits and are thus our chosen path to persistence. It would also be possible to simply use some network attached storage, which is often the right solution for production Siebel systems. Ultimately, Docker does not care where the directory you attach sits, as long as it has appropriate access rights to the content. In the examples following, we're focussing on getting a working Siebel enterprise in the shortest possible time. Once you've familiarised yourself with the layout and operation of Siebel as a set of Docker containers, you can adjust the location of the mounted volumes to suit your goals.
+A docker volume is a directory containing files. Docker volumes are not deleted when the application exists and are thus our chosen path to persistence. It would also be possible to simply use some network attached storage, which is often the right solution for production Siebel systems. Ultimately, Docker does not care where the directory you attach sits, as long as it has appropriate access rights to the content. In the examples following, we're focussing on getting a working Siebel enterprise in the shortest possible time. Once you've familiarised yourself with the layout and operation of Siebel as a set of Docker containers, you can adjust the location of the mounted volumes to suit your goals.
 
 ## SES, SAI, CGW, and SFS
 
@@ -43,7 +43,7 @@ These checks will ultimately result in a reported status of healthy for each con
 IMAGE                                         STATUS                   PORTS                   NAMES
 registry.local.com:5000/siebel/ses/pv:18.4    Up 6 minutes (healthy)                           ses-ent1
 registry.local.com:5000/siebel/cgw/pv:18.4    Up 7 minutes (healthy)                           cgw-ent1
-registry.local.com:5000/siebel/sai/pv:18.4    Up 7 minutes (healthy)   0.0.0.0:443->9011/tcp   sai-ent1
+registry.local.com:5000/siebel/sai/pv:18.4    Up 7 minutes (healthy)   0.0.0.0:443->4430/tcp   sai-ent1
 ```
 
 ## Prerequisites
@@ -61,13 +61,13 @@ drwxr-x--- 2 demoadmin demoadmin   72 May 29 08:11 ses
 
 ## Build
 
-To build, descend into the build folderer and execute build-all using the following syntax:
+To build, descend into the build folderer and execute build-all-persistence using the following syntax:
 
 ```
-./build-all 18.4 registry.local.com:5000 siebel registry.local.com:5000/siebel 2>&1 | tee build.$(date +%F_%R).log
+./build-all-base-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
 
 ```
-This will very quickly build the PV (Persistent Volume) version of the Siebel container you direct it to. You can apply the PV version to either a base build or an update build.
+This will very quickly build the persistent version of the Siebel container on top of the specified non-persistent build. This produces the final version of the container that you will actually use. You can build a persistent version of the base container or any updated container.
 
 ## Verify
 

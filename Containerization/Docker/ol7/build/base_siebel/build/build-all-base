@@ -1,5 +1,6 @@
 #!/bin/bash
-# e.g. build-all 17.0 registry.local.com:5000 siebel registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 2>&1 | tee build.log
+# e.g. ./build-all-base 17.0np registry.local.com:5000 siebel registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 2>&1 | tee build.$(date +%F_%R).log
+
 
 function buildElement {
         echo ...

@@ -10,3 +10,4 @@ RUN  bash /config/sai_update.sh \
 && rm -rf /siebel/sai/ps_backup \
 && echo Waiting for deployment of web archive ... \
 && sleep 30
+

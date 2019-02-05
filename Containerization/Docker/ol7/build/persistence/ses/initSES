@@ -1,0 +1,92 @@
+#!/bin/bash
+
+set -x
+
+# Test for known kernel issues
+
+bash /config/kernelCheck
+if [ ! $? -eq 0 ] ; then
+	exit 1;
+fi
+
+# Define primary variables
+
+persistencePath='/persistent'
+sourcePath='/siebel/ses'
+
+# Source the persistance layer for this container
+
+source /config/persistenceLayerSES
+
+function migrateFoldersToPersistenceVolume(){
+        for folder in ${folderList[@]} ; do
+                if [ ! -d ${persistencePath}${folder} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${folder} ${persistencePath}`dirname $folder`
+                fi
+                rm -rf ${sourcePath}${folder}
+                ln -s ${persistencePath}${folder} ${sourcePath}${folder}
+        done
+}
+
+function migrateFilesToPersistenceVolume(){
+        for file in ${fileList[@]} ; do
+                folder=`dirname $file`
+                if [ ! -f ${persistencePath}${file} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${file} ${persistencePath}${folder}
+                fi
+                rm -f ${sourcePath}${file}
+                ln -s ${persistencePath}${file} ${sourcePath}${file}
+        done
+
+}
+
+# Migrate persistent content
+
+migrateFoldersToPersistenceVolume
+migrateFilesToPersistenceVolume
+
+# Deal with special case of start_server and siebel_server creation
+# problem with start_server ... created in advance, it won't be written .... not created in advance, can't write to dangling symlink .... CreateScriptFromTemplate needs to change to accomodate this
+# workaround by performing the duties of CreateScriptFromTemplate here but against persistent volume
+
+if [ ! -f ${persistencePath}/siebsrvr/bin/start_server ] ; then
+	cp ${sourcePath}/siebsrvr/admin/start_server.tmpl ${persistencePath}/siebsrvr/bin/start_server
+	cp ${sourcePath}/siebsrvr/admin/siebel_server.tmpl ${persistencePath}/siebsrvr/bin/siebel_server
+	chmod ug+x ${persistencePath}/siebsrvr/bin/start_server
+	chmod ug+x ${persistencePath}/siebsrvr/bin/siebel_server
+fi
+ln -s ${persistencePath}/siebsrvr/bin/start_server ${sourcePath}/siebsrvr/bin/start_server
+ln -s ${persistencePath}/siebsrvr/bin/siebel_server ${sourcePath}/siebsrvr/bin/siebel_server
+
+# Copy any patch content into the container prior to boot 
+
+if [ -d ${persistencePath}/hotfix/ses/ ] ; 
+then
+	# copies folder structure into the container to apply patch
+	cp -R ${persistencePath}/hotfix/ses/* ${sourcePath}
+fi
+
+# Configure tnsnames.ora with supplied params, or defaults if not supplied
+
+# setup tnsnames entry $tnsConnectString , $dbServerName , $dbPort , $dbServiceName
+[[ -z $tnsConnectString ]] && tnsConnectString='ORCLPDB1'
+[[ -z $dbServerName ]] && dbServerName='oracle12c'
+[[ -z $dbPort ]] && dbPort='1521'
+[[ -z $dbServiceName ]] && dbServiceName='SAMPLE.localdomain'
+
+echo $tnsConnectString'=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = '$dbServerName')(PORT = '$dbPort'))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = '$dbServiceName')))
+'>/config/tnsnames.ora
+
+
+# Start Tomcat
+
+${sourcePath}/applicationcontainer/bin/startup.sh > ${persistencePath}/applicationcontainer/logs/containerStartup.log
+
+# If configured, start the name server
+
+if ls ${persistencePath}/siebelserver_*.resp 1> /dev/null 2>&1; then 
+	source ${sourcePath}/siebsrvr/siebenv.sh
+	start_server all >> ${persistencePath}/siebsrvr/log/containerStartup.log
+fi

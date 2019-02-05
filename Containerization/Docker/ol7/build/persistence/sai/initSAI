@@ -1,0 +1,66 @@
+#!/bin/bash
+
+set -x
+
+# Test for known kernel issues
+
+bash /config/kernelCheck
+if [ ! $? -eq 0 ] ; then
+	exit 1;
+fi
+
+# Define primary variables
+
+persistencePath='/persistent'
+sourcePath='/siebel/sai'
+
+# Source the persistance layer for this container
+
+source /config/persistenceLayerSAI
+
+function migrateFoldersToPersistenceVolume(){
+        for folder in ${folderList[@]} ; do
+                if [ ! -d ${persistencePath}${folder} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${folder} ${persistencePath}`dirname $folder`
+                fi
+                rm -rf ${sourcePath}${folder}
+                ln -s ${persistencePath}${folder} ${sourcePath}${folder}
+        done
+}
+
+function migrateFilesToPersistenceVolume(){
+        for file in ${fileList[@]} ; do
+                folder=`dirname $file`
+                if [ ! -f ${persistencePath}${file} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${file} ${persistencePath}${folder}
+                fi
+                rm -f ${sourcePath}${file}
+                ln -s ${persistencePath}${file} ${sourcePath}${file}
+        done
+
+}
+
+# Migrate persistent content
+
+migrateFoldersToPersistenceVolume
+migrateFilesToPersistenceVolume
+
+# Copy any patch content into the container prior to boot
+
+if [ -d ${persistencePath}/hotfix/sai/ ] ;
+then
+        # copies folder structure into the container to apply patch
+        cp -R ${persistencePath}/hotfix/sai/* ${sourcePath}
+fi
+
+# Alter server.xml to source custom JS/Images/CSS from persistence volume
+
+mkdir -p ${persistencePath}/applicationcontainer/webapps/siebel/files/custom ${persistencePath}/applicationcontainer/webapps/siebel/images/custom ${persistencePath}/applicationcontainer/webapps/siebel/scripts/siebel/custom
+
+if ! grep -q "/siebel/images/custom" ${persistencePath}/applicationcontainer/conf/server.xml; then
+	sed -i '/unpackWARs="true"/a <Context docBase="/persistent/applicationcontainer/webapps/siebel/files/custom" path="/siebel/files/custom" /><Context docBase="/persistent/applicationcontainer/webapps/siebel/images/custom" path="/siebel/images/custom" /><Context docBase="/persistent/applicationcontainer/webapps/siebel/scripts/siebel/custom" path="/siebel/scripts/siebel/custom" />' ${persistencePath}/applicationcontainer/conf/server.xml
+fi
+
+${sourcePath}/applicationcontainer/bin/startup.sh > ${persistencePath}/applicationcontainer/logs/tomcatStartup.log

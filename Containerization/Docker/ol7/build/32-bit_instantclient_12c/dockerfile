@@ -1,42 +1,27 @@
+# Load minimum of 32-bit runtime rpms as per MOS Note  2197176.1
+# copy instantclient rpms 
+# copy tnsnames.ora if required and set TNS_ADMIN
+
 FROM oraclelinux:latest
 
 COPY oracle-instantclient12.2-*.rpm /
+COPY  tnsnames.ora /config/
 
 RUN yum -y install \
- xterm \
- tigervnc-server.x86_64 \
- nfs-utils.x86_64 \
- xorg-x11-utils \
- xorg-x11-server-utils \
  ksh \
  tcsh \
- libgcc.x86_64 \
- libgcc.i686 \
- libstdc++.x86_64 \
  libstdc++.i686 \
- glibc-devel.i686 \
- compat-libstdc++-296.i686 \
- compat-libstdc++-33.i686 \
+ glibc.i686 \
  libaio.i686 \
- libaio-devel.i686 \
- libuuid.x86_64 \
- libuuid.i686 \
- libX11.i686 \
- libXtst.i686 \
- libXext.i686 \
- libXi.i686 \
 && yum -y localinstall   oracle-instantclient12.2-*.i386.rpm \
 && yum clean all \
 && rm -rf /var/cache/yum/x86_64  \
 && rm -rf /var/cache/yum/i686 \
 && rm oracle-instantclient12.2*.rpm \
-&& mkdir -m a+rwx -p /siebel/oraInventory /siebel/ses /host_area /stage  /config \
-&& groupadd -g  487 siebel && useradd -m -g siebel -G siebel -u 9999  siebel \
 && ln -s /usr/lib/oracle/12.2/client/lib/libclntsh.so.12.1 /usr/lib/oracle/12.2/client/lib/libclntsh.so
 
-
-COPY  tnsnames.ora /config/
-
-ENV ORACLE_HOME=/usr/lib/oracle/12.2/client TNS_ADMIN=/config/ LD_LIBRARY_PATH="/usr/lib/oracle/12.2/client/lib:${LD_LIBRARY_PATH}"  PATH="/usr/lib/oracle/12.2/client/bin:${PATH}"
-
-ENV LANG=en_US.UTF-8 RESOLV_MULTI=off
+ENV ORACLE_HOME=/usr/lib/oracle/12.2/client \
+    TNS_ADMIN=/config/ \
+    LD_LIBRARY_PATH="/usr/lib/oracle/12.2/client/lib:${LD_LIBRARY_PATH}"  \
+    PATH="/usr/lib/oracle/12.2/client/bin:${PATH}" \ 
+    LANG=en_US.UTF-8 

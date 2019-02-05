@@ -1,0 +1,14 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# custom
+
+if [ -f /siebel/cgw/gtwysrvr/siebenv.sh ] ; then
+        source /siebel/cgw/gtwysrvr/siebenv.sh
+fi
+
+cd /siebel/cgw

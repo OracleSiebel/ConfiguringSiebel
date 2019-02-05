@@ -1,0 +1,15 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# custom
+
+if [ -f /siebel/ses/siebsrvr/siebenv.sh ] ; then
+        source /siebel/ses/siebsrvr/siebenv.sh
+fi
+
+cd /siebel/ses
+

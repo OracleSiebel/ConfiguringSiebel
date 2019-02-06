@@ -17,7 +17,7 @@ Before getting started, you need to obtain the following rpms from Oracle [here]
 You can now build the DB Client container from which subsequent containers will be built. The tag that you give to this container will be re-used in subsequent steps. Adapt this tag for your naming conventions. e.g. execute the following command from the directory containing the above files and rpms:
 
 ```
-    docker build -t registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 --squash . 2>&1 | tee build.log
+    docker build -t registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 --squash . 2>&1 | tee build.$(date +%F_%R).log
 ```
 
 ## Confirm

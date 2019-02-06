@@ -1,5 +1,5 @@
 #!/bin/bash
-# e.g. ./build-all-base-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
+# e.g. bash build-all-base-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
 
 function buildElement {
         echo ...

@@ -7,7 +7,7 @@ The tool assumes that keytool (a Java toolset), and openssl are already availabl
 To execute the tool and generate a keystore viable for testing, which will act as both the keystore and truststore, simply drop into the Keys folder and execute the following (adapting parameters to suit your taste):
 
 ```
-./keygen -r .. -s mypass -d *.company.com -c my-custom-ca 2>&1 | tee keygen.log
+bash keygen -r .. -s siebel -d *.company.com -c my-custom-ca 2>&1 | tee keygen.log
 ```
 
 This will give you a siebelkeystore.jks file which can be incorporated into the [build folder](../../build/base_siebel) for the containers.

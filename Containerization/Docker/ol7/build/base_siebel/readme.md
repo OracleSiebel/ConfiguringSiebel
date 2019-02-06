@@ -22,7 +22,7 @@ In order to build, descend into the build folder and first read the build-all sc
 ```    
 Also consider that the CGW and SES containers need db access and are thus built from the DB client container you previously build. Ultimately, for functional Siebel containers, we will need the concept of persistence, so we will tag this build as non-persistent (np). So to build our Siebel container, we will pass in the name we used to tag our dbclient container along with the naming details, e.g:
 ```
-    ./build-all-base 17.0np registry.local:5000 siebel registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 2>&1 | tee build.$(date +%F_%R).log
+    bash build-all-base 17.0np registry.local.com:5000 siebel registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 2>&1 | tee build.$(date +%F_%R).log
 
 ```
 This will generate a log file (build.date.log) containing all output from the build process to enable you to review what happened at a later date.
@@ -38,7 +38,7 @@ You should see something like this:
 REPOSITORY                                                    TAG                 IMAGE ID            CREATED             SIZE
 registry.local.com:5000/siebel/ses                            17.0np              03e4794c53f5        39 seconds ago      2.26GB
 registry.local.com:5000/siebel/cgw                            17.0np              a2178b251e59        9 minutes ago       1.18GB
-registry.local.com:5000/siebel/sai                            17.0np              f522350e8222        15 minutes ago      1.35GB
+registry.local.com:5000/siebel/sai                            17.0np              f522350e8222        15 minutes ago      948MB
 ```
 
 ## Test

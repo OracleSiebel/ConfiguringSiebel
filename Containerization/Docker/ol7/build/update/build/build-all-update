@@ -1,5 +1,5 @@
 #!/bin/bash
-# e.g. ./build-all-update 19.01np registry.local.com:5000 siebel registry.local.com:5000/siebel 17.0np 2>&1 | tee build.$(date +%F_%R).log
+# e.g. bash build-all-update 19.01np registry.local.com:5000 siebel registry.local.com:5000/siebel 17.0np 2>&1 | tee build.$(date +%F_%R).log
 
 function buildElement {
         echo ...

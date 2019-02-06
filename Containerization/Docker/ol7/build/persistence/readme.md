@@ -61,10 +61,10 @@ drwxr-x--- 2 demoadmin demoadmin   72 May 29 08:11 ses
 
 ## Build
 
-To build, descend into the build folderer and execute build-all-persistence using the following syntax:
+To build, descend into the build folder and execute build-all-persistence using the following syntax:
 
 ```
-./build-all-base-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
+bash build-all-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
 
 ```
 This will very quickly build the persistent version of the Siebel container on top of the specified non-persistent build. This produces the final version of the container that you will actually use. You can build a persistent version of the base container or any updated container.

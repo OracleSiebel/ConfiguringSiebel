@@ -18,7 +18,8 @@ RUN yum -y install \
 && rm -rf /var/cache/yum/x86_64  \
 && rm -rf /var/cache/yum/i686 \
 && rm oracle-instantclient12.2*.rpm \
-&& ln -s /usr/lib/oracle/12.2/client/lib/libclntsh.so.12.1 /usr/lib/oracle/12.2/client/lib/libclntsh.so
+&& ln -s /usr/lib/oracle/12.2/client/lib/libclntsh.so.12.1 /usr/lib/oracle/12.2/client/lib/libclntsh.so \
+&& chmod 777 /config/tnsnames.ora
 
 ENV ORACLE_HOME=/usr/lib/oracle/12.2/client \
     TNS_ADMIN=/config/ \

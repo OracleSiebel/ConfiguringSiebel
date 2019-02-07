@@ -1,8 +1,8 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 [-u <sai username>] [-p <sai password>] [-e <enterprise> ] [-c <component>] [-m <mode>] [-a <sai host name>] [-b <sai https port>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-u <sai username>] [-p <sai password>] [-e <enterprise> ] [ -s <server> ] [-c <component>] [-m <mode>] [-a <sai host name>] [-b <sai https port>]" 1>&2; exit 1; }
 
-while getopts u:p:a:b:c:m:e: option
+while getopts u:p:a:b:c:m:e:s: option
 do
  case "${option}"
  in
@@ -13,11 +13,12 @@ do
  c)  COMP=${OPTARG};;
  m)  MODE=${OPTARG};;
  e)  ENT=${OPTARG};;
+ s)  SES=${OPTARG};;
 
  esac
 done
 
-if [ -z "${USER}" ] || [ -z "${PASS}" ] || [ -z "${COMP}" ] || [ -z "${MODE}" ] || [ -z "${SAIHOST}" ] || [ -z "${SAIPORT}" ] || [ -z "${ENT}" ] ; then
+if [ -z "${USER}" ] || [ -z "${PASS}" ] || [ -z "${COMP}" ] || [ -z "${MODE}" ] || [ -z "${SAIHOST}" ] || [ -z "${SAIPORT}" ] || [ -z "${ENT}" ] || [ -z "${SES}" ] ; then
     usage
 fi
 
@@ -33,6 +34,6 @@ echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
  -H "Authorization: Basic $ENCODED" \
  -H "Content-Type: application/json" \
  -X POST \
-https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/enterprises/${ENT}/servers/SES/components/${COMP} \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/enterprises/${ENT}/servers/${SES}/components/${COMP} \
 -d @-
 

@@ -1,0 +1,6 @@
+#!/bin/bash
+source ./${1}
+date
+docker exec ses-${ENTERPRISE1} bash -c ". /siebel/ses/siebsrvr/siebenv.sh; stop_server all"
+docker exec ses-${ENTERPRISE1} bash -c ". /siebel/ses/siebsrvr/siebenv.sh; start_server all"
+date

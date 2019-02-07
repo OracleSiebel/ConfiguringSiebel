@@ -21,3 +21,21 @@ ENTPROFILE=ENT
 HWSERVER=localhost
 COMPGRPS=callcenter,siebelwebtools,eai
 SES1SERVERNAME=SES
+
+readonly compsToManual=(
+	'BusIntBatchMgr'
+	'CustomAppObjMgr_enu'
+	'SServiceObjMgr_enu'
+	'eServiceObjMgr_enu'
+	'JMSReceiver'
+	'InfraEAIOutbound'
+	'SMQReceiver'
+	'MSMQRcvr'
+	'MqSeriesSrvRcvr'
+	'MqSeriesAMIRcvr'
+	'JMSReceiver'
+	'EIM'
+	'CustomAppObjMgr_enu'
+	'BusIntMgr'
+	'BusIntBatchMgr'
+)

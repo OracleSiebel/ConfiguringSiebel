@@ -23,7 +23,7 @@ In order to build, descend into the build folder in order to execute the build-a
 ```    
 The SAI, CGW, and SES containers each need to be updated. Rather than updating the 17.0 containers, we build three new containers which take as a base the previous version. At the end of the build process we retain the original versions, and also obtain the 3 updated versions. As we're build on top of existing container, we need to specify the path to those containers. So to update our Siebel containers, we will run something like this command e.g:
 ```
-    bash build-all-update 19.01np registry.local.com:5000 registry.local.com:5000/siebel 17.0np 2>&1 | tee build.$(date +%F_%R).log
+    bash build-all-update 19.01np registry.local.com:5000 siebel registry.local.com:5000/siebel 17.0np 2>&1 | tee build.$(date +%F_%R).log
 ```
 This translates into english as: build updated siebel docker containers using the installation media in Siebel_Enterprise_Server. Build on top of existing containers that are tagged like ```registry.local.com:5000/siebel/sai:17.0np``` and tag the final results as ```registry.local.com:5000/siebel/ses:19.01np```
 
@@ -38,19 +38,19 @@ Once the build process completes, review the state of your images using:
 You should see something like this:
 ```
     REPOSITORY                           TAG      SIZE
-    registry.local.com:5000/siebel/ses   18.4np   3.25GB
-    registry.local.com:5000/siebel/cgw   18.4np   1.37GB
-    registry.local.com:5000/siebel/sai   18.4np   1.81GB
+    registry.local.com:5000/siebel/ses   19.01np  3.34GB
+    registry.local.com:5000/siebel/cgw   19.01np  1.45GB
+    registry.local.com:5000/siebel/sai   19.01np  1.44GB
     registry.local.com:5000/siebel/ses   17.0np   2.24GB
     registry.local.com:5000/siebel/cgw   17.0np   1.16GB
-    registry.local.com:5000/siebel/sai   17.0np   1.33GB
+    registry.local.com:5000/siebel/sai   17.0np   948MB
 ```
 
 ## Test
 
 Testing the Siebel containers is too complex to detail in this short space. You can run a quick test of the SAI container however just to make sure the build worked correctly:
 ```
-    docker run -it -p 443:4430 registry.local.com:5000/siebel/sai:18.4np bash
+    docker run -it -p 443:4430 registry.local.com:5000/siebel/sai:19.01np bash
 ```
 To start the SAI in lite mode, now do this:
 ```

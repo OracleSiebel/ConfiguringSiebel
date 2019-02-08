@@ -25,4 +25,6 @@ The build process will proceed in this order:
 
 While we don't cover the specifics of creating the Siebel database, it's worth mentioning the Oracle make the 12c enterprise database available as a Docker container from the Docker Store. You can therefore use this container to create a Siebel database as a pluggable database. I would recommend doing that as you'll then have a self contained compact Siebel system. As mentioned previously though, it's beyond the current scope of this repository to discuss configuring the database from scratch.
 
+[Here's a video](https://www.youtube.com/watch?v=MvETSsryqok&feature=youtu.be) following the setup of OEL7 and Siebel 19.1 using [Oracle VirtualBox](https://www.virtualbox.org/)
+
 If you have contributions to make, pull requests will be considered.

@@ -50,3 +50,7 @@ e.g.
 ```
 bash stopAll ent1.sh
 ```
+
+## Video
+
+[Watch these steps](https://www.youtube.com/watch?v=MvETSsryqok&t=4233s)

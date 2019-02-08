@@ -43,3 +43,6 @@ Verify your container functions as expected by starting the container and connec
 ```
     docker run -it --rm registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1 sqlplus user/pass@dbserver:port/servicename
 ```
+## Video
+
+[Watch this step](https://www.youtube.com/watch?v=MvETSsryqok&t=2145s)

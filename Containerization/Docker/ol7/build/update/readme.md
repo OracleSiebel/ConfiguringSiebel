@@ -60,3 +60,8 @@ To start the SAI in lite mode, now do this:
 You should now be able to connect to https://<machine-ip>/siebel/smc and see the login screen for SMC.
 
 Further details about working with Siebel in containers will be posted in the near future.
+
+
+## Video
+
+[Watch this step](https://www.youtube.com/watch?v=MvETSsryqok&t=3528s)

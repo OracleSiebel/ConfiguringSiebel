@@ -77,16 +77,20 @@ Once the process complete, review the state of your images using:
 docker images
 ```
 
-You should see the newly build PV containers alongside the original versions:
+You should see the newly built final containers alongside the non-persistent versions:
 
 ```
-REPOSITORY                             TAG    SIZE
-registry.local.com:5000/siebel/ses/pv  18.4   3.25GB
-registry.local.com:5000/siebel/cgw/pv  18.4   1.37GB
-registry.local.com:5000/siebel/sai/pv  18.4   1.81GB
-registry.local.com:5000/siebel/ses     18.4   3.25GB
-registry.local.com:5000/siebel/cgw     18.4   1.37GB
-registry.local.com:5000/siebel/sai     18.4   1.81GB
+REPOSITORY                             TAG       SIZE
+registry.local.com:5000/siebel/ses     19.01     3.34GB
+registry.local.com:5000/siebel/cgw     19.01     1.45GB
+registry.local.com:5000/siebel/sai     19.01     1.44GB
+registry.local.com:5000/siebel/ses     19.01np   3.34GB
+registry.local.com:5000/siebel/cgw     19.01np   1.45GB
+registry.local.com:5000/siebel/sai     19.01np   1.44GB
 
 ```
-We're now in a position to stop and start these docker containers while retaining the full enterprise configuration. The really fantastic thing about this persistence capability as that we're able to stop, for example, version 17.6 containers, and then start 18.4 containers against the same persistent volume content. This is the aspect which should help to reduce downtime between regular updates. With only a little more effort, this should be able to be automated: i.e. watch for new versions to become available as they are built to your local registry (and ultimately the docker store), then automatically (or at a planned time, or simply manually), stop and start the appropriate containers to move to the next version.
+We're now in a position to stop and start these docker containers while retaining the full enterprise configuration. One particularly useful thing about this persistence capability as that we're able to stop, for example, version 18.12 containers, and then start 19.01 containers against the same persistent volume content. This is the aspect which should help to reduce downtime between regular updates. With only a little more effort, this could be automated: i.e. watch for new versions to become available as they are built to your local registry (and ultimately the docker store), then automatically (or at a planned time, or simply manually) stop and start the appropriate containers to move to the next version.
+
+## Video
+
+[Watch this step](https://www.youtube.com/watch?v=MvETSsryqok&t=4135s)

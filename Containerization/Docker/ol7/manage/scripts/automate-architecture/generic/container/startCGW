@@ -23,7 +23,7 @@ do
  esac
 done
 
-if [ -z "${NAME}" ] || [ -z "${VOL}" ] || [ -z "${SFS}" ] || [ -z "${REL}" ] || [ -z "${CONTAINERBASE}" ] || [ -z "${DOMAIN}" ] || [ -z "${USER}"] || [ -z "${NETWORK}" ]; then
+if [ -z "${NAME}" ] || [ -z "${VOL}" ] || [ -z "${SFS}" ] || [ -z "${REL}" ] || [ -z "${CONTAINERBASE}" ] || [ -z "${DOMAIN}" ] || [ -z "${USER}" ] || [ -z "${NETWORK}" ]; then
     usage
 fi
 

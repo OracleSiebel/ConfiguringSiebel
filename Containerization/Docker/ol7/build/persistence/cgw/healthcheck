@@ -1,4 +1,4 @@
-. /siebel/ses/cgw/gtwysrvr/siebenv.sh
+. /siebel/cgw/gtwysrvr/siebenv.sh
 if list_ns | grep -q "Service process is not running"; 
 then 
 	exit 1

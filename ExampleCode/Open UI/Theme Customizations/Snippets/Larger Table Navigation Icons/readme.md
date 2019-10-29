@@ -3,7 +3,7 @@ By default, the table navigation icons are quite small.
 
 ![](default-table-icons.png)
 
-It's easy to choose whichever icons you like. We'll pick some from [Font Awesome](http://fontawesome.io/) to show how to change them. If we're going to use Font Awesome, we'll need to have already [added that icon pack](../Add an Icon Pack) to the system.
+It's easy to choose whichever icons you like. We'll pick some from [Font Awesome](http://fontawesome.io/) to show how to change them. If we're going to use Font Awesome, we'll need to have already [added that icon pack](./Add an Icon Pack) to the system.
 
 Looking through Font Awesome's icons, I selected the following:
 - [fa-angle-double-left](http://fontawesome.io/icon/angle-double-left/)

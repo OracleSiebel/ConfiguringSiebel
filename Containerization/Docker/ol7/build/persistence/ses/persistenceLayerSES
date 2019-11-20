@@ -8,6 +8,7 @@ readonly folderList=(
 	'/siebsrvr/enterprises'
 	'/siebsrvr/kwd'
 	'/siebsrvr/upt'
+	'/siebsrvr/hhsync'
 );
 readonly fileList=(
 	'/siebelserver_'$sesServerName'.resp'

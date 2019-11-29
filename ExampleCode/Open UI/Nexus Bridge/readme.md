@@ -1,6 +1,6 @@
 # Nexus Bridge
 
-The Nexus Bridge is a development from Ideport Riga, which helps developers to bridge the gap between the jQuery-based API for OpenUI and modern frameworks, including vue.js, React, amongst others.
+The Nexus Bridge is a development from Ideaport Riga, which helps developers to bridge the gap between the jQuery-based API for OpenUI and modern frameworks, including Vue.js, React, amongst others.
 
 The Siebel team at Oracle has reviewed the code of the Nexus Bridge JS library, paying careful attention to how it uses Open UI methods and properties. Based on our comments, Ideaport refactored the code, and all major concerns have been addressed. We would have implemented some aspects of the Nexus Bridge differently. Since this is not Oracle product, we don't insist on changing the Nexus Bridge our way. 
 

@@ -14,14 +14,10 @@ if (typeof(SiebelAppFacade.ConstrainInputPW) === "undefined") {
 			ConstrainInputPW.prototype.BindEvents = function () {
 				SiebelAppFacade.ConstrainInputPW.superclass.BindEvents.apply(this, arguments);
 				$(this.GetEl()).keypress(function (e) {
-					var a = [];
-					var k = e.which;
-
-					for (i = 48; i < 58; i++)
-						a.push(i);
-					a.push(46); //period
-
-					if (!(a.indexOf(k) >= 0))
+					var key = String.fromCharCode(e.which);
+					var allowed = ",.0123456789";
+					
+					if (!allowed.includes(key))
 						e.preventDefault();
 
 				});

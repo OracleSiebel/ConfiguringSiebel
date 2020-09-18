@@ -1,5 +1,5 @@
 #!/bin/bash
-# e.g. bash build-all-base-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
+# e.g. bash build-all-persistence 19.01 registry.local.com:5000 siebel registry.local.com:5000/siebel 19.01np 2>&1 | tee build.$(date +%F_%R).log
 
 function buildElement {
         echo ...
@@ -14,9 +14,11 @@ function buildElement {
 
 echo Beginning build for $1
 date
-buildElement sai $1 $2 $3 $4 $5
-buildElement cgw $1 $2 $3 $4 $5
-buildElement ses $1 $2 $3 $4 $5
+time ( \
+        buildElement sai $1 $2 $3 $4 $5 && \
+        buildElement cgw $1 $2 $3 $4 $5 && \
+        buildElement ses $1 $2 $3 $4 $5 \
+)
 date
 echo Build of $1 complete
 

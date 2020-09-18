@@ -12,6 +12,12 @@ Before getting started, you need to obtain the following rpms from Oracle [here]
 * [oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.i386.rpm](http://download.oracle.com/otn/linux/instantclient/122010/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.i386.rpm)
 * [oracle-instantclient12.2-tools-12.2.0.1.0-1.i386.rpm](http://download.oracle.com/otn/linux/instantclient/122010/oracle-instantclient12.2-tools-12.2.0.1.0-1.i386.rpm)
 
+You should also acquire the latest version of the docker container we are extending. In this case, it's oraclelinux:7-slim.
+
+```
+    docker pull oraclelinux:7-slim
+```
+
 ## Build
 
 You can now build the DB Client container from which subsequent containers will be built. The tag that you give to this container will be re-used in subsequent steps. Adapt this tag for your naming conventions. e.g. execute the following command from the directory containing the above files and rpms:

@@ -13,8 +13,10 @@ function buildElement {
 echo Beginning build for $1
 date
 chmod -R 755 ..
-buildElement sai $1 $2 $3 $4
-buildElement cgw $1 $2 $3 $4
-buildElement ses $1 $2 $3 $4
+time ( \
+        buildElement sai $1 $2 $3 $4 && \
+        buildElement cgw $1 $2 $3 $4 && \
+        buildElement ses $1 $2 $3 $4 \
+)
 date
 echo Build of $1 complete

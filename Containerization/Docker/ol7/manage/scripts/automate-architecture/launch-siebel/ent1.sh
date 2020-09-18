@@ -1,8 +1,8 @@
-ROOT=/home/demoadmin/ConfiguringSiebel/Containerization/Docker/ol7/manage/scripts/automate-architecture
+ROOT=/home/demoadmin/dev/ConfiguringSiebel/Containerization/Docker/ol7/manage/scripts/automate-architecture
 PV=/var/lib/docker/volumes/PV
 CONTAINERBASE=registry.local.com:5000/siebel
 DOMAIN=company.com
-ENTERPRISE1=ENT1
+ENTERPRISE1=ENT
 DBHOST=oracle12c
 DBPORT=1521
 DBINST=SAMPLE.localdomain

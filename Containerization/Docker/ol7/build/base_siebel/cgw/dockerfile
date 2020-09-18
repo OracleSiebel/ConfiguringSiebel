@@ -8,13 +8,15 @@ COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
 RUN mkdir -p -ma+rwx /siebel/cgw /siebel/oraInventory  /stage \
 && groupadd -g  487 siebel \
 && useradd -m -g siebel -G siebel -u 9999  siebel \
+&& yum -y update libstdc++.x86_64 \
 && yum -y install \
- libgcc.i686 \
  libxcb.i686 \
  libX11.i686 \
  libXext.i686 \
  libXau.i686 \
- libcurl.i686 \
+ glibc.i686 \
+ libaio.i686 \
+ libstdc++.i686 \
 && yum clean all \
 && rm -rf /var/cache/yum/x86_64  \
 && rm -rf /var/cache/yum/i686 \

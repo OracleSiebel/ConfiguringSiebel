@@ -2,7 +2,7 @@
 # copy instantclient rpms 
 # copy tnsnames.ora if required and set TNS_ADMIN
 
-FROM oraclelinux:latest
+FROM oraclelinux:7-slim
 
 COPY oracle-instantclient12.2-*.rpm /
 COPY  tnsnames.ora /config/
@@ -10,8 +10,7 @@ COPY  tnsnames.ora /config/
 RUN yum -y install \
  ksh \
  tcsh \
- libstdc++.i686 \
- glibc.i686 \
+ glibc.i686  \
  libaio.i686 \
 && yum -y localinstall   oracle-instantclient12.2-*.i386.rpm \
 && yum clean all \

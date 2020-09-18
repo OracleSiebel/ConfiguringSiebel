@@ -51,7 +51,6 @@ JSON='{
 "ObjectManager":"eaiobjmgr_enu",
 "Baseuri":"https://'$SAIDOCKERHOST':'$SAIDOCKERPORT'/siebel/v1.0/",
 "MaxConnections":20,
-"MinConnections":"5 ",
 "RESTResourceParamList":[]
 },
 "UI": {"LogProperties":{"LogLevel":"ERROR"}},

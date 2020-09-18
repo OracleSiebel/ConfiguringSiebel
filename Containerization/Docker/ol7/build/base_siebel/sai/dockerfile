@@ -5,7 +5,7 @@
 #
 
 ARG DBCONTAINER=registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1
-FROM  oraclelinux:latest
+FROM  oraclelinux:7-slim
 
 COPY sai/oraInst.loc sai/sai.rsp sai/setup.sh siebelkeystore.jks /config/
 

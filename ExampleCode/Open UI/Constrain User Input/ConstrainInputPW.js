@@ -1,7 +1,7 @@
 if (typeof(SiebelAppFacade.ConstrainInputPW) === "undefined") {
 
 	SiebelJS.Namespace("SiebelAppFacade.ConstrainInputPW");
-	define("siebel/custom/ConstrainInputPW", [],
+	define("siebel/custom/ConstrainInputPW", ["siebel/pwinfra"],
 		function () {
 		SiebelAppFacade.ConstrainInputPW = (function () {
 
@@ -14,14 +14,12 @@ if (typeof(SiebelAppFacade.ConstrainInputPW) === "undefined") {
 			ConstrainInputPW.prototype.BindEvents = function () {
 				SiebelAppFacade.ConstrainInputPW.superclass.BindEvents.apply(this, arguments);
 				$(this.GetEl()).keypress(function (e) {
-					var a = [];
-					var k = e.which;
+					var keys = [44, 46];	//	comma, period
 
 					for (i = 48; i < 58; i++)
-						a.push(i);
-					a.push(46); //period
+						keys.push(i);	//	digits
 
-					if (!(a.indexOf(k) >= 0))
+					if (!(keys.includes(e.which)))
 						e.preventDefault();
 
 				});

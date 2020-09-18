@@ -1,8 +1,7 @@
 
-/* Styling for Required Fields */	
+/* Styling for Required empty input Fields, which result as invalid. */	
 
-input[aria-required="true"], div.mceGridField input.siebui-ctrl-mvg[aria-required="true"], input[aria-required="true"][readonly="readonly"] {
+input:invalid {
     border-color: red !important;
     background: rgb(255, 237, 237) !important;
-    font-weight: bold;
 }

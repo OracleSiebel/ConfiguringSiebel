@@ -1,0 +1,44 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 [-u <initial sai username>] [-p <initial sai password>] [-g <gateway host name>] [-h <gateway https port>] [-a <sai host name>] [-b <sai https port>]" 1>&2; exit 1; }
+
+while getopts u:p:g:h:a:b: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ g)  GATEWAYHOST=${OPTARG};;
+ h)  GATEWAYPORT=${OPTARG};;
+ a)  SAIHOST=${OPTARG};;
+ b)  SAIPORT=${OPTARG};;
+
+ esac
+done
+
+echo $USER
+echo $PASS
+echo $GATEWAYHOST
+echo $GATEWAYPORT
+echo $SAIHOST
+echo $SAIPORT
+
+if [ -z "${USER}" ] || [ -z "${PASS}" ] || [ -z "${GATEWAYHOST}" ] || [ -z "${GATEWAYPORT}" ] || [ -z "${SAIHOST}" ] || [ -z "${SAIPORT}" ] ; then
+    usage
+fi
+
+ENCODED="$(echo -n $USER:$PASS|base64)"
+
+JSON='{"CGHostURI":"'$GATEWAYHOST':'$GATEWAYPORT'","CGTlsPort":"8888"}'
+
+echo
+echo $JSON
+echo
+
+echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X POST \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cginfo \
+-d @-
+

@@ -1,0 +1,113 @@
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Authors: andreas.thieltges@oracle.com and duncan.ford@oracle.com
+# Description: Build Siebel container
+#
+# Notes: This build is executed from the build-all-multistage script
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+# Globals - these are overridden by the calling script
+
+ARG VERSION=19.03
+ARG BUILD_DATE=2019-04-30
+
+# Begin
+
+FROM container-registry.oracle.com/os/oraclelinux:7-slim as temp
+ARG INSTALLSITE=installers
+ARG VERSION
+LABEL siebel="temp"
+
+# Install Oracle Client
+
+COPY getClient.sh /config/
+
+RUN cd /mnt \
+&& yum -y install wget ksh tcsh \
+&& bash /config/getClient.sh ${INSTALLSITE}\
+&& yum -y localinstall /mnt/oracle-instantclient12.2-*.i386.rpm \
+&& touch /config/tnsnames.ora \
+&& chmod 777 /config/tnsnames.ora
+
+
+# Install Siebel
+
+COPY oraInst.loc getMDE.sh mde/mde.rsp mde/mde_install.sh siebelkeystore.jks /config/
+
+RUN mkdir -p -ma+rwx /siebel/ses /siebel/oraInventory  /stage \
+&& groupadd -g  1000 siebel && useradd -m -g siebel -G siebel -u 1000 siebel \
+&& cd /mnt \
+&& date \
+&& echo Downloading installer \
+&& bash /config/getMDE.sh ${INSTALLSITE} ${VERSION}\
+&& chmod a+rx /config \
+&& chown -R siebel:siebel /config \
+&& date \
+&& chmod +x /mnt/Siebel_Enterprise_Server/Disk1/install/unzip \
+&& chmod +x /mnt/Siebel_Enterprise_Server/Disk1/install/runInstaller \
+&& cd / \
+&& echo Installing Siebel ... \
+&& bash /config/mde_install.sh \
+&& rm -rf /mnt/Siebel_Enterprise_Server/ \
+&& echo Waiting for deployment of web archives ... \
+&& sleep 15 \
+&& chown -R siebel:siebel /siebel \
+&& chmod -R 755 /siebel/ses
+# && sed -i 's/-t 90/-t 30/g' /siebel/umi/siebsrvr/admin/common.scm \
+# && sed -i 's/-t 90/-t 30/g' /siebel/umi/gtwysrvr/admin/common.scm \
+# && find /siebel/umi/siebsrvr/lib -name libssaferrdata.so -delete
+
+
+
+# Prepare Final Container
+
+FROM container-registry.oracle.com/os/oraclelinux:7-slim
+ARG VERSION
+ARG BUILD_DATE
+
+# Copy Client Content
+
+COPY --from=temp  /usr/lib/oracle /usr/lib/oracle/
+
+RUN mkdir -p -ma+rwx /stage \
+&& groupadd -g  1000 siebel \
+&& useradd -m -g siebel -G siebel -u 1000  siebel \
+&& yum -y update libstdc++.x86_64 \
+&& yum -y install \
+ ksh \
+ tcsh \
+ strace hostname iproute nc lsof dos2unix vi iputils \
+ libxcb.i686 \
+ libX11.i686 \
+ libXext.i686 \
+ libXau.i686 \
+ glibc.i686 \
+ libaio.i686 \
+ libstdc++.i686 \
+&& yum clean all \
+&& rm -rf /var/cache/yum/x86_64  \
+&& rm -rf /var/cache/yum/i686 \
+&& ln -s /usr/lib/oracle/12.2/client/lib/libclntsh.so.12.1 /usr/lib/oracle/12.2/client/lib/libclntsh.so
+
+# Copy Siebel Content
+
+COPY --from=temp --chown=siebel:siebel /config /config/
+COPY --from=temp --chown=siebel:siebel /siebel /siebel/
+
+# Add default values for environment variables. These can be overridden by the docker run command
+
+ENV ORACLE_HOME=/usr/lib/oracle/12.2/client \
+    TNS_ADMIN=/config/ \
+    LD_LIBRARY_PATH="/usr/lib/oracle/12.2/client/lib:${LD_LIBRARY_PATH}"  \
+    PATH="/usr/lib/oracle/12.2/client/bin:${PATH}" \
+    LANG=en_US.UTF-8 \
+    RESOLV_MULTI=off
+
+LABEL com.oracle.siebel.description="Siebel Container" \
+      com.oracle.siebel.version="${VERSION}" \
+      com.oracle.siebel.url="https://github.com/oracle/docker-images/tree/master/OracleSiebel" \
+      com.oracle.siebel.build-date="${BUILD_DATE}"

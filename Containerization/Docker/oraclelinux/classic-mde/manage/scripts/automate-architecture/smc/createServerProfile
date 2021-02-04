@@ -1,0 +1,50 @@
+#!/bin/bash
+while getopts u:p:a:b:n:c:l:m: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SAIHOST=${OPTARG};;
+ b)  SAIPORT=${OPTARG};;
+ n)  NAME=${OPTARG};;
+ c)  COMPGRPS=${OPTARG};;
+ l)  ANONUSER=${OPTARG};;
+ m)  ANONPASS=${OPTARG};;
+
+ esac
+done
+ENCODED="$(echo $USER:$PASS|base64)"
+
+JSON='{
+"ServerConfigParams":
+{
+"Username":"'$USER'",
+"Password":"'$PASS'",
+"AnonLoginUserName":"'$ANONUSER'",
+"AnonLoginPassword":"'$ANONPASS'",
+"EnableCompGroupsSIA":"'$COMPGRPS'",
+"SCBPort":"2321",
+"LocalSynchMgrPort":"40400",
+"ModifyServerEncrypt":"false",
+"ModifyServerAuth":"false",
+"ClusteringEnvironmentSetup":"NotClustered",
+"UseOracleConnector":"true"
+},
+"Profile":
+{
+"ProfileName":"'$NAME'"
+}
+}'
+
+echo
+echo $JSON
+echo
+
+echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X POST \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/profiles/servers \
+-d @-
+

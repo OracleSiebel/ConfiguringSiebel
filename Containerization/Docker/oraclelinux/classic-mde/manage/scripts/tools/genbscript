@@ -1,0 +1,1 @@
+docker exec ses-ENT bash -c "source /siebel/mde/siebsrvr/siebenv.sh; /siebel/mde/siebsrvr/bin/genbscript /c /siebel/mde/siebsrvr/bin/enu/siebel.cfg /sfs/webapps/siebel/scripts/siebel/custom /l enu /u SADMIN /p Welcome1 /d ServerDataSrc"

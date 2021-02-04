@@ -1,0 +1,127 @@
+#!/bin/bash
+while getopts u:p:a:b:n:l:m:s:t: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SAIHOST=${OPTARG};;
+ b)  SAIPORT=${OPTARG};;
+ n)  NAME=${OPTARG};;
+ l)  ANONUSER=${OPTARG};;
+ m)  ANONPASS=${OPTARG};;
+ s)  SAIDOCKERHOST=${OPTARG};;
+ t)  SAIDOCKERPORT=${OPTARG};;
+
+ esac
+done
+ENCODED="$(echo $USER:$PASS|base64)"
+
+JSON='{
+"ConfigParam":
+{
+"defaults":
+{
+"DoCompression":false,
+"EnableFQDN":false,
+"AuthenticationProperties":
+{
+"SessionTimeout":9000,
+"GuestSessionTimeout":300,
+"SessionTimeoutWLMethod":"HeartBeat",
+"SessionTimeoutWLCommand":"UpdatePrefMsg",
+"SessionTokenMaxAge":2880,
+"SessionTokenTimeout":9000,
+"SingleSignOn":false,
+"AnonUserName":"'$ANONUSER'",
+"AnonPassword":"'$ANONPASS'"
+}
+},
+"RESTInBound":
+{
+"RESTAuthenticationProperties":
+{
+"AnonUserName":"'$ANONUSER'",
+"AnonPassword":"'$ANONPASS'",
+"AuthenticationType":"Basic",
+"SessKeepAlive":900,
+"ValidateCertificate":true
+},
+"LogProperties":{"LogLevel":"ERROR"},
+"ObjectManager":"eaiobjmgr_enu",
+"Baseuri":"https://'$SAIDOCKERHOST':'$SAIDOCKERPORT'/siebel/v1.0/",
+"MaxConnections":20,
+"RESTResourceParamList":[]
+},
+"UI": {"LogProperties":{"LogLevel":"ERROR"}},
+"EAI": {"LogProperties":{"LogLevel":"ERROR"}},
+"DAV": {"LogProperties":{"LogLevel":"ERROR"}},
+"RESTOutBound": {"LogProperties":{"LogLevel":"ERROR"}},
+"SOAPOutBound": {"LogProperties":{"LogLevel":"ERROR"}},
+"Applications":
+[
+{
+"Name":"callcenter",
+"ObjectManager":"sccobjmgr_enu",
+"Language":"enu",
+"StartCommand":"",
+"EnableExtServiceOnly":false,
+"AvailableInSiebelMobile":false,
+"AuthenticationProperties":
+{
+"SessionTimeout":9000,
+"GuestSessionTimeout":300,
+"SessionTimeoutWLMethod":"HeartBeat",
+"SessionTimeoutWLCommand":"UpdatePrefMsg",
+"SessionTokenMaxAge":2880,
+"SessionTokenTimeout":9000,
+"SingleSignOn":false,
+"AnonUserName":"'$ANONUSER'",
+"AnonPassword":"'$ANONPASS'"
+}
+},
+{
+"Name":"webtools",
+"ObjectManager":"swtoolsobjmgr_enu",
+"Language":"enu",
+"StartCommand":"",
+"EnableExtServiceOnly":false,
+"AvailableInSiebelMobile":false,
+"AuthenticationProperties":
+{
+"SessionTimeout":9000,
+"GuestSessionTimeout":300,
+"SessionTimeoutWLMethod":"HeartBeat",
+"SessionTimeoutWLCommand":"UpdatePrefMsg",
+"SessionTokenMaxAge":2880,
+"SessionTokenTimeout":9000,
+"SingleSignOn":false,
+"AnonUserName":"'$ANONUSER'",
+"AnonPassword":"'$ANONPASS'"
+}
+}
+],
+"RESTInBoundResource":[],
+"swe":{
+"Language":"ENU",
+"MaxQueryStringLength":-1,
+"SeedFile":"",
+"SessionMonitor":false,
+"AllowStats":true
+}
+},
+"Profile":
+{"ProfileName":"'$NAME'"}
+}'
+
+echo
+echo $JSON
+echo
+
+echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X POST \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/profiles/swsm/ \
+-d @-
+

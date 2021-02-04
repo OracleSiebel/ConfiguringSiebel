@@ -1,0 +1,59 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 1982-2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Author: duncan.ford@oracle.com
+# Description: Build the Siebel containers with defined tagging and SSL cert
+#
+# Notes: execute this from the multi-stage/build directory
+#
+# arguments
+#       $1 - version to build - this will be the name used to access the update folder in the installation media location
+#       $2 - repository location
+#       $3 - folder within repository location
+#       $4 - domain for SSL certificate generation
+#
+# The product is a containers with the following naming
+#
+#       $2/$3/sai:$1np
+#
+# e.g. bash build-mde-multistage 21.2 registry.local.com:5000 siebel *.siebel.local 2>&1 | tee build.$(date +%F_%R).log
+#
+# This will result in a container with the following naming
+#
+#       registry.local.com:5000/siebel:21.2np
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+BUILD_DATE=`date -I`
+
+echo Beginning build for $1
+date
+set -x
+
+# pull latest oraclelinux:7-slim container before beginning build
+
+docker pull container-registry.oracle.com/os/oraclelinux:7-slim || exit 1
+
+# generate self-signed SSL CA and Cert
+
+bash ../../SSL/keygen -r ../../SSL -s siebel -d $4 -c my-custom-ca 2>&1 
+
+# copy generated keystore for build processes
+
+cp ../../SSL/siebelkeystore.jks ..
+
+# build the siebel container
+ 
+time docker build -f ../mde/dockerfile -t $2/$3:${1}np --build-arg INSTALLSITE=installers --build-arg VERSION=$1 --build-arg BUILD_DATE=${BUILD_DATE} --build-arg HTTP_PROXY --build-arg HTTPS_PROXY --build-arg NO_PROXY --network install ..
+
+# tidy up
+
+docker image prune -f --filter="label=siebel=temp"
+docker image prune -f --filter="label=com.oracle.siebel.version=$1"
+
+set +x 
+date
+echo Build of $1 complete

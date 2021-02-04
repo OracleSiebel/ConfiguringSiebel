@@ -1,0 +1,6 @@
+dbFileLocation=/var/lib/docker/volumes/PV/ORCL
+dbPath=/u02/app/oracle/oradata/ORCLCDB
+dbConnect="sys/Oradoc_db1@oracle12c:1521/ORCLCDB.localdomain as sysdba"
+
+set -x
+docker run --rm --network siebelnet -e DBCON="${dbConnect}" -v ${dbFileLocation}${dbPath}:/DBDIR -e ATTACHDBPATH=${dbPath}  $1

@@ -1,0 +1,60 @@
+#!/bin/bash
+
+source ./${2}
+
+set -x
+if   ! [ -d $PV/$ENTERPRISE1/CGW ] || ! [ -d $PV/$ENTERPRISE1/SES ]  || ! [ -d $PV/$ENTERPRISE1/SAI ] || ! [ -d $PV/$ENTERPRISE1/SFS ]  
+then 
+   echo "One of the required persistent folders CGW, SES, SAI or SFS is missing! "
+   exit 
+fi
+
+function getContainerHealth {
+  docker inspect --format "{{json .State.Health.Status }}" $1
+}
+
+function waitContainer {
+  while STATUS=$(getContainerHealth $1); [ $STATUS != "\"healthy\"" ]; do
+    if [ $STATUS == "\"unhealthy\"" ]; then
+      echo "Failed!"
+      exit -1
+    fi
+    printf .
+    lf=$'\n'
+    sleep 1
+  done
+  printf "$lf"
+}
+
+date
+echo 'Starting Enterprises'
+echo "Starting DB"
+set -x
+bash ${ROOT}/generic/container/startOracle -v ${PV}/ORCL -w ${DOCKERNET}
+set +x
+waitContainer ${DBHOST}
+echo
+echo "Starting sai-${ENTERPRISE1}"
+echo
+set -x
+bash ${ROOT}/generic/container/startSAI -n sai-${ENTERPRISE1} -v ${PV}/${ENTERPRISE1}/SAI -s ${PV}/${ENTERPRISE1}/SFS -p ${PORT} -r $1 -c ${CONTAINERBASE} -o ${DOMAIN} -w ${DOCKERNET} -u ${RUNASUSER}
+set +x
+waitContainer sai-${ENTERPRISE1}
+echo
+echo "Starting cgw-${ENTERPRISE1}"
+echo
+set -x
+bash ${ROOT}/generic/container/startCGW -n cgw-${ENTERPRISE1} -v ${PV}/${ENTERPRISE1}/CGW -s ${PV}/${ENTERPRISE1}/SFS -d ${TNSCONN} -e ${DBHOST} -f ${DBPORT} -g ${DBINST} -r $1 -c ${CONTAINERBASE} -o ${DOMAIN} -w ${DOCKERNET} -u ${RUNASUSER}
+set +x
+waitContainer cgw-${ENTERPRISE1} 
+echo
+echo "Starting ses-${ENTERPRISE1}"
+echo
+set -x
+bash ${ROOT}/generic/container/startSES -n ses-${ENTERPRISE1} -v ${PV}/${ENTERPRISE1}/SES -s ${PV}/${ENTERPRISE1}/SFS -d ${TNSCONN} -e ${DBHOST} -f ${DBPORT} -g ${DBINST} -r $1 -c ${CONTAINERBASE} -o ${DOMAIN} -w ${DOCKERNET} -u ${RUNASUSER} -z ${SES1SERVERNAME}
+set +x
+waitContainer ses-${ENTERPRISE1} 
+docker ps
+date
+echo "Start up complete."
+

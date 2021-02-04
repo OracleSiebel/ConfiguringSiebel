@@ -1,0 +1,1 @@
+docker exec -it ses-ENT bash -c "source /siebel/mde/siebsrvr/siebenv.sh; srvrmgr -g cgw-ENT:8888 -e ENT -s SES -u SADMIN -p Welcome1"

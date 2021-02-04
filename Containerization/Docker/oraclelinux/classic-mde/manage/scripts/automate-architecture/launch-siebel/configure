@@ -41,7 +41,7 @@ date
 echo "Configuring Single Enterprise"
 echo
 set -x
-bash ${ROOT}/smc/setGateway -u sadmin -p sadmin -g cgw-${ENTERPRISE1}.${DOMAIN} -h 4432 -a ${HWSERVER} -b ${PORT}
+bash ${ROOT}/smc/setGateway -u sadmin -p sadmin -g cgw-${ENTERPRISE1}.${DOMAIN} -h 4430 -a ${HWSERVER} -b ${PORT}
 sleep $pause
 bash ${ROOT}/smc/setGatewaySecProfile -u sadmin -p sadmin -d ${DBHOST} -e ${DBPORT} -f ${DBINST} -t ${TBLO} -v ${USER} -w ${PASSWD} -a ${HWSERVER} -b ${PORT}
 sleep $pause
@@ -69,7 +69,7 @@ sleep $pause
 #done
 #sleep $longPause
 #docker exec ses-${ENTERPRISE1} bash -c "bash /config/injectCompSetup"
-bash ${ROOT}/smc/deployServer -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -e ${SES1SERVERNAME} -f SiebelServer -d CC_WebTools_EAI -h ses-${ENTERPRISE1}.${DOMAIN} -i 4432 -l ${LANGS}
+bash ${ROOT}/smc/deployServer -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -e ${SES1SERVERNAME} -f SiebelServer -d CC_WebTools_EAI -h ses-${ENTERPRISE1}.${DOMAIN} -i 4430 -l ${LANGS}
 set +x
 sleep $pause
 waitServerDeployment

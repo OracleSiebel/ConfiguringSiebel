@@ -19,7 +19,7 @@ case "$containerMode" in
 		fi
 	;;
 	CGW | SES )
-		if curl -k --fail http://localhost:4433;
+		if curl -k --fail http://localhost:4431;
 		then 
 			exit 0
 		else

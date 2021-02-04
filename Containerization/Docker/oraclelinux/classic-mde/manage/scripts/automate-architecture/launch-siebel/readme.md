@@ -17,7 +17,7 @@ bash startAll <version> <parameter file>
 e.g.
 
 ```
-bash startAll 21,2 sample-architecture.sh
+bash startAll 21.2 sample-architecture.sh
 ```
 
 The example startAll script will launch 4 containers. First it will launch the database engine, then the Siebel container in SAI mode, then the Siebel container in CGW mode, and finally the Siebel container in SES mode. The given setup assumes that the sample-architecture.sh parameter file will describe the base location for the persistent volumes using the variable PV. From here, the assumption is that the PV folder will contain a directory named by the ENTERPRISE parameter, and from there the assumption is that this folder will contain a subfolder for each of SES, CGW, SAI, and SFS. These folders must be created and readied before the first run, and need to be writeable by the user that will run the scripts, defined by the parameter RUNASUSER.

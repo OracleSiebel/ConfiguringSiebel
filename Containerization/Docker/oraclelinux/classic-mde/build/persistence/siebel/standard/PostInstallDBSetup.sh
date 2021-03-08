@@ -26,7 +26,7 @@ fi
 
 # Source the persistance layer for this container
 
-source /config/persistenceLayerSES
+source /config/persistenceLayerSiebel-SES
 
 # Source migration routines
 
@@ -70,6 +70,10 @@ if [ -f ${sourcePath}/siebsrvr/siebenv.sh ] ; then
 else
         source ${sourcePath}/siebsrvr/cfgenv.sh
 fi
+
+# Final prep if coming from pre-21.2
+rm -rf /siebel/ses
+ln -s /siebel/mde /siebel/ses
 
 # Execute Post Install
 

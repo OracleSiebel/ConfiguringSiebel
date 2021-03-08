@@ -11,7 +11,7 @@
 case "$containerMode" in
 
 	SAI )
-		if curl -k --fail http://localhost:4431 ;
+		if curl -k -m 3 --fail http://localhost:4431 ;
 		then 
 			exit 0
 		else
@@ -19,7 +19,7 @@ case "$containerMode" in
 		fi
 	;;
 	CGW | SES )
-		if curl -k --fail http://localhost:4431;
+		if curl -k -m 3 --fail http://localhost:4431;
 		then 
 			exit 0
 		else

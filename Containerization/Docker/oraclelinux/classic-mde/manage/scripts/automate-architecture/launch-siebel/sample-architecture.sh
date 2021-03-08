@@ -1,7 +1,7 @@
 ROOT=/home/demoadmin/dev/oraclesiebel/oraclelinux/manage/scripts/automate-architecture
 PV=/var/lib/docker/volumes/PV
 CONTAINERBASE=registry.local.com:5000/siebel
-DOMAIN=company.com
+DOMAIN=siebel.local
 ENTERPRISE1=ENT
 DBHOST=oracle12c
 DBPORT=1521

@@ -21,6 +21,10 @@ alias smgr='srvrmgr /g $SIEBEL_GATEWAY /e $siebelEnterpriseName /u $enterpriseUs
 set entDSN = $siebelEnterpriseName'_DSN'
 alias odbc="odbcsql /s $entDSN /u $enterpriseUsername /p $enterprisePassword "
 
+# Specify stacksize hard limit
+
+ulimit -Hs 8192
+
 
 case "$containerMode" in
 	SES )

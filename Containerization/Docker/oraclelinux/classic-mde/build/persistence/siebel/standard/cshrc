@@ -22,6 +22,10 @@ if ( $?siebelEnterpriseName) then
         alias odbc "odbcsql /s $entDSN /u $enterpriseUsername /p $enterprisePassword "
 endif
 
+# Specify stacksize hard limit
+
+limit -h stacksize 8192
+
 switch ($containerMode)
 case 'SES':
 	alias start_http "(cd /siebel/mde/applicationcontainer_internal/bin;./startup.sh)"

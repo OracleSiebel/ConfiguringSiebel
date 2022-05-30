@@ -4,7 +4,5 @@ date
 docker stop ses-${ENTERPRISE1} 
 docker stop cgw-${ENTERPRISE1} 
 docker stop sai-${ENTERPRISE1}
-#docker stop cache-${ENTERPRISE1}
-#docker rm ses-${ENTERPRISE1} cgw-${ENTERPRISE1} sai-${ENTERPRISE1} cache-${ENTERPRISE1}
 docker rm ses-${ENTERPRISE1} cgw-${ENTERPRISE1} sai-${ENTERPRISE1}
 date

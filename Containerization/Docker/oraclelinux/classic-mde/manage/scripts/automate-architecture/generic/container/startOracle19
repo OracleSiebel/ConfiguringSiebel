@@ -23,10 +23,12 @@ docker run \
 	-d -it \
 	-p 5500:5500 \
 	-p 1521:1521 \
-	--name oracle12c \
-	-h oracle12c \
-	-v ${VOL}:/ORCL \
-        -e "DB_MEMORY=4GB" \
+	--name oracle19c \
+	-h oracle19c \
+	-v ${VOL}:/opt/oracle/oradata \
+    -e "DB_MEMORY=4GB" \
+	-e "ORACLE_PWD=Oradoc_db1" \
+	-e "ORACLE_SID=ORCLCDB" \
 	--network ${NETWORK} \
-	--network-alias oracle12c \
-	container-registry.oracle.com/database/enterprise:12.2.0.1
+	--network-alias oracle19c \
+	container-registry.oracle.com/database/enterprise:19.3.0.0

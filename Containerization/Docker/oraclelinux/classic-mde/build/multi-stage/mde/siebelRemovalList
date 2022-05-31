@@ -1,11 +1,15 @@
-#LICENSE UPL 1.0
+# LICENSE UPL 1.0
 #
 # Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
 #
-# Since: Dec, 2019
+# Since: Jan, 2021
 # Author: duncan.ford@oracle.com
-# Description: Retrieve Oracle Client RPMs
+# Description: Files and folders to remove from build
+
+#
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-set -x
-wget -r -q -np -nH --cut-dirs=2 -l 0 -R index.html* http://$1/oracle/client/
+readonly folderList=(
+);
+readonly fileList=(
+);

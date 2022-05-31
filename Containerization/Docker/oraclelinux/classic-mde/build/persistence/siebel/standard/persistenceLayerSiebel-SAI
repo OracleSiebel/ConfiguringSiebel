@@ -22,4 +22,4 @@ readonly fileList=(
     '/applicationcontainer_external/webapps/GatewayServiceFramework.log'
     '/applicationcontainer_external/siebelcerts/siebelkeystore.jks'
 )
-
+restartCheck='/applicationcontainer_external/logs'

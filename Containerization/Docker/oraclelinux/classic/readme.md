@@ -1,5 +1,7 @@
 # Siebel On Docker for Oracle Linux 7
 
+This legacy content is left here for interest. Since 21.1, Oracle switched to the modular deployment engine, so you should [review the content there](../classic-mde).
+
 In this section, we'll cover one possible method for building and running Siebel as a set of Docker containers that will run against an Oracle Linux 7 (also Red Hat) operating system. These files have been tested using IP17 and IP18 installation media. The section is split into two parts:
 
 * [Build](build)

@@ -55,17 +55,17 @@ fi
 
 # Define primary variables
 
-persistencePath="/persistent"
+export persistencePath="/persistent"
 
 # Handle case for stateful sets instantiation
 
-if [ ! -z $HOST ] ; then
-	mkdir -p $persistencePath/$HOST
-	persistencePath="/persistent/${HOST}"
+if [ ! -z $KUBERNETES_PORT ] ; then
+	mkdir -p $persistencePath/${HOSTNAME}
+	persistencePath="/persistent/${HOSTNAME}"
 fi
 
-sfsPath="/sfs"
-sourcePath="/siebel/mde"
+export sfsPath="/sfs"
+export sourcePath="/siebel/mde"
 
 # Ensure persistent volumes are writable
 
@@ -74,11 +74,24 @@ if [ ! $? -eq 0 ] ; then
         exit 1;
 fi
 
+case "$containerMode" in
+	"CGW" | "SES" | "SAI" )
+		echo "Container Mode Set To ${containerMode}"
+		;;
+	* )
+		echo "Container Mode Not Set"
+		exit 1
+		;;
+esac
+
 # Flush persistence if required
 
 if [[ ! -z $FLUSHPV && $FLUSHPV = 'FLUSH' ]] ; then
 	rm -rf $persistencePath;
 fi
+
+# Move any files considered as templates for containerization (e.g. registry.properties, server.xml)
+mv ${sourcePath}/gtwysrvr/registry/conf/registry.properties ${sourcePath}/gtwysrvr/registry/zookeeper/conf
 
 # Source the persistance layer for this container
 
@@ -90,8 +103,10 @@ source /config/persistenceMigration
 
 # Migrate persistent content
 
-migrateFoldersToPersistenceVolume
-migrateFilesToPersistenceVolume
+if [ ! -L ${sourcePath}${restartCheck} ] ; then
+	migrateFilesToPersistenceVolume
+	migrateFoldersToPersistenceVolume
+fi
 
 # Create links for old directory structure in case of using previously configure zookeeper and PV content
 
@@ -117,7 +132,7 @@ esac
 if [ -d ${persistencePath}/hotfix/${containerMode}/ ] ;
 then
         # copies folder structure into the container to apply patch
-        cp -R ${persistencePath}/hotfix/${containerMode}/* ${sourcePath}
+        rsync -rK ${persistencePath}/hotfix/${containerMode}/* ${sourcePath}
 fi
 
 # Apply pre-startup processing
@@ -137,7 +152,7 @@ case "$containerMode" in
 		fi
 		ln -s ${persistencePath}/siebsrvr/bin/start_server ${sourcePath}/siebsrvr/bin/start_server
 		ln -s ${persistencePath}/siebsrvr/bin/siebel_server ${sourcePath}/siebsrvr/bin/siebel_server
-		
+
 	;;
 
 	CGW )
@@ -156,12 +171,15 @@ case "$containerMode" in
 
 	SAI )
 
-		# Alter server.xml to source custom JS/Images/CSS from persistence volume
+		# Alter server.xml to :
 		#	: source custom JS/Images/CSS from persistence volume
 		#	: redirect requests for browser script (srf*) to siebel/scripts/custom/(srf*)
+		#	: apply bookshelf recommendation for compressing static web content
 
+		# ensure existence of folder for custom content in SFS
 		mkdir -p ${sfsPath}/webapps/siebel/files/custom ${sfsPath}/webapps/siebel/images/custom ${sfsPath}/webapps/siebel/scripts/siebel/custom
 
+		# redirect queries for custom browser script to custom folder (later pushed to SFS) (probably no longer relevant as browser script is now delivered from SWE
 		mkdir -p ${persistencePath}/applicationcontainer_external/conf/Catalina/localhost
 		if [ ! -f ${persistencePath}/applicationcontainer_external/conf/Catalina/localhost/rewrite.config ] ; then
 		cat <<EOF >> ${persistencePath}/applicationcontainer_external/conf/Catalina/localhost/rewrite.config
@@ -169,8 +187,14 @@ case "$containerMode" in
 EOF
 		fi
 
+		# redirect queries for custom content to sfs/webapps/custom folder
 		if ! grep -q "/siebel/images/custom" ${persistencePath}/applicationcontainer_external/conf/server.xml; then
 			sed -i '/unpackWARs="true"/a <Valve className="org.apache.catalina.valves.rewrite.RewriteValve" /><Context docBase="/sfs/webapps/siebel/files/custom" path="/siebel/files/custom" /><Context docBase="/sfs/webapps/siebel/images/custom" path="/siebel/images/custom" /><Context docBase="/sfs/webapps/siebel/scripts/siebel/custom" path="/siebel/scripts/siebel/custom" />' ${persistencePath}/applicationcontainer_external/conf/server.xml
+		fi
+
+		# enable compression for static content delivered over https port
+		if ! awk '/port="4430"/,/\/>/' ${persistencePath}/applicationcontainer_external/conf/server.xml | grep compression=\"on\"; then
+			sed -i '/port=\"4430\"/a compressableMimeType="text/css,text/javascript,application/x-javascript,application/javascript" useSendfile="off" compression="on" compressionMinSize="128" connectionTimeout="20000" noCompressionUserAgents="gozilla, traviata"' ${persistencePath}/applicationcontainer_external/conf/server.xml
 		fi
 
 	;;
@@ -226,40 +250,62 @@ echo $tnsConnectString'=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = '$dbSer
 
 case "$containerMode" in
 
-	SAI ) 
+	SAI )
 
 		# start tomcat
 		${sourcePath}/applicationcontainer_external/bin/startup.sh > ${persistencePath}/applicationcontainer_external/logs/tomcatStartup.log
 
 	;;
 
-	SES ) 
-	
+	SES )
+
 		# start tomcat
 		${sourcePath}/applicationcontainer_internal/bin/startup.sh > ${persistencePath}/applicationcontainer_internal/logs/tomcatStartup.log
 
-		# if configured, start the Siebel server
-		if ls ${persistencePath}/siebsrvr/sys/svc.* 1> /dev/null 2>&1; then 
+		if ls ${persistencePath}/siebsrvr/sys/svc.* 1> /dev/null 2>&1; then
+			# if configured, start the Siebel server
 			rm -f ${persistencePath}/siebsrvr/sys/osdf.*
 			source ${sourcePath}/siebsrvr/siebenv.sh
 			start_server all >> ${persistencePath}/siebsrvr/log/containerStartup.log
+		else
+			# not configured
+			# check for autodeployment environment variable
+			if [[ $autodeploy == "true" ]]
+			then
+				date
+				echo "Waiting 25 seconds for Tomcat to launch"
+				sleep 25
+				/config/autodeploy.sh -u $(cat /config/secrets/sadmin/username) -p $(cat /config/secrets/sadmin/password) -a $SAIHOST -b $SAIPORT -d $PROFILE
+			 fi
 		fi
 
 	;;
 
-	CGW ) 
+        CGW )
 
-		# start tomcat
-		${sourcePath}/applicationcontainer_internal/bin/startup.sh > ${persistencePath}/applicationcontainer_internal/logs/tomcatStartup.log
-		
-		# if configured, start the name server
-		if [ -f ${persistencePath}/delete_gatewayserver.resp ] ; then
-			source ${sourcePath}/gtwysrvr/siebenv.sh
-			start_ns >> ${persistencePath}/gtwysrvr/log/containerStartup.log
-		fi
+                # start tomcat
+                ${sourcePath}/applicationcontainer_internal/bin/startup.sh > ${persistencePath}/applicationcontainer_internal/logs/tomcatStartup.log
+
+                # remove potentially invalid registry.properties
+                rm ${persistencePath}/gtwysrvr/registry/conf/registry.properties
+
+                # if present, execute registry.properties.process
+                if [ -f ${persistencePath}/gtwysrvr/registry/conf/registry.properties.process ] ; then
+                        bash ${persistencePath}/gtwysrvr/registry/conf/registry.properties.process
+                fi
+                # if registry/conf/registry.properties not found, copy in safe version for this ZK engine
+                if [ ! -f ${persistencePath}/gtwysrvr/registry/conf/registry.properties ] ; then
+                        cp ${sourcePath}/gtwysrvr/registry/zookeeper/conf/registry.properties ${persistencePath}/gtwysrvr/registry/conf/
+                fi
+
+                # if configured, start the name server
+                if [ -f ${persistencePath}/delete_gatewayserver.resp ] ; then
+                        source ${sourcePath}/gtwysrvr/siebenv.sh
+                        start_ns >> ${persistencePath}/gtwysrvr/log/containerStartup.log
+                fi
 
 
-	;;
+        ;;
 
 	* ) echo "Invalid or no containerMode supplied"
 	;;
@@ -267,4 +313,3 @@ case "$containerMode" in
 esac
 
 sleep infinity & wait
-

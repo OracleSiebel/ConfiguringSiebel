@@ -30,7 +30,7 @@ switch ($containerMode)
 case 'SES':
 	alias start_http "(cd /siebel/mde/applicationcontainer_internal/bin;./startup.sh)"
 	alias stop_http "(cd /siebel/mde/applicationcontainer_internal/bin;./shutdown.sh)"
-	
+
 	# Source Siebel Environment
 	if ( -f /siebel/mde/siebsrvr/siebenv.csh ) then
    	     source /siebel/mde/siebsrvr/siebenv.csh
@@ -41,7 +41,7 @@ case 'SES':
 case 'CGW':
 	alias start_http "(cd /siebel/mde/applicationcontainer_internal/bin;./startup.sh)"
 	alias stop_http "(cd /siebel/mde/applicationcontainer_internal/bin;./shutdown.sh)"
-	
+
 	# Source Siebel Environment
 	if ( -f /siebel/mde/gtwysrvr/siebenv.csh ) then
    	     source /siebel/mde/gtwysrvr/siebenv.csh
@@ -53,6 +53,6 @@ case 'SAI':
 	alias start_http "(cd /siebel/mde/applicationcontainer_external/bin;./startup.sh)"
 	alias stop_http "(cd /siebel/mde/applicationcontainer_external/bin;./shutdown.sh)"
 	breaksw
-endsw	
+endsw
 
 cd /siebel/mde

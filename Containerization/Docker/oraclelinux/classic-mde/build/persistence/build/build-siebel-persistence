@@ -5,7 +5,7 @@
 #
 # Since: Jul, 2020
 # Author: duncan.ford@oracle.com
-# Description: Add persistence handling to the Siebel container
+# Description: Add persistence handling to the Siebel containers
 #
 # Notes: execute this from the persistence/build directory
 #
@@ -16,18 +16,18 @@
 #       $4 - base path for parent container
 #       $5 - build type - points to folder under siebel directory
 #
-# e.g. bash build-siebel-persistence 21.2 registry.local.com:5000 siebel registry.local.com:5000/siebel standard 2>&1 | tee build.$(date +%F_%R).log
+# e.g. bash build-siebel-persistence 22.6 registry.local.com:5000 siebel registry.local.com:5000/siebel 21.4+ 2>&1 | tee build.$(date +%F_%R).log
 #
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
 echo Beginning build for $1
 
-# build the siebel container
+# build the siebel containers for full and prod
 
+time docker build -f ../siebel/dockerfile -t ${2}/${3}:${1}-full --build-arg PARENTBASE=${4} --build-arg VERSION=${1}np-full --build-arg BUILDTYPE=${5} ..
 time docker build -f ../siebel/dockerfile -t ${2}/${3}:${1} --build-arg PARENTBASE=${4} --build-arg VERSION=${1}np --build-arg BUILDTYPE=${5} ..
 
 # tidy up
 
 docker image prune -f --filter="label=com.oracle.siebel.version=$1"
 echo Build of $1 complete
-

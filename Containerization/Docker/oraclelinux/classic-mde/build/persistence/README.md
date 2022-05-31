@@ -22,7 +22,7 @@ Once we determine the list of files that Siebel system could touch during usage,
 
 ## Healthcheck
 
-Applying health checks to the non-persistent versions of the base-siebel and updated-siebel containers doesn't seem to make much sense. However, when launching containers that have access to persistent state content, the entire Siebel enterprise can automatically resume full function, ready and waiting for users to login. Adding a healthcheck script to test the readiness of the container for users therefore makes sense at this stage. For each mode of the Siebel containe, we employ a slightly different check; you can alter this script further yourself if you determine a better method than the one chosen (or better still you could submit a pull request and share your method with everyone). At present, the method used is as follows.
+Applying health checks to the non-persistent versions of the base-siebel and updated-siebel containers doesn't seem to make much sense. However, when launching containers that have access to persistent state content, the entire Siebel enterprise can automatically resume full function, ready and waiting for users to login. Adding a healthcheck script to test the readiness of the container for users therefore makes sense at this stage. For each mode of a Siebel container, we employ a slightly different check; you can alter this script further yourself if you determine a better method than the one chosen (or better still you could submit a pull request and share your method with everyone). At present, the method used is as follows.
 
 #### SAI
 
@@ -41,9 +41,9 @@ These checks will ultimately result in a reported status of healthy for each con
 ```
 [root@demohost launch-siebel]# docker ps
 IMAGE                                STATUS                    PORTS                     NAMES
-registry.local.com:5000/siebel:21.2  Up 35 minutes (healthy)                             ses-ENT
-registry.local.com:5000/siebel:21.2  Up 36 minutes (healthy)                             cgw-ENT
-registry.local.com:5000/siebel:21.2  Up 36 minutes (healthy)   0.0.0.0:443->4430/tcp     sai-ENT
+registry.local.com:5000/siebel:22.6  Up 35 minutes (healthy)                             ses-ENT
+registry.local.com:5000/siebel:22.6  Up 36 minutes (healthy)                             cgw-ENT
+registry.local.com:5000/siebel:22.6  Up 36 minutes (healthy)   0.0.0.0:443->4430/tcp     sai-ENT
 
 ```
 
@@ -67,7 +67,7 @@ drwxr-xr-x 3 demoadmin demoadmin   40 Jan 13 16:50 siebel
 To build, descend into the build folder and execute build-all-persistence using the following syntax:
 
 ```
-bash build-siebel-persistence 21.2 registry.local.com:5000 siebel registry.local.com:5000/siebel standard 2>&1 | tee build.$(date +%F_%R).log
+bash build-siebel-persistence 22.6 registry.local.com:5000 siebel registry.local.com:5000/siebel standard 2>&1 | tee build.$(date +%F_%R).log
 
 ```
 This will build the final Siebel containers with persistence functionality; the version of the container that you will actually use.
@@ -84,9 +84,9 @@ You should see the newly built container alongside the original versions:
 
 ```
 REPOSITORY                          TAG       SIZE
-registry.local.com:5000/siebel      21.2      2.75GB
-registry.local.com:5000/siebel      21.2np    2.75GB
+registry.local.com:5000/siebel      22.6      3.4GB
+registry.local.com:5000/siebel      22.6np    3.4GB
 
 ```
 
-We're now in a position to stop and start the siebel container and to retaining the enterprise configuration. One emergent capability of persistence is that we're also able to stop, for example, version 21.2 containers, and then start 21.3 containers against the same persistent volume content. This should help to reduce downtime between regular updates. With only a little more effort, this could be automated: i.e. watch for new versions to become available as they are built to your local registry (and ultimately the docker store), then automatically (or at a planned time, or simply manually), stop and start the appropriate containers to move to the next version.
+We're now in a position to stop and start the siebel container and to retain the enterprise configuration. One emergent capability of persistence is that we're also able to stop, for example, version 22.6 containers, and then start 22.7 containers against the same persistent volume content. This should help to reduce downtime between regular updates. With only a little more effort, this could be automated: i.e. watch for new versions to become available as they are built to your local registry, then automatically (or at a planned time, or simply manually), stop and start the appropriate containers to move to the next version.

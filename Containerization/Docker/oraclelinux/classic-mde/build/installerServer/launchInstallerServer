@@ -13,9 +13,8 @@ installerLocation=/media/installers
 
 # uncomment in order to create the expected directory structure
 
-# mkdir -p ${installerLocation}/oracle/client
-# mkdir -p ${installerLocation}/base
-# mkdir -p ${installerLocation}/update
+# mkdir -p ${installerLocation}/oracle/client/additional
+# mkdir -p ${installerLocation}/siebel
 
 # create nginx.conf
 

@@ -19,7 +19,8 @@ You can also run this tool separately and use the resulting `siebelkeystore.jks`
 Alternatively, you could build a separately generated or obtained certificate store into new containers using a simple dockerfile. e.g.:
 
 ```
-FROM registry.local.com:5000/siebel/sai:19.10
+FROM registry.local.com:5000/siebel:22.6
 
-COPY siebelkeystore.jks /siebel/sai/applicationcontainer/siebelcerts
+COPY siebelkeystore.jks /siebel/mde/applicationcontainer_external/siebelcerts
+COPY siebelkeystore.jks /siebel/mde/applicationcontainer_internal/siebelcerts
 ```

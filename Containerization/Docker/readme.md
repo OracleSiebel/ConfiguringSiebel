@@ -1,29 +1,28 @@
 # Building Siebel for Docker
 
-At some point in the future, Oracle may make available pre-built containers to enable Siebel to run in a containerised way. Until then, and possibly even subsequently, you may wish to build your own container.
+Oracle now makes available pre-built container images for Siebel. You can request these on MOS by submitting an SR. Even so, you may wish to build your own container.
 
 Before continuing, consider that the content here has only been tested with builds after IP17. As the architecture changed significantly at that point, you should not expect to have any success with earlier versions without a great deal of effort.
 
-Consider the content here as one way in which Siebel can be built for use with Docker rather than a formula you must obey. The two seemingly obvious ways to proceed are to build a single monolithic container or to split Siebel into separate components.
+Consider the content here as one way in which Siebel can be built for use with Docker rather than a formula you must obey. Since the introduction of the modular deployment engine in 21.1 and the streamlining that came with it, we've switched from creating three separate images for each tier to a single image which can be switched into the three tier modes on startup.
 
-Here we'll provide content in order to allow you to build Siebel as a set of 3 containers, each encapsulating a specific aspect of Siebel;
+Here we're providing you with example content in order to allow you to build a Siebel container image. This is not kept up to date with our internal build system, but is pushed out from time to time.
 
-* Siebel Application Interface (SAI)
-* Cloud Gateway (CGW)
-* Siebel Enterprise Server (SES).
+While it's possible to run the image with no persistence, you would have to reconfigure the enterprise everytime you launched if you ran in this way. We have determined a minimum set of files which need to persist between executions. This subset of Siebel files is mounted to the container when it runs and knitted into the fabric of the container. Examples of persistent files include the Gateway database, MainWin registry content, user preference files, log files, UPT recordings, and so on.
 
-While these containers will execute correctly, any configuration we make will not persist between executions. To address that we have determined a set of files which need to persist between executions. This subset of Siebel files is mounted to the container when it runs and knitted into the fabric of the container. Examples of persistent files include the Gateway database, MainWin registry content, user preferences, log files, UPT recordings, and so on.
+We currently provide example content enabling you to build a container image for RHEL 7 derivatives.
 
-For each target platform you should find a directory. At present there is only content for Oracle Linux.
+At this time, the build process utilises Docker's multi-stage build process to build the smallest possible image.
 
-The build process will proceed in this order:
+The build process proceeds in this fashion:
 
-* Build a 32-bit instant client container
-* Build an SAI container
-* Build a CGW container
-* Build an SES container
+* Modify the base image as required
+* Install a 32-bit instant client container
+* Install Siebel
+* Build a 'full' container (all language safeboots plus dbsrvr content)
+* Build a 'prod' container (only ENU safeboot, no dbsrvr)
 
-While we don't cover the specifics of creating the Siebel database, it's worth mentioning the Oracle make the 12c enterprise database available as a Docker container from the Docker Store. You can therefore use this container to create a Siebel database as a pluggable database. I would recommend doing that as you'll then have a self contained compact Siebel system. As mentioned previously though, it's beyond the current scope of this repository to discuss configuring the database from scratch.
+While we don't cover the specifics of creating the Siebel database, it's worth mentioning the Oracle provide a 19c enterprise database engine (Google for Oracle Container Registry) and the content we provide from MOS supplies you with a pluggable SAMPLE database in 19c format. It's beyond the current scope of this repository to discuss configuring the empty Siebel database from scratch.
 
 [Here's a video](https://www.youtube.com/watch?v=MvETSsryqok&feature=youtu.be) following the setup of OEL7 and Siebel 19.1 using [Oracle VirtualBox](https://www.virtualbox.org/)
 

@@ -78,4 +78,3 @@ ln -s /siebel/mde /siebel/ses
 # Execute Post Install
 
 time ${sourcePath}/siebsrvr/bin/PostInstallDBSetup -i /config/PostInstallDBSetup.ini -p ${TBLOPASS} -z ${SIEBELUSERPASS}
-

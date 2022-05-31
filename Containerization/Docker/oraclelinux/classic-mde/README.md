@@ -5,7 +5,7 @@ In this section, we'll cover one possible method for building and running Siebel
 * [Build](build)
 * [Manage](manage)
 
-In the Build section we cover how to build the required containers. The first step uses Docker's multi-stage build process to chain together the requisite steps to build the Siebel container. The process is as follows:
+In the Build section we cover how to build the Siebel image. The first step uses Docker's multi-stage build process to chain together the requisite steps to build the Siebel container. The process is as follows:
 
 * Update oraclelinux
 * Build a self-signed SSL certificate

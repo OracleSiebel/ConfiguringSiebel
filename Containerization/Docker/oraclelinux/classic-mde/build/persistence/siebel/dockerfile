@@ -21,7 +21,7 @@ COPY --chown=siebel:siebel siebel/$BUILDTYPE kernelCheck pvCheck persistenceMigr
 RUN mv /config/bashrc /home/siebel/.bashrc \
  && mv /config/cshrc /home/siebel/.cshrc \
  && cp -ra /config/siebel/* /siebel 2> /dev/null || :; rm -rf /config/siebel
- 
+
 HEALTHCHECK     --interval=30s \
                 --timeout=10s \
                 --retries=3 \

@@ -25,7 +25,6 @@ alias odbc="odbcsql /s $entDSN /u $enterpriseUsername /p $enterprisePassword "
 
 ulimit -Hs 8192
 
-
 case "$containerMode" in
 	SES )
 		alias start_http="(cd /siebel/mde/applicationcontainer_internal/bin;./startup.sh)"

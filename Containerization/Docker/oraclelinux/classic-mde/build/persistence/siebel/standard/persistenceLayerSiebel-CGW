@@ -13,8 +13,7 @@ readonly folderList=(
 	'/applicationcontainer_internal/logs'
 	'/gtwysrvr/log'
 	'/gtwysrvr/sys'
-	'/gtwysrvr/zookeeper/conf'
-	'/gtwysrvr/zookeeper/version-2'
+	'/gtwysrvr/registry/conf'
 );
 readonly fileList=(
 	'/delete_gatewayserver.resp'
@@ -30,8 +29,7 @@ readonly fileList=(
 	'/applicationcontainer_internal/webapps/gateway.properties'
 	'/gtwysrvr/siebenv.csh'
 	'/gtwysrvr/siebenv.sh'
-	'/gtwysrvr/zookeeper/myid'
-	'/gtwysrvr/zookeeper/zookeeper.log'
+	'/gtwysrvr/registry/conf/registry.properties'
 	'/gtwysrvr/bin/gateway.cfg'
 	'/gtwysrvr/bin/start_ns'
 	'/gtwysrvr/admin/start_ns.tmpl'
@@ -39,4 +37,4 @@ readonly fileList=(
 	'/gtwysrvr/admin/srvrdefs.run'
 	'/gtwysrvr/admin/srvrdefs_sia.run'
 )
-
+restartCheck='/gtwysrvr/log'

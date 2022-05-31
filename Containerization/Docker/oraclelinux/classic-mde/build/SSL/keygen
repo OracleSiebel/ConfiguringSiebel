@@ -20,7 +20,7 @@
 #
 # e.g. bash keygen -r .. -s mypass -d *.company.com -c my-custom-ca 2>&1 | tee keygen.log
 #
-# It's also possible to create the cert to match multiple domains by supplying a comma separated list of domains. 
+# It's also possible to create the cert to match multiple domains by supplying a comma separated list of domains.
 # No check is made to the validity of the domain names supplied.
 #
 # e.g. bash keygen -r .. -s mypass -d *.company.com,*.company.cloud.com -c my-custom-ca 2>&1 | tee keygen.log
@@ -120,4 +120,3 @@ keytool -import -alias siebel -file ${ROOT}/siebelkeystoreCASigned.cer -keystore
 # List the contents of the keystore for the logfile
 
 keytool -list -v -keystore ${ROOT}/siebelkeystore.jks -storepass ${STOREPASS} -keypass ${STOREPASS}
-

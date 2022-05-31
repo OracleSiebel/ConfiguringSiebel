@@ -12,7 +12,8 @@ chown -R siebel:siebel /config
 
 # Run the silent installer
 
-su siebel -c "bash /mnt/Siebel_Enterprise_Server/Disk1/install/runInstaller.sh -silent -responseFile /config/mde.rsp -invPtrLoc /config/oraInst.loc -waitforcompletion -showProgress > /config/SiebelInstall.log 2>&1"
+su siebel -c "bash /mnt/Siebel_Enterprise_Server/Disk1/install/runInstaller.sh -silent -responseFile /config/mde.rsp -invPtrLoc /config/oraInst.loc -waitforcom
+pletion -showProgress > /config/SiebelInstall.log 2>&1"
 res=$?
 more /config/SiebelInstall.log
 if grep "\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*Error\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*" /config/SiebelInstall.log; then

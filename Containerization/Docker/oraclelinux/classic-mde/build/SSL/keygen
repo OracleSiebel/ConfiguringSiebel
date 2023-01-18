@@ -59,7 +59,7 @@ rm ${ROOT}/siebelkeystore.jks
 
 # Generate a key for the domain
 
-keytool -genkey -alias siebel -keystore ${ROOT}/siebelkeystore.jks -keyalg RSA -sigalg SHA256withRSA -dname "cn=${DOMAIN}" -storepass ${STOREPASS} -keypass ${STOREPASS}
+keytool -genkey -alias siebel -keystore ${ROOT}/siebelkeystore.jks -keyalg RSA -sigalg SHA256withRSA -dname "cn=${DOMAIN}" -storepass ${STOREPASS} -keypass ${STOREPASS} -storetype JKS
 # keytool -list -v -keystore ${ROOT}/siebelkeystore.jks -storepass ${STOREPASS} -keypass ${STOREPASS}
 
 # Generate a request to sign the key into siebelkeystore.csr

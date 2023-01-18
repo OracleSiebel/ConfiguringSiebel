@@ -4,7 +4,7 @@ pollingPause=.5
 longPause=.5
 
 function getEnterpriseDeploymentStatus {
-  bash ${ROOT}/smc/checkEnterpriseDeploymentStatus -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} | python -c "import sys, json; status=json.load(sys.stdin); print 'Undeployed' if len(status['EnterpriseDeployment'])==0 else status['EnterpriseDeployment'][0]['DeploymentInfo']['Status']"
+  bash ${ROOT}/smc/checkEnterpriseDeploymentStatus -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} | python ${ROOT}/smc/testEnterpriseDeployment.py
 }
 
 function waitEnterpriseDeployment {
@@ -21,7 +21,7 @@ function waitEnterpriseDeployment {
 }
 
 function getServerDeploymentStatus {
-  bash ${ROOT}/smc/checkServerDeploymentStatus -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} | python -c "import sys, json; status=json.load(sys.stdin); print 'Undeployed' if len(status['ServerDeployment'][0])==0 else status['ServerDeployment'][0]['DeploymentInfo']['Status']"
+  bash ${ROOT}/smc/checkServerDeploymentStatus -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} | python ${ROOT}/smc/testServerDeployment.py
 }
 
 function waitServerDeployment {

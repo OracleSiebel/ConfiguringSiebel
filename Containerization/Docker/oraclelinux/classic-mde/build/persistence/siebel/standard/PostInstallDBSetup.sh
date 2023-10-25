@@ -62,6 +62,8 @@ sed -i "s/<SIEBUSER>/${SIEBUSER}/" /config/PostInstallDBSetup.ini
 sed -i "s/<SSE_ROLE>/${SSE_ROLE}/" /config/PostInstallDBSetup.ini
 sed -i "s/<INDSPC>/${INDSPC}/" /config/PostInstallDBSetup.ini
 sed -i "s/<TBLSPC>/${TBLSPC}/" /config/PostInstallDBSetup.ini
+sed -i "s/<PRIMARY_LANG_CD>/${PRIMARY_LANG_CD}/" /config/PostInstallDBSetup.ini
+sed -i "s/<OTHER_LANG_CD>/${OTHER_LANG_CD}/" /config/PostInstallDBSetup.ini
 
 echo ${ODBC_DSN}'=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = '${DBHOST}')(PORT = '${DBPORT}'))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = '${DBINST}')))' > /config/tnsnames.ora
 

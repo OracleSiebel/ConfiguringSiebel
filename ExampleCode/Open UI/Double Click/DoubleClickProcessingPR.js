@@ -26,11 +26,11 @@ if (typeof(SiebelAppFacade.DoubleClickProcessingPR) === "undefined") {
 				});
 				$("#" + appletId).find("#sieb-ui-popup-mvg-available").find(".ui-jqgrid-view").dblclick(function () {
 					pm.ExecuteMethod("InvokeMethod", "AddRecord");
-					pm.ExecuteMethod("InvokeMethod", "ExecuteQuery");
+					//pm.ExecuteMethod("InvokeMethod", "ExecuteQuery"); //3.04.23: deactivated due Bug 36212976 : ALT+ENTER SHORTCUT KEYS NOT WORKING IN MULTI-TAB SCENARIO
 				});
 				$("#" + appletId).find("#sieb-ui-popup-mvg-selected").find(".ui-jqgrid-view").dblclick(function () {
 					pm.ExecuteMethod("InvokeMethod", "DeleteRecords");
-					pm.ExecuteMethod("InvokeMethod", "ExecuteQuery");
+					//pm.ExecuteMethod("InvokeMethod", "ExecuteQuery");  //3.04.23: deactivated due Bug 36212976 : ALT+ENTER SHORTCUT KEYS NOT WORKING IN MULTI-TAB SCENARIO
 				});
 			}
 

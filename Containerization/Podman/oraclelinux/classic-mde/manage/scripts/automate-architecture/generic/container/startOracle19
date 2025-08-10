@@ -1,0 +1,41 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 -v <directory to map for persistent volume> -w <podman network name>" 1>&2; exit 1; }
+
+while getopts v:w: option
+do
+ case "${option}" in
+  v)  VOL=${OPTARG};;
+  w)  NETWORK=${OPTARG};;
+  *)  usage;;
+ esac
+done
+
+if [ -z "${VOL}" ] || [ -z "${NETWORK}" ]; then
+    usage
+fi
+
+echo
+set -x
+#Check if network exists
+if ! podman network exists "${NETWORK}"; then
+    podman network create "${NETWORK}"
+else
+    echo "Network '${NETWORK}' already exists"
+fi
+
+podman run \
+	--pull=never \
+	-d -it \
+	-p 5500:5500 \
+	-p 1521:1521 \
+	-e "ORACLE_EDITION=enterprise" \
+	--name oracle19c \
+	-h oracle19c \
+	-v ${VOL}:/opt/oracle/oradata \
+        -e "DB_MEMORY=12GB" \
+	-e "ORACLE_PWD=Oradoc_db1" \
+	-e "ORACLE_SID=ORCLCDB" \
+	--network ${NETWORK} \
+	--network-alias oracle19c \
+	container-registry.oracle.com/database/enterprise:19.3.0.0

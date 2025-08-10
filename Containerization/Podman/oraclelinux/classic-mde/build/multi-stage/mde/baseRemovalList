@@ -1,0 +1,16 @@
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Jan, 2021
+# Author: duncan.ford@oracle.com
+# Description: Files and folders to remove from build
+
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+readonly folderList=(
+);
+readonly fileList=(
+	/usr/share/doc/python-kitchen-1.1.1/html/_static/jquery.js
+);

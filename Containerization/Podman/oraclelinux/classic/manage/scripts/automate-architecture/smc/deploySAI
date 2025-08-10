@@ -1,0 +1,49 @@
+#!/bin/bash
+while getopts u:p:a:b:d:e:f:h:i: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SAIHOST=${OPTARG};;
+ b)  SAIPORT=${OPTARG};;
+ d)  PROFILE=${OPTARG};;
+ e)  SAINAME=${OPTARG};;
+ f)  SAIDESC=${OPTARG};;
+ h)  SRVHOST=${OPTARG};;
+ i)  SRVPORT=${OPTARG};;
+ esac
+done
+ENCODED="$(echo $USER:$PASS|base64)"
+
+JSON='{
+"DeploymentInfo":
+{
+"PhysicalHostIP":"'$SRVHOST':'$SRVPORT'",
+"ProfileName":"'$PROFILE'",
+"Action":"Deploy"
+},
+"DeploymentParam":
+{
+"Node":"'$SAINAME'",
+"NodeDesc":"'$SAIDESC'"
+}
+}'
+
+echo
+echo $JSON
+echo 
+
+curl -i -v  -k   \
+-H "Authorization: Basic $ENCODED" \
+-H "Content-Type: application/json" \
+-X DELETE \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/deployments/swsm/$NAME
+
+echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X POST \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/deployments/swsm/ \
+-d @-
+

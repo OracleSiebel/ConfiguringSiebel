@@ -1,0 +1,27 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Jan, 2021
+# Authors: duncan.ford@oracle.com
+# Description: Functions for use in container preparation.
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+function processFolderRemovals(){
+        for folder in ${folderList[@]} ; do
+                rm -rf ${folder}
+        done
+}
+
+function processFileRemovals(){
+        for file in ${fileList[@]} ; do
+                rm -f ${file}
+        done
+
+}
+
+source $1
+processFolderRemovals
+processFileRemovals

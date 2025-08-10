@@ -1,0 +1,74 @@
+source ./${1}
+
+function getEnterpriseDeploymentStatus {
+  bash ${ROOT}/smc/checkEnterpriseDeploymentStatus -u ${USER} -p ${PASSWD} -a localhost -b ${PORT} | python -c "import sys, json; status=json.load(sys.stdin); print 'Undeployed' if len(status['EnterpriseDeployment'])==0 else status['EnterpriseDeployment'][0]['DeploymentInfo']['Status']"
+}
+
+function waitEnterpriseDeployment {
+  while STATUS=$(getEnterpriseDeploymentStatus); [ $STATUS != "Deployed" ]; do
+    if [ $STATUS == "unhealthy" ]; then
+      echo "Failed!"
+      exit -1
+    fi
+    printf .
+    sleep 3
+  done
+  lf=$'\n'
+  printf "$lf"
+}
+
+function getServerDeploymentStatus {
+  bash ${ROOT}/smc/checkServerDeploymentStatus -u ${USER} -p ${PASSWD} -a localhost -b ${PORT} | python -c "import sys, json; status=json.load(sys.stdin); print 'Undeployed' if len(status['ServerDeployment'][0])==0 else status['ServerDeployment'][0]['DeploymentInfo']['Status']"
+}
+
+function waitServerDeployment {
+  while STATUS=$(getServerDeploymentStatus); [ $STATUS != "Deployed" ]; do
+    if [ $STATUS == "unhealthy" ]; then
+      echo "Failed!"
+      exit -1
+    fi
+    printf .
+    sleep 3
+  done
+  lf=$'\n'
+  printf "$lf"
+}
+
+date
+echo "Configuring Single Enterprise"
+echo 
+set -x
+bash ${ROOT}/smc/setGateway -u sadmin -p sadmin -g cgw-${ENTERPRISE1}.${DOMAIN} -h 4430 -a ${HWSERVER} -b ${PORT}
+sleep 3
+bash ${ROOT}/smc/setGatewaySecProfile -u sadmin -p sadmin -d ${DBHOST} -e ${DBPORT} -f ${DBINST} -t ${TBLO} -v ${USER} -w ${PASSWD} -a ${HWSERVER} -b ${PORT}
+sleep 3
+bash ${ROOT}/smc/bootstrapGateway -u ${USER} -p ${PASSWD} -g ${GWUSER} -h ${GWPASSWD} -a ${HWSERVER} -b ${PORT}
+sleep 3
+bash ${ROOT}/smc/createEnterpriseProfile -u ${USER} -p ${PASSWD} -n ENT -t ${TBLO} -c ${TNSCONN} -a ${HWSERVER} -b ${PORT}
+sleep 3
+bash ${ROOT}/smc/deployEnterprise -u ${USER} -p ${PASSWD} -d ENT -e ${ENTERPRISE1} -f Enterprise -a ${HWSERVER} -b ${PORT}
+set +x
+sleep 3
+waitEnterpriseDeployment
+echo "Enterprise Deployed"
+set -x
+bash ${ROOT}/smc/createServerProfile -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -n CC_WebTools_EAI -c ${COMPGRPS} -l ${ANONUSER} -m ${ANONPASS}
+sleep 3
+#prep common.scm
+docker exec ses-${ENTERPRISE1} bash -c "cp /siebel/ses/siebsrvr/admin/common.scm /siebel/ses/siebsrvr/admin/common.bck"
+for comp in ${compsToManual[@]} ; do
+	docker exec ses-${ENTERPRISE1} bash -c "bash /config/injectManualComp $comp"
+done
+bash ${ROOT}/smc/deployServer -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -e ${SES1SERVERNAME} -f SiebelServer -d CC_WebTools_EAI -h ses-${ENTERPRISE1}.${DOMAIN} -i 4430 -l enu
+set +x
+sleep 3
+waitServerDeployment
+set -x
+echo "Server Deployed"
+docker exec ses-${ENTERPRISE1} bash -c "cp /siebel/ses/siebsrvr/admin/common.bck /siebel/ses/siebsrvr/admin/common.scm"
+bash ${ROOT}/smc/createSAIProfile -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -n CCWebTools -l ${ANONUSER} -m ${ANONPASS} -s sai-${ENTERPRISE1}.${DOMAIN} -t ${PORT}
+sleep 3
+bash ${ROOT}/smc/deploySAI -u ${USER} -p ${PASSWD} -a ${HWSERVER} -b ${PORT} -e AI_One -f AI_One -d CCWebTools -h sai-${ENTERPRISE1}.${DOMAIN} -i 4430
+echo 
+echo "Configuration Complete"
+date

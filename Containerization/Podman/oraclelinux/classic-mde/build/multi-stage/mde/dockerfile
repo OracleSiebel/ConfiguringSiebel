@@ -1,0 +1,204 @@
+#LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Authors: andreas.thieltges@oracle.com and duncan.ford@oracle.com
+# Description: Build Siebel container
+#
+# Notes: This build is executed from the build-all-multistage script
+#
+# Stages in this dockerfile
+#    basemodify - modifications of base container in case of need to remove any CVE from base
+#    siebeloracleinstall - bare install of oracle client and siebel
+#    full - final siebel container with dbsrvr for all languages
+#    cut - full stage minus dbsrvr along with removal of all safeboot RR except ENU
+#    prod - final siebel container for all languages minus non-ENU safeboot
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+# Globals - these are overridden by the calling script
+
+ARG VERSION=19.03
+ARG BUILD_DATE=2019-04-30
+
+# Base modify
+
+FROM container-registry.oracle.com/os/oraclelinux:8 as basemodify
+
+COPY processRemovals mde/baseRemovalList /config/
+
+RUN bash /config/processRemovals /config/baseRemovalList
+
+# Begin base install
+
+FROM container-registry.oracle.com/os/oraclelinux:8 as siebeloracleinstall
+ARG INSTALLSITE=installers
+ARG VERSION
+LABEL siebel="temp"
+
+# Install Oracle Client
+
+COPY getClient.sh /config/
+
+RUN cd /mnt \
+&& yum -y install wget ksh tcsh libnsl \
+&& bash /config/getClient.sh ${INSTALLSITE}\
+&& yum -y localinstall /mnt/oracle-instantclient*.i386.rpm \
+&& echo $ORACLE_HOME \
+&& cd /usr/lib/oracle \
+&& ln -s `ls`/client client \
+&& if [ -d /mnt/additional ] ; then chmod -R 755 /mnt/additional && cp -R /mnt/additional/* /usr/lib/oracle/client ; fi\
+&& touch /config/tnsnames.ora \
+&& chmod 777 /config/tnsnames.ora \
+&& yum clean all
+
+# Install Siebel
+
+COPY oraInst.loc getMDE.sh mde/mde.rsp mde/mde_install.sh siebelkeystore.jks processRemovals mde/siebelRemovalList /config/
+
+RUN mkdir -p -ma+rwx /siebel/ses /siebel/oraInventory  /stage \
+&& groupadd -g  1000 siebel && useradd -m -g siebel -G siebel -u 1000 siebel \
+&& cd /mnt \
+&& date \
+&& echo Downloading installer \
+&& bash /config/getMDE.sh ${INSTALLSITE} ${VERSION}\
+&& chmod a+rx /config \
+&& chown -R siebel:siebel /config \
+&& date \
+&& chmod +x /mnt/Siebel_Enterprise_Server/Disk1/install/unzip \
+&& chmod +x /mnt/Siebel_Enterprise_Server/Disk1/install/runInstaller \
+&& cd / \
+&& echo Installing Siebel ... \
+&& bash /config/mde_install.sh \
+&& rm -rf /mnt/Siebel_Enterprise_Server/ \
+&& echo Waiting for deployment of web archives ... \
+&& sleep 15 \
+&& chown -R siebel:siebel /siebel \
+&& chmod -R 755 /siebel/ses \
+&& sed -i 's/-t 90/-t 30/g' /siebel/mde/siebsrvr/admin/common.scm \
+&& sed -i 's/-t 90/-t 30/g' /siebel/mde/gtwysrvr/admin/common.scm \
+&& cd /siebel/mde/applicationcontainer_external/siebelwebroot \
+&& mkdir -p ara chs cht csy dan deu enu esn fin fra heb ita jpn kor nld plk ptb ptg rus sve tha trk \
+&& bash /config/processRemovals /config/siebelRemovalList
+
+
+# Prepare Full Container
+
+FROM scratch as full
+ARG VERSION
+ARG BUILD_DATE
+
+# Copy base
+
+COPY --from=basemodify / /
+
+# Copy Client Content
+
+COPY --from=siebeloracleinstall  /usr/lib/oracle /usr/lib/oracle/
+
+RUN mkdir -p -ma+rwx /stage \
+&& groupadd -g  1000 siebel \
+&& useradd -m -g siebel -G siebel -u 1000  siebel \
+&& yum -y update libstdc++.x86_64 \
+&& yum -y install \
+ ksh \
+ tcsh \
+ strace hostname iproute nc lsof dos2unix vi iputils net-tools gdb rsync python3 cronie \
+ libxcb.i686 \
+ libX11.i686 \
+ libXext.i686 \
+ libXau.i686 \
+ glibc.i686 \
+ libaio.i686 \
+ libstdc++.i686 \
+ libnsl.i686 \
+ libxcrypt.i686 \
+&& yum clean all \
+&& rm -rf /var/cache/yum/x86_64  \
+&& rm -rf /var/cache/yum/i686 \
+&& chown -R siebel:siebel /config
+
+# Copy Siebel Content
+
+COPY --from=siebeloracleinstall --chown=siebel:siebel /config /config/
+COPY --from=siebeloracleinstall --chown=siebel:siebel /siebel /siebel/
+
+# Add default values for environment variables. These can be overridden by the docker run command
+
+ENV ORACLE_HOME=/usr/lib/oracle/client \
+    TNS_ADMIN=/config/ \
+    LD_LIBRARY_PATH="/usr/lib/oracle/client/lib:${LD_LIBRARY_PATH}"  \
+    PATH="/usr/lib/oracle/client/bin:${PATH}" \
+    LANG=en_US.UTF-8 \
+    RESOLV_MULTI=off
+
+LABEL com.oracle.siebel.description="Siebel Container" \
+      com.oracle.siebel.version="${VERSION}" \
+      com.oracle.siebel.url="https://github.com/oracle/docker-images/tree/master/OracleSiebel" \
+      com.oracle.siebel.build-date="${BUILD_DATE}"
+
+
+# Prepare cut down container ready for prod stage
+
+FROM full as cut
+LABEL siebel="temp"
+
+RUN rm -rf /siebel/mde/dbsrvr \
+&& find / -path /siebel/mde/siebsrvr/lib/enu -prune -false -o -iname *saferr* -exec rm -f {} \;
+
+
+# Prepare Prod Container
+
+FROM scratch as prod
+ARG VERSION
+ARG BUILD_DATE
+
+# Copy base
+
+COPY --from=basemodify / /
+
+# Copy Client Content
+
+COPY --from=siebeloracleinstall  /usr/lib/oracle /usr/lib/oracle/
+
+RUN mkdir -p -ma+rwx /stage \
+&& groupadd -g  1000 siebel \
+&& useradd -m -g siebel -G siebel -u 1000  siebel \
+&& yum -y update libstdc++.x86_64 \
+&& yum -y install \
+ ksh \
+ tcsh \
+ strace hostname iproute nc lsof dos2unix vi iputils net-tools gdb rsync python3 cronie \
+ libxcb.i686 \
+ libX11.i686 \
+ libXext.i686 \
+ libXau.i686 \
+ glibc.i686 \
+ libaio.i686 \
+ libstdc++.i686 \
+ libnsl.i686 \
+ libxcrypt.i686 \
+&& yum clean all \
+&& rm -rf /var/cache/yum/x86_64  \
+&& rm -rf /var/cache/yum/i686 \
+&& chown -R siebel:siebel /config
+
+# Copy Siebel Content
+
+COPY --from=siebeloracleinstall --chown=siebel:siebel /config /config/
+COPY --from=cut --chown=siebel:siebel /siebel /siebel/
+
+# Add default values for environment variables. These can be overridden by the docker run command
+
+ENV ORACLE_HOME=/usr/lib/oracle/client \
+    TNS_ADMIN=/config/ \
+    LD_LIBRARY_PATH="/usr/lib/oracle/client/lib:${LD_LIBRARY_PATH}"  \
+    PATH="/usr/lib/oracle/client/bin:${PATH}" \
+    LANG=en_US.UTF-8 \
+    RESOLV_MULTI=off
+
+LABEL com.oracle.siebel.description="Siebel Container" \
+      com.oracle.siebel.version="${VERSION}" \
+      com.oracle.siebel.url="https://github.com/oracle/docker-images/tree/master/OracleSiebel" \
+      com.oracle.siebel.build-date="${BUILD_DATE}"

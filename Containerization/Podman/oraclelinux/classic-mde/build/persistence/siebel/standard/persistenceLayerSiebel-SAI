@@ -1,0 +1,25 @@
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: June, 2019
+# Author: duncan.ford@oracle.com
+# Description: Files and folder to persist for Siebel container in SAI mode
+
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+readonly folderList=(
+    '/applicationcontainer_external/logs'
+    '/applicationcontainer_external/conf'
+);
+readonly fileList=(
+    '/applicationcontainer_external/migration.log'
+    '/applicationcontainer_external/bin/setenv.sh'
+    '/applicationcontainer_external/webapps/filemig_config.properties'
+    '/applicationcontainer_external/webapps/applicationinterface.properties'
+    '/applicationcontainer_external/webapps/migration.properties'
+    '/applicationcontainer_external/webapps/GatewayServiceFramework.log'
+    '/applicationcontainer_external/siebelcerts/siebelkeystore.jks'
+)
+restartCheck='/applicationcontainer_external/logs'

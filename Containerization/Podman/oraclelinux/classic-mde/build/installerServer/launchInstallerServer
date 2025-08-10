@@ -1,0 +1,52 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Author: duncan.ford@oracle.com
+# Description: Launches nginx to serve installation media for Docker build process
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+# 
+
+installerLocation=/media/installers
+
+# uncomment in order to create the expected directory structure
+
+# mkdir -p ${installerLocation}/oracle/client/additional
+# mkdir -p ${installerLocation}/siebel
+
+# create nginx.conf
+
+if [ ! -f ${installerLocation}/nginx.conf ]; then
+cat <<EOF >> ${installerLocation}/nginx.conf
+worker_processes 1;
+error_log nginx_error.log;
+events {
+    worker_connections 1024;
+}
+
+http {
+  server {
+        listen   80;
+        server_name  local.com;
+	root   /usr/share/nginx/html;
+	autoindex on;
+        location / {
+               autoindex on;
+        }
+  }
+}
+EOF
+fi
+
+set -x
+
+# stop any existing installer container - important to pick up any change to mount point contents
+docker ps -a | grep installers && docker stop installers && docker rm installers
+
+# ensure docker network 'install' exists
+docker network ls | grep install ||  docker network create install
+
+# launch nginx to server installer content for build
+docker run --name installers -v ${installerLocation}:/usr/share/nginx/html:ro -v ${installerLocation}/nginx.conf:/etc/nginx/nginx.conf:ro -d -p 80:80 --network install nginx

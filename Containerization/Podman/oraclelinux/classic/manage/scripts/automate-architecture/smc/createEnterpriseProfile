@@ -1,0 +1,37 @@
+#!/bin/bash
+while getopts u:p:a:b:n:t:c: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SERVER=${OPTARG};;
+ b)  PORT=${OPTARG};;
+ n)  NAME=${OPTARG};;
+ t)  TBLO=${OPTARG};;
+ c)  DBCON=${OPTARG};;
+ esac
+done
+ENCODED="$(echo $USER:$PASS|base64)"
+
+JSON='{"EnterpriseConfigParams":
+{"ServerFileSystem":"/sfs",
+"UserName":"'${USER}'","Password":"'${PASS}'",
+"DatabasePlatform":"Oracle","DBConnectString":"'${DBCON}'",
+"DBUsername":"'${USER}'","DBUserPasswd":"'${PASS}'",
+"TableOwner":"'${TBLO}'","SecAdptProfileName":"Gateway",
+"PrimaryLanguage":"enu","Encrypt":"SISNAPI"},
+"Profile":{"ProfileName":"'${NAME}'"}
+}'
+
+echo
+echo $JSON
+echo
+set -x
+echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X POST \
+https://$SERVER:$PORT/siebel/v1.0/cloudgateway/profiles/enterprises \
+-d @-
+

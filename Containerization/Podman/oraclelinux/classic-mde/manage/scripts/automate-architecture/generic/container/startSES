@@ -1,0 +1,61 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 [-n <SES container name>] [-v <directory to map for persistent volume>] [-s <directory to map for sfs>] [-d <required DB SQLNet Name (defaults to SIEBELDB)>] [-e <DB Host Name (defaults to oracle12c)>] [-f <DB Port (defaults to 1521)>] [-g <DB Service Name (defaults to SAMPLE.localdomain)>] [-r <Siebel container release to run>] [-c <Siebel container base name>] [-o <Domain name for container network aliases>] [-u <UUID to run container as>] [-w <podman network name to add container to>]" 1>&2; exit 1; }
+
+
+
+while getopts n:v:s:d:e:f:g:r:c:o:w:u:z:y option
+do
+ case "${option}" in
+  n)  NAME=${OPTARG};;
+  v)  VOL=${OPTARG};;
+  s)  SFS=${OPTARG};;
+  d)  DBCSTR=${OPTARG};;
+  e)  DBHOST=${OPTARG};;
+  f)  DBPORT=${OPTARG};;
+  g)  DBSRVC=${OPTARG};;
+  r)  REL=${OPTARG};;
+  c)  CONTAINERBASE=${OPTARG};;
+  o)  DOMAIN=${OPTARG};;
+  u)  USER=${OPTARG};;
+  w)  NETWORK=${OPTARG};;
+  z)  SESSERVERNAME=${OPTARG};;
+  *)  usage;
+
+ esac
+done
+
+if [ -z "${NAME}" ] || [ -z "${VOL}" ] || [ -z "${SFS}" ] || [ -z "${REL}" ] || [ -z "${CONTAINERBASE}" ] || [ -z "${DOMAIN}" ] || [ -z "${USER}" ] || [ -z "${NETWORK}" ]; then
+    usage
+fi
+
+echo "Ensuring podman network is created"
+#Check if network exists
+if ! podman network exists "${NETWORK}"; then
+    podman network create "${NETWORK}"
+else
+    echo "Network '${NETWORK}' already exists"
+fi
+
+echo
+set -x
+podman run \
+	-h ${NAME} \
+	--network ${NETWORK} \
+	--network-alias ${NAME} \
+	--network-alias ${NAME,,} \
+	--network-alias ${NAME}.${DOMAIN}  \
+	-d -it \
+	--name ${NAME} \
+	-v ${VOL}:/persistent \
+	-v '/mnt/c/persistent/migration':/migration \
+	-v ${SFS}:/sfs \
+	-e "containerMode=SES" \
+	-e "tnsConnectString=${DBCSTR}" \
+        -e "dbServerName=${DBHOST}" \
+        -e "dbPort=${DBPORT}" \
+        -e "dbServiceName=${DBSRVC}" \
+        -e "sesServerName=${SESSERVERNAME}" \
+	-u ${USER} \
+	--stop-timeout 600 \
+	${CONTAINERBASE}:${REL}

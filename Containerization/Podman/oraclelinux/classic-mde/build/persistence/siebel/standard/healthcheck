@@ -1,0 +1,32 @@
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Mar, 2020
+# Author: duncan.ford@oracle.com
+# Description: Simple healthcheck for UMI Siebel container
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+case "$containerMode" in
+
+	SAI )
+		if curl -k -m 3 --fail http://localhost:4431 ;
+		then
+			exit 0
+		else
+			exit 1
+		fi
+	;;
+	CGW | SES )
+		if curl -k -m 3 --fail http://localhost:4431;
+		then
+			exit 0
+		else
+			exit 1
+		fi
+	;;
+	*)
+		exit 0
+	;;
+esac

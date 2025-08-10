@@ -1,0 +1,13 @@
+POSIXLY_CORRECT=1 awk -v X=2 -v q="'" '
+  NR >= 2 && /^## Security Authentication Server Association/ && ++n % X == 1 {
+    print "[Step]"
+    print "Name = Set Manual Comp '$1'"
+    print "Type = RunProg  srvrmgr " q " -g %%SiebelGateway%% -e %%SiebelEnterprise%% -u %%Username%% -p %%Password%% -l %%PrimaryLanguage%% -c \"manual start comp '$1' for server %%SiebelServer%%\"  -o %%SiebelRoot%%%%OSDirSeparator%%srvrmgr.out " q
+    print ""
+  }
+  NR>1 {print last}
+  {last = $0}
+  END{if (NR) print last}' < /siebel/ses/siebsrvr/admin/common.scm > /siebel/ses/siebsrvr/admin/common.mod
+
+mv /siebel/ses/siebsrvr/admin/common.mod /siebel/ses/siebsrvr/admin/common.scm
+

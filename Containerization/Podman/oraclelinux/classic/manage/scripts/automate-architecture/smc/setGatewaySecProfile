@@ -1,0 +1,62 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 [-u <initial sai username>] [-p <initial sai password>] [-a <sai host name>] [-b <sai https port>] [-d <db host>] [-e <db port>] [-f <db service name>] [-t <table owner>] [-v <verification user name>] [-w <verification password>]" 1>&2; exit 1; }
+
+while getopts u:p:a:b:d:e:f:t:v:w: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SAIHOST=${OPTARG};;
+ b)  SAIPORT=${OPTARG};;
+ d)  DBHOST=${OPTARG};;
+ e)  DBPORT=${OPTARG};;
+ f)  DBSERVICE=${OPTARG};;
+ t)  TBLO=${OPTARG};;
+ v)  VUSER=${OPTARG};;
+ w)  VPASS=${OPTARG};;
+ esac
+done
+
+if [ -z "${USER}" ] || [ -z "${PASS}" ] || [ -z "${SAIHOST}" ] || [ -z "${SAIPORT}" ] || [ -z "${DBHOST}" ] || [ -z "${DBPORT}" ] || [ -z "${DBSERVICE}" ] || [ -z "${TBLO}" ] || [ -z "${VUSER}" ] || [ -z "${VPASS}" ] ; then
+    usage
+fi
+
+
+ENCODED="$(echo -n $USER:$PASS|base64)"
+
+JSON='{"Profile":{"ProfileName":"secprof"},
+"SecurityConfigParams":
+{"DataSources":
+[
+{"Name":"secprof",
+"Type":"DB",
+"Host":"'$DBHOST'",
+"Port":"'$DBPORT'",
+"SqlStyle":"Oracle",
+"Endpoint":"'$DBSERVICE'",
+"TableOwner":"'$TBLO'",
+"CRC":"",
+"HashUserPwd":"false"}
+],
+"SecAdptMode":"DB",
+"SecAdptName":"DBSecAdpt",
+"DBSecurityAdapterDataSource":"secprof",
+"DBSecurityAdapterPropagateChange":"false",
+"NSAdminRole":["Siebel Administrator"],
+"TestUserName":"'$VUSER'",
+"TestUserPwd":"'$VPASS'"
+}}'
+
+echo
+echo $JSON
+echo
+
+echo $JSON |  curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X POST \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/GatewaySecurityProfile \
+-d @-
+

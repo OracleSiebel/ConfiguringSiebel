@@ -1,0 +1,6 @@
+dbFileLocation=/mnt/c/persistent/ORCL19/ORCLCDB
+dbPath=/opt/oracle/oradata/ORCLCDB
+dbConnect="sys/Oradoc_db1@oracle19c:1521/ORCLCDB as sysdba"
+
+set -x
+podman run --rm --network siebelnet -e "DBCON=${dbConnect}" -v ${dbFileLocation}:/DBDIR -e ATTACHDBPATH=${dbPath} -e "TAR_OPTIONS=--no-same-owner --no-same-permissions -m" $1

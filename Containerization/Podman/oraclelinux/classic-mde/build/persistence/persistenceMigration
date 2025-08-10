@@ -1,0 +1,34 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Authors: duncan.ford@oracle.com
+# Description: Functions for use in container initialisation.
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+function migrateFoldersToPersistenceVolume(){
+        for folder in ${folderList[@]} ; do
+                if [ ! -d ${persistencePath}${folder} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${folder} ${persistencePath}`dirname $folder`
+                fi
+                rm -rf ${sourcePath}${folder}
+                ln -s ${persistencePath}${folder} ${sourcePath}${folder}
+        done
+}
+
+function migrateFilesToPersistenceVolume(){
+        for file in ${fileList[@]} ; do
+                folder=`dirname $file`
+                if [ ! -f ${persistencePath}${file} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${file} ${persistencePath}${folder}
+                fi
+                rm -f ${sourcePath}${file}
+                ln -s ${persistencePath}${file} ${sourcePath}${file}
+        done
+
+}

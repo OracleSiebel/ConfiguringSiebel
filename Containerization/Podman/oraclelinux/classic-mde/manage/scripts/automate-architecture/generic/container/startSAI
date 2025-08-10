@@ -1,0 +1,52 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 -n <SAI container name> -v <directory to map for persistent volume> -p <port to expose for SAI> [-s <directory to map for sfs>] [-r <Siebel container release to run>] [-c <Siebel container base name>] [-o <Domain name for container network aliases>] [-u <UUID to run container as>] [-w <podman network name to add container to>]" 1>&2; exit 1; }
+
+while getopts n:v:p:s:r:c:o:u:w:y option
+do
+ case "${option}" in
+  n)  NAME=${OPTARG};;
+  v)  VOL=${OPTARG};;
+  p)  PORT=${OPTARG};;
+  s)  SFSVOL=${OPTARG};;
+  r)  REL=${OPTARG};;
+  c)  CONTAINERBASE=${OPTARG};;
+  o)  DOMAIN=${OPTARG};;
+  u)  USER=${OPTARG};;
+  w)  NETWORK=${OPTARG};;
+  *)  usage;;
+ esac
+done
+
+if [ -z "${NAME}" ] || [ -z "${VOL}" ] || [ -z "${PORT}" ]; then
+    usage
+fi
+
+echo "Ensuring podman network exists"
+#Check if network exists
+if ! podman network exists "${NETWORK}"; then
+    podman network create "${NETWORK}"
+else
+    echo "Network '${NETWORK}' already exists"
+fi
+
+echo
+set -x
+podman run \
+	-d -it \
+	-h ${NAME} \
+	--network ${NETWORK} \
+	--network-alias ${NAME} \
+	--network-alias ${NAME,,} \
+	--network-alias ${NAME}.${DOMAIN} \
+	--name ${NAME} \
+	-e "containerMode=SAI" \
+	-e dbServerName=oracle19c \
+	-e dbPort=1521 \
+	-e dbServiceName=DEV \
+	-p ${PORT}:4430 \
+	-v ${VOL}:/persistent \
+	-v '/mnt/c/persistent/migration':/migration \
+	-v ${SFSVOL}:/sfs \
+        -u ${USER} \
+	${CONTAINERBASE}:${REL}

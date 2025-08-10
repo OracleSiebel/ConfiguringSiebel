@@ -1,0 +1,29 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Authors: kumaraswamy.rao@oracle.com
+# Description: Check for write access to persistent containers
+#
+# Notes: Called during init for all container modes.
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+fail=0
+
+for arg
+do if ! touch $arg/pvtest
+   then
+        echo -e "Write access check failed for folder --> $arg \nPlease make sure that the persistent folder is owned on your host by the same userid:groupid as the one used to launch the container.\nIf you have selinux disabled also check that the dockerd option '--selinux-enabled' is disabled \n in file /etc/sysconfig/docker ."
+        fail=1
+   else
+	echo -e "Write access confirmed for folder --> $arg \n"
+	rm $arg/pvtest
+   fi
+done
+if [ $fail -ne 0 ]
+then
+	exit 1
+fi

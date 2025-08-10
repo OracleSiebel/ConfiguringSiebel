@@ -1,0 +1,29 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 -v <directory to map for persistent volume> -w <docker network name>" 1>&2; exit 1; }
+
+while getopts v:w: option
+do
+ case "${option}" in
+  v)  VOL=${OPTARG};;
+  w)  NETWORK=${OPTARG};;
+  *)  usage;;
+ esac
+done
+
+if [ -z "${VOL}" ] || [ -z "${NETWORK}" ]; then
+    usage
+fi
+
+echo
+set -x
+docker network create ${NETWORK}
+
+docker run \
+	-d -it -P \
+	--name oracle12c \
+	-h oracle12c \
+	-v ${VOL}:/ORCL \
+	--network ${NETWORK} \
+	--network-alias oracle12c \
+	store/oracle/database-enterprise:12.2.0.1

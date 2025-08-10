@@ -1,0 +1,6 @@
+#!/bin/bash
+source ./${1}
+date
+podman kill ses-${ENTERPRISE1} cgw-${ENTERPRISE1} sai-${ENTERPRISE1}
+podman rm ses-${ENTERPRISE1} cgw-${ENTERPRISE1} sai-${ENTERPRISE1}
+date

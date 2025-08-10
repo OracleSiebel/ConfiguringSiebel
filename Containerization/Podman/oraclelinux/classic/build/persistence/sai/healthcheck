@@ -1,0 +1,7 @@
+if curl -k --fail https://localhost:4430/siebel/smc ;
+then 
+	exit 0
+else
+	exit 1 
+fi
+

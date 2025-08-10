@@ -1,0 +1,27 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 [-u <sai username>] [-p <sai password>] [-a <sai host name>] [-b <sai https port>] [-g <gateway user name>] [-h <gateway password>]" 1>&2; exit 1; }
+
+while getopts u:p:a:b:g:h: option
+do
+ case "${option}"
+ in
+ u)  USER=${OPTARG};;
+ p)  PASS=${OPTARG};;
+ a)  SAIHOST=${OPTARG};;
+ b)  SAIPORT=${OPTARG};;
+ esac
+done
+
+if [ -z "${USER}" ] || [ -z "${PASS}" ] || [ -z "${SAIHOST}" ] || [ -z "${SAIPORT}" ] ; then
+    usage
+fi
+
+
+ENCODED="$(echo -n $USER:$PASS|base64)"
+
+curl -v  -k -H "Content-Length: ${#JSON}"  \
+ -H "Authorization: Basic $ENCODED" \
+ -H "Content-Type: application/json" \
+ -X GET \
+https://$SAIHOST:$SAIPORT/siebel/v1.0/cloudgateway/bootstrapCG 

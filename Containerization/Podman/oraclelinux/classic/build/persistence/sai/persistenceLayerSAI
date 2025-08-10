@@ -1,0 +1,13 @@
+readonly folderList=(
+        '/applicationcontainer/logs'
+);
+readonly fileList=(
+        '/applicationcontainer/migration.log'
+        '/applicationcontainer/conf/server.xml'
+        '/applicationcontainer/bin/setenv.sh'
+        '/applicationinterface/applicationinterface.properties'
+        '/applicationcontainer/webapps/applicationinterface.properties'
+        '/applicationcontainer/webapps/migration.properties'
+        '/applicationcontainer/siebelcerts/siebelkeystore.jks'
+)
+

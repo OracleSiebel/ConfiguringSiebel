@@ -1,0 +1,31 @@
+# The Sai container is built directly from oracle linux base container and not from the 32-bit oracle client !
+# All we need to add are the csh and ksh shell
+#
+# LANG=en_US.UTF-8 is a mandatory setting in order for the SAI Java interface to work  !
+#
+
+ARG DBCONTAINER=registry.local.com:5000/oracle/database-instantclient/32bit:12.2.0.1
+FROM  oraclelinux:7-slim
+
+COPY sai/oraInst.loc sai/sai.rsp sai/setup.sh siebelkeystore.jks /config/
+
+COPY Siebel_Enterprise_Server /mnt/Siebel_Enterprise_Server/
+
+RUN mkdir -p -ma+rwx /siebel/sai /siebel/oraInventory  /stage \
+&& groupadd -g  487 siebel && useradd -m -g siebel -G siebel -u 9999  siebel \
+&& yum -y install \
+ tcsh \
+ ksh \
+&& yum clean all \
+&& rm -rf /var/cache/yum/x86_64  \
+&& rm -rf /var/cache/yum/i686 \
+&& echo Installing Siebel ... \
+&& bash /config/setup.sh \
+&& rm -rf /mnt/Siebel_Enterprise_Server/ \
+&& echo Waiting for deployment of web archive ... \
+&& sleep 30 \
+&& chmod -R 755 /siebel/sai
+
+ENV LANG=en_US.UTF-8
+
+EXPOSE 4430

@@ -1,0 +1,90 @@
+#!/bin/bash
+
+set -x
+
+# Test for known kernel issues
+
+bash /config/kernelCheck
+if [ ! $? -eq 0 ] ; then
+	exit 1;
+fi
+
+# Define primary variables
+
+persistencePath='/persistent'
+sourcePath='/siebel/cgw'
+
+# Source the persistance layer for this container
+
+source /config/persistenceLayerCGW
+
+function migrateFoldersToPersistenceVolume(){
+        for folder in ${folderList[@]} ; do
+                if [ ! -d ${persistencePath}${folder} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${folder} ${persistencePath}`dirname $folder`
+                fi
+                rm -rf ${sourcePath}${folder}
+                ln -s ${persistencePath}${folder} ${sourcePath}${folder}
+        done
+}
+
+function migrateFilesToPersistenceVolume(){
+        for file in ${fileList[@]} ; do
+                folder=`dirname $file`
+                if [ ! -f ${persistencePath}${file} ] ; then
+                        mkdir -p ${persistencePath}${folder}
+                        mv ${sourcePath}${file} ${persistencePath}${folder}
+                fi
+                rm -f ${sourcePath}${file}
+                ln -s ${persistencePath}${file} ${sourcePath}${file}
+        done
+
+}
+
+# Migrate persistent content
+
+migrateFoldersToPersistenceVolume
+migrateFilesToPersistenceVolume
+
+# Deal with special case of start_ns creation
+# Created in advance, it won't be written .... not created in advance, can't write to dangling symlink .... gtwysrvr/install_script/install/CreateScriptFromTemplate needs to change to accomodate this
+# workaround by performing the duties of CreateScriptFromTemplate here but against persistent volume
+if [ ! -f ${persistencePath}/gateway/bin/start_ns ] ; then
+	cp ${sourcePath}/gtwysrvr/admin/start_ns.tmpl ${persistencePath}/gtwysrvr/bin/start_ns
+	chmod ug+x ${persistencePath}/gtwysrvr/bin/start_ns
+fi
+rm -f ${sourcePath}/gtwysrvr/bin/start_ns
+ln -s ${persistencePath}/gtwysrvr/bin/start_ns ${sourcePath}/gtwysrvr/bin/start_ns
+
+
+# Copy any patch content into the container prior to boot 
+
+if [ -d ${persistencePath}/hotfix/cgw/ ] ; 
+then
+	# copies folder structure into the container to apply patch
+	cp -R ${persistencePath}/hotfix/cgw/* ${sourcePath}
+fi
+
+# Configure tnsnames.ora with supplied params, or defaults if not supplied
+
+# setup tnsnames entry $tnsConnectString , $dbServerName , $dbPort , $dbServiceName
+[[ -z $tnsConnectString ]] && tnsConnectString='ORCLPDB1'
+[[ -z $dbServerName ]] && dbServerName='oracle12c'
+[[ -z $dbPort ]] && dbPort='1521'
+[[ -z $dbServiceName ]] && dbServiceName='SAMPLE.localdomain'
+
+echo $tnsConnectString'=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = '$dbServerName')(PORT = '$dbPort'))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = '$dbServiceName')))
+'>/config/tnsnames.ora
+
+
+# Start Tomcat
+
+${sourcePath}/applicationcontainer/bin/startup.sh > ${persistencePath}/applicationcontainer/logs/containerStartup.log
+
+# If configured, start the name server
+
+if [ -f ${persistencePath}/delete_gatewayserver.resp ] ; then
+	source ${sourcePath}/gtwysrvr/siebenv.sh
+	start_ns >> ${persistencePath}/gtwysrvr/log/containerStartup.log
+fi

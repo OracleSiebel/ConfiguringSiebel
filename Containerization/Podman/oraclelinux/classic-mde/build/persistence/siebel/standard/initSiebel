@@ -1,0 +1,315 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Authors: duncan.ford@oracle.com, andreas.thieltges@oracle.com, kumaraswamy.rao@oracle.com
+# Description: Initialise the SAI container
+#
+# Notes: This is expected to be called automatically on container startup
+#
+# The goal of the persistence layer for Siebel is to retain those key files and folder which will allow the
+# container to restore state to a fully configured enterprise. To achieve this, key files and folders which
+# are generated or updated during the configuration process are stored in a persistent folder. These files
+# then linked into the container to dovetail them together with, or replace, original files. The end result
+# is that we have an ephemeral, versioned, Siebel container, which can, most of the time, re-establish state
+# from a persistent folder generated from any version of the Siebel container. This facilitates uptake of the
+# latest containers as they become available.
+#
+# Note the changes which are made to server.xml here, which alter the usual locations for sourcing custom
+# content when using containerisation. There are two primary types of custom content considered:
+#
+# * Custom Siebel Open UI Content
+# * Custom Browser Script
+#
+# As we don't want to have to write custom Open UI content to each and every SAI instance, we instead configure
+# the SAI to source this from the SFS folder, which should be seen by all SAI container instances. In this way,
+# we only need to maintain Open UI content in a single location, pending future transision of this content to
+# the DB.
+#
+# In the case of browser script, the SES container will write the content, and the SAI container needs to provide
+# the content. Also the content needs to persist between container executions. Siebel's current architecture
+# fixes the location of the browser script in the base directory for SAI content, so in order to be able to move
+# this we use a rewrite rule to look for the srf* folder pattern in the URL request, and then redirect this. We've
+# to redierct this to the existing custom folder for scripting, which is the usual location for Open UI script.
+# As such, you need to run genbscript with appropriate parameters to create the content in that custom folder
+# within the SFS folder.
+#
+# As the server.xml is persisted in the persistence folder, alterations you need to make, for example to modify
+# the URL, can also be persisted there. However, it's possible that future updates may need to roll out changes
+# to the server.xml file and, in such cases, you may need to delete your persistent copy in order to allow a neww
+# default version to be written, and then re-make your changes.
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+set -x
+
+# Test for known kernel issues
+
+bash /config/kernelCheck
+if [ ! $? -eq 0 ] ; then
+	exit 1;
+fi
+
+
+# Define primary variables
+
+export persistencePath="/persistent"
+
+# Handle case for stateful sets instantiation
+
+if [ ! -z $KUBERNETES_PORT ] ; then
+	mkdir -p $persistencePath/${HOSTNAME}
+	persistencePath="/persistent/${HOSTNAME}"
+fi
+
+export sfsPath="/sfs"
+export sourcePath="/siebel/mde"
+
+# Ensure persistent volumes are writable
+
+bash /config/pvCheck $persistencePath $sfsPath
+if [ ! $? -eq 0 ] ; then
+        exit 1;
+fi
+
+case "$containerMode" in
+	"CGW" | "SES" | "SAI" )
+		echo "Container Mode Set To ${containerMode}"
+		;;
+	* )
+		echo "Container Mode Not Set"
+		exit 1
+		;;
+esac
+
+# Flush persistence if required
+
+if [[ ! -z $FLUSHPV && $FLUSHPV = 'FLUSH' ]] ; then
+	rm -rf $persistencePath;
+fi
+
+# Move any files considered as templates for containerization (e.g. registry.properties, server.xml)
+mv ${sourcePath}/gtwysrvr/registry/conf/registry.properties ${sourcePath}/gtwysrvr/registry/zookeeper/conf
+
+# Source the persistance layer for this container
+
+source /config/persistenceLayerSiebel-${containerMode}
+
+# Source migration routines
+
+source /config/persistenceMigration
+
+# Migrate persistent content
+
+if [ ! -L ${sourcePath}${restartCheck} ] ; then
+	migrateFilesToPersistenceVolume
+	migrateFoldersToPersistenceVolume
+fi
+
+# Create links for old directory structure in case of using previously configure zookeeper and PV content
+
+rm -rf /siebel/ses
+case "$containerMode" in
+	SES )
+		ln -s /siebel/mde /siebel/ses
+		ln -s /siebel/mde/applicationcontainer_internal /siebel/mde/applicationcontainer
+	;;
+	CGW )
+		ln -s /siebel/mde /siebel/cgw
+		ln -s /siebel/mde/applicationcontainer_internal /siebel/mde/applicationcontainer
+	;;
+	SAI )
+		ln -s /siebel/mde /siebel/sai
+		ln -s /siebel/mde/applicationcontainer_external /siebel/mde/applicationcontainer
+	;;
+esac
+
+
+# Copy any patch content into the container prior to boot
+
+if [ -d ${persistencePath}/hotfix/${containerMode}/ ] ;
+then
+        # copies folder structure into the container to apply patch
+        rsync -rK ${persistencePath}/hotfix/${containerMode}/* ${sourcePath}
+fi
+
+# Apply pre-startup processing
+
+case "$containerMode" in
+	SES )
+
+		# Deal with special case of start_server and siebel_server creation
+		# problem with start_server ... created in advance, it won't be written .... not created in advance, can't write to dangling symlink .... CreateScriptFromTemplate needs to change to accomodate this
+		# workaround by performing the duties of CreateScriptFromTemplate here but against persistent volume
+
+		if [ ! -f ${persistencePath}/siebsrvr/bin/start_server ] ; then
+			cp ${sourcePath}/siebsrvr/admin/start_server.tmpl ${persistencePath}/siebsrvr/bin/start_server
+			cp ${sourcePath}/siebsrvr/admin/siebel_server.tmpl ${persistencePath}/siebsrvr/bin/siebel_server
+			chmod ug+x ${persistencePath}/siebsrvr/bin/start_server
+			chmod ug+x ${persistencePath}/siebsrvr/bin/siebel_server
+		fi
+		ln -s ${persistencePath}/siebsrvr/bin/start_server ${sourcePath}/siebsrvr/bin/start_server
+		ln -s ${persistencePath}/siebsrvr/bin/siebel_server ${sourcePath}/siebsrvr/bin/siebel_server
+
+	;;
+
+	CGW )
+
+		# Deal with special case of start_ns creation
+		# Created in advance, it won't be written .... not created in advance, can't write to dangling symlink .... gtwysrvr/install_script/install/CreateScriptFromTemplate needs to change to accomodate this
+		# workaround by performing the duties of CreateScriptFromTemplate here but against persistent volume
+		if [ ! -f ${persistencePath}/gateway/bin/start_ns ] ; then
+			cp ${sourcePath}/gtwysrvr/admin/start_ns.tmpl ${persistencePath}/gtwysrvr/bin/start_ns
+			chmod ug+x ${persistencePath}/gtwysrvr/bin/start_ns
+		fi
+		rm -f ${sourcePath}/gtwysrvr/bin/start_ns
+		ln -s ${persistencePath}/gtwysrvr/bin/start_ns ${sourcePath}/gtwysrvr/bin/start_ns
+
+	;;
+
+	SAI )
+
+		# Alter server.xml to :
+		#	: source custom JS/Images/CSS from persistence volume
+		#	: redirect requests for browser script (srf*) to siebel/scripts/custom/(srf*)
+		#	: apply bookshelf recommendation for compressing static web content
+
+		# ensure existence of folder for custom content in SFS
+		mkdir -p ${sfsPath}/webapps/siebel/files/custom ${sfsPath}/webapps/siebel/images/custom ${sfsPath}/webapps/siebel/scripts/siebel/custom
+
+		# redirect queries for custom browser script to custom folder (later pushed to SFS) (probably no longer relevant as browser script is now delivered from SWE
+		mkdir -p ${persistencePath}/applicationcontainer_external/conf/Catalina/localhost
+		if [ ! -f ${persistencePath}/applicationcontainer_external/conf/Catalina/localhost/rewrite.config ] ; then
+		cat <<EOF >> ${persistencePath}/applicationcontainer_external/conf/Catalina/localhost/rewrite.config
+		RewriteRule /siebel/srf(.*) /siebel/scripts/siebel/custom/srf$1 [R,NE]
+EOF
+		fi
+
+		# redirect queries for custom content to sfs/webapps/custom folder
+		if ! grep -q "/siebel/images/custom" ${persistencePath}/applicationcontainer_external/conf/server.xml; then
+			sed -i '/unpackWARs="true"/a <Valve className="org.apache.catalina.valves.rewrite.RewriteValve" /><Context docBase="/sfs/webapps/siebel/files/custom" path="/siebel/files/custom" /><Context docBase="/sfs/webapps/siebel/images/custom" path="/siebel/images/custom" /><Context docBase="/sfs/webapps/siebel/scripts/siebel/custom" path="/siebel/scripts/siebel/custom" />' ${persistencePath}/applicationcontainer_external/conf/server.xml
+		fi
+
+		# enable compression for static content delivered over https port
+		if ! awk '/port="4430"/,/\/>/' ${persistencePath}/applicationcontainer_external/conf/server.xml | grep compression=\"on\"; then
+			sed -i '/port=\"4430\"/a compressableMimeType="text/css,text/javascript,application/x-javascript,application/javascript" useSendfile="off" compression="on" compressionMinSize="128" connectionTimeout="20000" noCompressionUserAgents="gozilla, traviata"' ${persistencePath}/applicationcontainer_external/conf/server.xml
+		fi
+
+	;;
+esac
+
+# Configure ulimit for shell
+
+ulimit -Hs 8192
+
+# Define clean shutdown behaviour
+
+shutdownall()
+{
+	case "$containerMode" in
+
+		SES )
+			if ls ${persistencePath}/siebsrvr/sys/svc.* 1> /dev/null 2>&1; then
+				echo "Shutting down siebel server"
+				cd /siebel/ses/siebsrvr
+				source ${sourcePath}/siebsrvr/siebenv.sh
+				#stop_server all
+			fi
+		;;
+
+		CGW )
+			if [ -f ${persistencePath}/delete_gatewayserver.resp ] ; then
+				echo "Shutting down siebel server"
+				cd /siebel/ses/siebsrvr
+				source ${sourcePath}/gtwysrvr/siebenv.sh
+				stop_ns
+			fi
+		;;
+
+		SAI )
+			# no need for special processing for SAI
+		;;
+
+	esac
+}
+
+trap shutdownall INT TERM KILL QUIT
+
+# Configure tnsnames.ora with supplied params, or defaults if not supplied
+# setup tnsnames entry $tnsConnectString , $dbServerName , $dbPort , $dbServiceName with default provision
+[[ -z $tnsConnectString ]] && tnsConnectString='SIEBELDB'
+[[ -z $dbServerName ]] && dbServerName='oracle12c'
+[[ -z $dbPort ]] && dbPort='1521'
+[[ -z $dbServiceName ]] && dbServiceName='SAMPLE.localdomain'
+
+echo $tnsConnectString'=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = '$dbServerName')(PORT = '$dbPort'))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = '$dbServiceName')))' > /config/tnsnames.ora
+
+# startup
+
+case "$containerMode" in
+
+	SAI )
+
+		# start tomcat
+		${sourcePath}/applicationcontainer_external/bin/startup.sh > ${persistencePath}/applicationcontainer_external/logs/tomcatStartup.log
+
+	;;
+
+	SES )
+
+		# start tomcat
+		${sourcePath}/applicationcontainer_internal/bin/startup.sh > ${persistencePath}/applicationcontainer_internal/logs/tomcatStartup.log
+
+		if ls ${persistencePath}/siebsrvr/sys/svc.* 1> /dev/null 2>&1; then
+			# if configured, start the Siebel server
+			rm -f ${persistencePath}/siebsrvr/sys/osdf.*
+			source ${sourcePath}/siebsrvr/siebenv.sh
+			start_server all >> ${persistencePath}/siebsrvr/log/containerStartup.log
+		else
+			# not configured
+			# check for autodeployment environment variable
+			if [[ $autodeploy == "true" ]]
+			then
+				date
+				echo "Waiting 25 seconds for Tomcat to launch"
+				sleep 25
+				/config/autodeploy.sh -u $(cat /config/secrets/sadmin/username) -p $(cat /config/secrets/sadmin/password) -a $SAIHOST -b $SAIPORT -d $PROFILE
+			 fi
+		fi
+
+	;;
+
+        CGW )
+
+                # start tomcat
+                ${sourcePath}/applicationcontainer_internal/bin/startup.sh > ${persistencePath}/applicationcontainer_internal/logs/tomcatStartup.log
+
+                # remove potentially invalid registry.properties
+                rm ${persistencePath}/gtwysrvr/registry/conf/registry.properties
+
+                # if present, execute registry.properties.process
+                if [ -f ${persistencePath}/gtwysrvr/registry/conf/registry.properties.process ] ; then
+                        bash ${persistencePath}/gtwysrvr/registry/conf/registry.properties.process
+                fi
+                # if registry/conf/registry.properties not found, copy in safe version for this ZK engine
+                if [ ! -f ${persistencePath}/gtwysrvr/registry/conf/registry.properties ] ; then
+                        cp ${sourcePath}/gtwysrvr/registry/zookeeper/conf/registry.properties ${persistencePath}/gtwysrvr/registry/conf/
+                fi
+
+                # if configured, start the name server
+                if [ -f ${persistencePath}/delete_gatewayserver.resp ] ; then
+                        source ${sourcePath}/gtwysrvr/siebenv.sh
+                        start_ns >> ${persistencePath}/gtwysrvr/log/containerStartup.log
+                fi
+
+
+        ;;
+
+	* ) echo "Invalid or no containerMode supplied"
+	;;
+
+esac
+
+sleep infinity & wait

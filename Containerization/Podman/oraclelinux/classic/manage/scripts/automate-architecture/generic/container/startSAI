@@ -1,0 +1,42 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 -n <SAI container name> -v <directory to map for persistent volume> -p <port to expose for SAI> [-s <directory to map for sfs>] [-r <Siebel container release to run>] [-c <Siebel container base name>] [-o <Domain name for container network aliases>] [-u <UUID to run container as>] [-w <Docker network name to add container to>]" 1>&2; exit 1; }
+
+while getopts n:v:p:s:r:c:o:u:w: option
+do
+ case "${option}" in
+  n)  NAME=${OPTARG};;
+  v)  VOL=${OPTARG};;
+  p)  PORT=${OPTARG};;
+  s)  SFSVOL=${OPTARG};;
+  r)  REL=${OPTARG};;
+  c)  CONTAINERBASE=${OPTARG};;
+  o)  DOMAIN=${OPTARG};;
+  u)  USER=${OPTARG};;
+  w)  NETWORK=${OPTARG};;
+  *)  usage;;
+ esac
+done
+
+if [ -z "${NAME}" ] || [ -z "${VOL}" ] || [ -z "${PORT}" ]; then
+    usage
+fi
+
+echo "Ensuring docker network exists"
+docker network create ${NETWORK}
+
+echo
+set -x
+docker run \
+	-d -it \
+	-h ${NAME} \
+	--network ${NETWORK} \
+	--network-alias ${NAME} \
+	--network-alias ${NAME,,} \
+	--network-alias ${NAME}.${DOMAIN} \
+	--name ${NAME} \
+	-p ${PORT}:4430 \
+	-v ${VOL}:/persistent \
+	-v ${SFSVOL}:/sfs \
+        -u ${USER} \
+	${CONTAINERBASE}/sai:${REL}

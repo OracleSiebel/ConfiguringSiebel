@@ -1,0 +1,40 @@
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: June, 2019
+# Author: duncan.ford@oracle.com
+# Description: Files and folder to persist for Siebel container in CGW mode
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+readonly folderList=(
+	'/cfgtoollogs'
+	'/applicationcontainer_internal/logs'
+	'/gtwysrvr/log'
+	'/gtwysrvr/sys'
+	'/gtwysrvr/registry/conf'
+);
+readonly fileList=(
+	'/delete_gatewayserver.resp'
+	'/delete_enterpriseserver.resp'
+	'/EMdiscovery.properties'
+	'/enterpriseserver.resp'
+	'/gatewayserver.resp'
+	'/applicationcontainer_internal/cloudgateway.log'
+	'/applicationcontainer_internal/bin/setenv.sh'
+	'/applicationcontainer_internal/conf/server.xml'
+	'/applicationcontainer_internal/siebelcerts/siebelkeystore.jks'
+	'/applicationcontainer_internal/webapps/bcgInfo.txt'
+	'/applicationcontainer_internal/webapps/gateway.properties'
+	'/gtwysrvr/siebenv.csh'
+	'/gtwysrvr/siebenv.sh'
+	'/gtwysrvr/registry/conf/registry.properties'
+	'/gtwysrvr/bin/gateway.cfg'
+	'/gtwysrvr/bin/start_ns'
+	'/gtwysrvr/admin/start_ns.tmpl'
+	'/gtwysrvr/admin/siebns.dat'
+	'/gtwysrvr/admin/srvrdefs.run'
+	'/gtwysrvr/admin/srvrdefs_sia.run'
+)
+restartCheck='/gtwysrvr/log'

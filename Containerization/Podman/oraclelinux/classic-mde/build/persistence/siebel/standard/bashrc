@@ -1,0 +1,57 @@
+# .bashrc
+export history=200
+export savehist=200
+export filec
+export TERM=vt100
+export PS1='[\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\h\[`tput sgr0`\]:$PWD]#'
+
+umask 022
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Aliases
+
+alias siebps='ps -ef | grep "'$LOGNAME' .*sieb" | grep -v grep'
+alias psg='ps -ef | grep -i \!* | grep -v grep'
+alias dir="ls -al"
+alias smgr='srvrmgr /g $SIEBEL_GATEWAY /e $siebelEnterpriseName /u $enterpriseUsername /p $enterprisePassword'
+set entDSN = $siebelEnterpriseName'_DSN'
+alias odbc="odbcsql /s $entDSN /u $enterpriseUsername /p $enterprisePassword "
+
+# Specify stacksize hard limit
+
+ulimit -Hs 8192
+
+case "$containerMode" in
+	SES )
+		alias start_http="(cd /siebel/mde/applicationcontainer_internal/bin;./startup.sh)"
+		alias stop_http="(cd /siebel/mde/applicationcontainer_internal/bin;./shutdown.sh)"
+
+		# Source Siebel Environment
+		if [ -f /siebel/mde/siebsrvr/siebenv.sh ] ; then
+		        source /siebel/mde/siebsrvr/siebenv.sh
+		else
+ 		       source /siebel/mde/siebsrvr/cfgenv.sh
+		fi
+	;;
+	CGW )
+		alias start_http="(cd /siebel/mde/applicationcontainer_internal/bin;./startup.sh)"
+		alias stop_http="(cd /siebel/mde/applicationcontainer_internal/bin;./shutdown.sh)"
+
+		# Source Siebel Environment
+		if [ -f /siebel/mde/gtwysrvr/siebenv.sh ] ; then
+		        source /siebel/mde/gtwysrvr/siebenv.sh
+		else
+ 		       source /siebel/mde/gtwysrvr/cfgenv.sh
+		fi
+	;;
+	SAI )
+		alias start_http="(cd /siebel/mde/applicationcontainer_external/bin;./startup.sh)"
+		alias stop_http="(cd /siebel/mde/applicationcontainer_external/bin;./shutdown.sh)"
+	;;
+esac
+
+cd /siebel/mde

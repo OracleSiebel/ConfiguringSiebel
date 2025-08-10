@@ -1,0 +1,122 @@
+#!/bin/bash
+# LICENSE UPL 1.0
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Since: Dec, 2019
+# Author: duncan.ford@oracle.com
+# Description: Generate self-signed SSL CA and Cert
+#
+# Notes: this is executed by build-all-multistage
+#
+# arguments
+#       -r - SSL Script Root
+#       -s - Store Password
+#       -d - domain(s) to generate cert for
+#       -i - ip(s) to generate cert for
+#       -c - name for CA
+#
+# The product is a siebelkeystore.jks file
+#
+# e.g. bash keygen -r .. -s mypass -d *.company.com -c my-custom-ca 2>&1 | tee keygen.log
+#
+# It's also possible to create the cert to match multiple domains by supplying a comma separated list of domains.
+# No check is made to the validity of the domain names supplied.
+#
+# e.g. bash keygen -r .. -s mypass -d *.company.com,*.company.cloud.com -c my-custom-ca 2>&1 | tee keygen.log
+#
+# Optionally, you can also add one or more IP addresses to the certificate
+#
+# e.g. bash keygen -r .. -s mypass -d *.company.com,*.company.cloud.com -i 110.24.123.124,110.24.123.125 -c my-custom-ca 2>&1 | tee keygen.log
+#
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+usage() { echo "Usage: $0 [-r <SSL Script Root>] [-s <storepass>] [-d <domain>] [-c <CA Name>]" 1>&2; exit 1; }
+
+while getopts r:s:d:i:c: option
+do
+ case "${option}"
+ in
+ r)  ROOT=${OPTARG};;
+ s)  STOREPASS=${OPTARG};;
+ d)  DOMAIN_ARG=${OPTARG};;
+ i)  IP_ARG=${OPTARG};;
+ c)  CANAME=${OPTARG};;
+ *)  usage;;
+ esac
+done
+
+if [ -z "${ROOT}" ] || [ -z "${STOREPASS}" ] || [ -z "${DOMAIN_ARG}" ] || [ -z "${CANAME}" ] ; then
+    usage
+fi
+
+# Process domain list - first domain given will be the CN for the CA
+
+DOMAINS=($( echo "$DOMAIN_ARG" | sed 's/,/ /g' ))
+DOMAIN=${DOMAINS[0]}
+
+rm ${ROOT}/siebelkeystore.jks
+
+# Generate a key for the domain
+
+keytool -genkey -alias siebel -keystore ${ROOT}/siebelkeystore.jks -keyalg RSA -sigalg SHA256withRSA -dname "cn=${DOMAIN}" -storepass ${STOREPASS} -keypass ${STOREPASS} -storetype JKS
+# keytool -list -v -keystore ${ROOT}/siebelkeystore.jks -storepass ${STOREPASS} -keypass ${STOREPASS}
+
+# Generate a request to sign the key into siebelkeystore.csr
+
+keytool -certreq -alias siebel -keystore ${ROOT}/siebelkeystore.jks -file ${ROOT}/siebelkeystore.csr -storepass ${STOREPASS} -keypass ${STOREPASS}
+
+# Generate a new CA
+
+openssl req -newkey rsa:2048 -keyout ${ROOT}/cakey.pem -out ${ROOT}/careq.pem -subj "/CN=${CANAME}" -sha256 -passout pass:${STOREPASS}
+
+# Self sign the new CA into caroot.cer
+
+openssl x509 -signkey ${ROOT}/cakey.pem -req -days 3650 -in ${ROOT}/careq.pem -out ${ROOT}/caroot.cer -extfile ${ROOT}/v3.txt -passin pass:${STOREPASS}
+# keytool -printcert -v -file ${ROOT}/caroot.cer
+
+# Populate the v3 extension with the name of the domain
+
+# Process the supplied domains into a format for the v3 extension SAN list
+
+SAN=DNS.0=${DOMAINS[0]}
+i=1
+while [ -n "${DOMAINS[i]}" ]
+do
+	SAN=$(printf '%s\\n%s' "$SAN" "DNS.${i}=${DOMAINS[i]}")
+	(( i = i + 1 ))
+done
+
+# Process  ny optionally supplied IPs into a format for the v3 extension SAN list
+
+IPS=($( echo "$IP_ARG" | sed 's/,/ /g' ))
+i=0
+while [ -n "${IPS[i]}" ]
+do
+	SAN=$(printf '%s\\n%s' "$SAN" "IP.${i}=${IPS[i]}")
+	(( i = i + 1 ))
+done
+
+# Now write to the ext.cnf file in preparation for the next step
+
+sed -e "s/SAN/${SAN}/" ${ROOT}/ext.tmpl > ${ROOT}/ext.cnf
+
+# Sign the siebelkeystore.csr request with the new CA
+
+if [ -f ${ROOT}/.srl ]; then
+	openssl x509 -CA ${ROOT}/caroot.cer -CAkey ${ROOT}/cakey.pem -CAserial ${ROOT}/.srl -req -in ${ROOT}/siebelkeystore.csr -out ${ROOT}/siebelkeystoreCASigned.cer -days 3650 -extfile ${ROOT}/ext.cnf -passin pass:${STOREPASS}
+else
+	openssl x509 -CA ${ROOT}/caroot.cer -CAkey ${ROOT}/cakey.pem -CAcreateserial -req -in ${ROOT}/siebelkeystore.csr -out ${ROOT}/siebelkeystoreCASigned.cer -days 3650 -extfile ${ROOT}/ext.cnf -passin pass:${STOREPASS}
+fi
+
+# Import the CA into the keystore
+
+keytool -import -alias ca -file ${ROOT}/caroot.cer -keystore ${ROOT}/siebelkeystore.jks -storepass ${STOREPASS} -keypass ${STOREPASS} -noprompt
+
+# Import the CA-signed cert for the required domain into the keystore
+
+keytool -import -alias siebel -file ${ROOT}/siebelkeystoreCASigned.cer -keystore ${ROOT}/siebelkeystore.jks -storepass ${STOREPASS} -keypass ${STOREPASS}
+
+# List the contents of the keystore for the logfile
+
+keytool -list -v -keystore ${ROOT}/siebelkeystore.jks -storepass ${STOREPASS} -keypass ${STOREPASS}

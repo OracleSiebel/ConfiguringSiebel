@@ -44,8 +44,7 @@ JSON='{
 "AnonUserName":"'$ANONUSER'",
 "AnonPassword":"'$ANONPASS'",
 "AuthenticationType":"Basic",
-"SessKeepAlive":900,
-"ValidateCertificate":true
+"SessKeepAlive":900
 },
 "LogProperties":{"LogLevel":"ERROR"},
 "ObjectManager":"eaiobjmgr_enu",
